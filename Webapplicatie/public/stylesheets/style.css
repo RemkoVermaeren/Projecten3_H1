@@ -1,0 +1,93 @@
+/*body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}*/
+
+.navbar{
+  background-color: #006fb8;
+}
+
+.navbar-default .navbar-brand{
+  color: #fff !important;
+  font-size: 2em;
+}
+
+.navbar-default .navbar-nav>li>a {
+    margin-left:15px;
+    color: #fff !important;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover{
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:focus{
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover .icon-bar{
+    background-color: #006fb8;
+}
+
+.navbar-default .navbar-toggle:focus .icon-bar{
+    background-color: #006fb8;
+}
+
+.navbar-default .navbar-text {
+  color: #fff !important;
+}
+
+.wrapper {
+	margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.form-signin {
+  background: #eee !important;
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  border: 1px solid rgba(0,0,0,0.1);
+
+}
+.form-signin-heading {
+    margin-bottom: 50px;
+}
+
+.alert-custom{
+  
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+	.form-control .form-login {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+	}
+
+	input[type="email"] {
+    margin-top: 20px;
+	  margin-bottom: 20px;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	}
+
+
+.ul>li{
+  margin-left:8px
+}
+.dropdown-margin{
+  margin-left:8px;
+}
