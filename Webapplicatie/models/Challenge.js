@@ -6,7 +6,8 @@ var ChallengeSchema = new mongoose.Schema({
     picture: String,
     date: { type: Date, default: Date.now},
     amountOfLikes: Number,
-    veganScore: Number
+    veganScore: Number,
+    isCompleted: Boolean
 });
 
 mongoose.model('Challenge', ChallengeSchema);
