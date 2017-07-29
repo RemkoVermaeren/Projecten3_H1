@@ -20,6 +20,7 @@ var UserSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: 'Challenge'
     }],
+    isAdmin: {type: Boolean, default: false},
     hash: String,
     salt: String
 });
