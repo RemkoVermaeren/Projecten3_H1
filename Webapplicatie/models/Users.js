@@ -8,6 +8,18 @@ var UserSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
+    name: String,
+    surName: String,
+    totalVeganScore : Number,
+    followingUsers : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dateOfCreation : Date,
+    challenges: [{
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Challenge'
+    }],
     hash: String,
     salt: String
 });

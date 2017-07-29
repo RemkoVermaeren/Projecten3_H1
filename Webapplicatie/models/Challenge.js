@@ -1,0 +1,12 @@
+var mongoose = require('mongoose');
+
+var ChallengeSchema = new mongoose.Schema({
+    name: String,
+    description: String,
+    picture: String,
+    date: { type: Date, default: Date.now},
+    amountOfLikes: Number,
+    veganScore: Number
+});
+
+mongoose.model('Challenge', ChallengeSchema);

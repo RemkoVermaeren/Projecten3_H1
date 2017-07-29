@@ -11,8 +11,8 @@ var passport = require('passport');
 
 require('./models/Users');
 require('./models/Restaurants');
-require('./models/Menus');
-require('./models/Faqs');
+require('./models/Recipes');
+require('./models/Challenge');
 require('./config/passport');
 
 mongoose.connect('mongodb://localhost/easyvegan',{
