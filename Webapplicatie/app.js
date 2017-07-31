@@ -13,12 +13,20 @@ require('./models/Users');
 require('./models/Restaurants');
 require('./models/Recipes');
 require('./models/Challenge');
+require('./models/Faq');
+require('./models/Menu');
 require('./config/passport');
 
-mongoose.connect('mongodb://localhost/easyvegan',{
+// connect MongoDB
+mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
   useMongoClient: true
+}, function (err, db) {
+  if (!err) {
+    console.log('Connected to /stuckyToys!');
+  } else {
+    console.dir(err); //failed to connect
+  }
 });
-//mongoose.connect('mongodb://admin:admin@ds113958.mlab.com:13958/hogentresto')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
