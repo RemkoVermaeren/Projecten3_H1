@@ -1,9 +1,19 @@
 (function () {
 
     'use strict';
-    var express = require('express');
-    var router = express.Router();
+
     var mongoose = require('mongoose');
+    var cloudinary = require('cloudinary');
+    var express = require('express');
+
+    cloudinary.config({
+        cloud_name: 'douskchks',
+        api_key: '552883666323728',
+        api_secret: 'RhDl-TvAXIiaPkeBWOHY8OcCwr8'
+    });
+
+    var router = express.Router();
+
     var Restaurant = mongoose.model('Restaurant');
     var Menu = mongoose.model('Menu');
     var User = mongoose.model('User');
@@ -22,6 +32,21 @@
             title: 'Express'
         });
     });
+
+    /* Upload images */
+    router.post('/upload/image', function (req, res, next) {
+        $log.log(req.body);
+        $log.log(req.body.data);
+        cloudinary.v2.uploader.upload(req.body.data, {
+            resource_type: "image"
+        }, function (error, result) {
+            if (error) {
+                return console.log(error);
+            }
+            console.log(result.url);
+            res.send(result.url);
+        });
+    })
 
     //region FAQ ROUTING
     // FAQ : get all faqs
@@ -52,7 +77,7 @@
         res.json(req.faq);
     });
     //FAQ: create faq
-    router.post('/api/faqs', auth , function (req, res, next) {
+    router.post('/api/faqs', auth, function (req, res, next) {
         var faq = new Faq(req.body);
         faq.save(function (err, faq) {
             if (err) {
@@ -62,7 +87,7 @@
         })
     });
     //FAQ : delete specific faq
-    router.delete('/api/faqs/:faq', auth , function (req, res, next) {
+    router.delete('/api/faqs/:faq', auth, function (req, res, next) {
         Faq.remove({
             _id: req.faq._id
         }, function (err, faq) {
@@ -103,7 +128,7 @@
         });
     });
 
-    router.post('/api/restaurants',auth ,function (req, res, next) {
+    router.post('/api/restaurants', auth, function (req, res, next) {
         var restaurant = new Restaurant(req.body);
         //restaurant.author = req.payload.;
         restaurant.save(function (err, restaurant) {
@@ -143,7 +168,7 @@
 
     });
 
-    router.delete('/api/restaurants/:restaurant', auth ,function (req, res, next) {
+    router.delete('/api/restaurants/:restaurant', auth, function (req, res, next) {
         Restaurant.remove({
             _id: req.restaurant._id
         }, function (err, restaurant) {
@@ -155,7 +180,7 @@
             });
         });
     });
-    router.put('/api/restaurants/:restaurant', auth ,function (req, res) {
+    router.put('/api/restaurants/:restaurant', auth, function (req, res) {
         Restaurant.findById(req.restaurant._id, function (err, restaurant) {
             if (err) {
                 res.send(err);
@@ -184,7 +209,7 @@
     //endregion
 
     //region MENU ROUTING
-    router.delete('/api/restaurants/:restaurant/menus/:menu', auth ,function (req, res, next) {
+    router.delete('/api/restaurants/:restaurant/menus/:menu', auth, function (req, res, next) {
 
         Menu.remove({
             _id: req.menu._id
@@ -244,7 +269,7 @@
         });
     });
 
-    router.post('/api/restaurants/:restaurant/menus', auth ,function (req, res, next) {
+    router.post('/api/restaurants/:restaurant/menus', auth, function (req, res, next) {
         var menu = new Menu(req.body);
         menu.restaurant = req.restaurant;
 
@@ -285,7 +310,7 @@
 
     });
 
-    router.put('/api/restaurants/:restaurant/menus/:menu', auth ,function (req, res) {
+    router.put('/api/restaurants/:restaurant/menus/:menu', auth, function (req, res) {
         Menu.findById(req.menu._id, function (err, menu) {
             if (err) {
                 res.send(err);
@@ -329,7 +354,7 @@
         res.json(req.faq);
     });
     //FAQ: create faq
-    router.post('/api/faqs', auth , function (req, res, next) {
+    router.post('/api/faqs', auth, function (req, res, next) {
         var faq = new Faq(req.body);
         faq.save(function (err, faq) {
             if (err) {
@@ -339,7 +364,7 @@
         })
     });
     //FAQ : delete specific faq
-    router.delete('/api/faqs/:faq', auth , function (req, res, next) {
+    router.delete('/api/faqs/:faq', auth, function (req, res, next) {
         Faq.remove({
             _id: req.faq._id
         }, function (err, faq) {
@@ -400,7 +425,7 @@
         res.json(req.recipe);
     });
     //Recipe : create recipe
-    router.post('/api/recipes', auth , function (req, res, next) {
+    router.post('/api/recipes', auth, function (req, res, next) {
         var recipe = new Recipe(req.body);
         recipe.save(function (err, recipe) {
             if (err) {
@@ -410,7 +435,7 @@
         })
     });
     //Recipe : delete specific recipe
-    router.delete('/api/recipes/:recipe', auth , function (req, res, next) {
+    router.delete('/api/recipes/:recipe', auth, function (req, res, next) {
         Recipe.remove({
             _id: req.recipe._id
         }, function (err, recipe) {
@@ -430,15 +455,15 @@
             }
             //TODO update recipes properties
             recipe.name = req.body.name;
-                recipe.veganPoints = req.body.veganPoints;
-                recipe.calories= req.body.calories;
-                recipe.food = req.body.food;
-                recipe.difficulty = req.body.difficulty;
-                recipe.time = req.body.time;
-                recipe.allergies= req.body.allergies;
-                recipe.picture= req.body.picture;
-                recipe.type = req.body.type;
-                recipe.instructions = req.body.instructions;
+            recipe.veganPoints = req.body.veganPoints;
+            recipe.calories = req.body.calories;
+            recipe.food = req.body.food;
+            recipe.difficulty = req.body.difficulty;
+            recipe.time = req.body.time;
+            recipe.allergies = req.body.allergies;
+            recipe.picture = req.body.picture;
+            recipe.type = req.body.type;
+            recipe.instructions = req.body.instructions;
             recipe.save(function (err, recipe) {
                 if (err) {
                     res.send(err);
@@ -450,6 +475,6 @@
     //endregion
 
 
-module.exports = router;
+    module.exports = router;
 
 })();
