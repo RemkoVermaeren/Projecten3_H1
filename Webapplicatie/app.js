@@ -17,8 +17,8 @@ require('./models/Faq');
 require('./models/Menu');
 require('./config/passport');
 
-// connect MongoDB
-/*mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
+// connect MongoDB online
+mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
   useMongoClient: true
 }, function (err, db) {
   if (!err) {
@@ -26,10 +26,12 @@ require('./config/passport');
   } else {
     console.dir(err); //failed to connect
   }
-});*/
-mongoose.connect('mongodb://localhost/easyvegan',{
-    useMongoClient: true
 });
+
+//Local mongodb
+// mongoose.connect('mongodb://localhost/easyvegan',{
+//     useMongoClient: true
+// });
 var routes = require('./routes/index');
 var users = require('./routes/users');
 

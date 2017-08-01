@@ -596,17 +596,17 @@
                    ng-model="ctrl.recipe.difficulty" required/>
         </div>
 
-        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+        <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
             <label>Instructions : {{$index + 1}} </label>
             <input type="text" class="form-control" placeholder="Ex. Add meat"
                    ng-model="ctrl.recipe.instructions[i]" required/>
         </div>
-        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+        <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
             <label>Allergies : {{$index + 1}} </label>
             <input type="text" class="form-control" placeholder="Ex. nuts"
                    ng-model="ctrl.recipe.allergies[i]" required/>
         </div>
-        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+        <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
             <label>Ingredients : {{$index + 1}} </label>
             <input type="text" class="form-control" placeholder="Ex. meat"
                    ng-model="ctrl.recipe.food[i]" required/>
@@ -654,17 +654,17 @@
             <input type="text" class="form-control" placeholder="Ex. Beginner"
                    ng-model="ctrl.recipe.difficulty" required/>
         </div>
-        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+        <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
             <label>Instructions : {{$index + 1}} </label>
             <input type="text" class="form-control" placeholder="Ex. Add meat"
                    ng-model="ctrl.recipe.instructions[i]" required/>
         </div>
-        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+        <div ng-repeat="i in [0 ,1, 2, 3, 4]] track by $index" class="form-group">
             <label>Allergies : {{$index + 1}} </label>
             <input type="text" class="form-control" placeholder="Ex. nuts"
                    ng-model="ctrl.recipe.allergies[i]" required/>
         </div>
-        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+        <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
             <label>Ingredients : {{$index + 1}} </label>
             <input type="text" class="form-control" placeholder="Ex. meat"
                    ng-model="ctrl.recipe.food[i]" required/>
