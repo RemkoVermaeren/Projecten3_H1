@@ -8,6 +8,7 @@
     var Menu = mongoose.model('Menu');
     var User = mongoose.model('User');
     var Faq = mongoose.model('Faq');
+    var Recipe = mongoose.model('Recipe');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var auth = jwt({
@@ -303,6 +304,140 @@
         });
     });
     //endregion
+
+
+
+    // FAQ : param for specific faq with parameter ID
+    router.param('faq', function (req, res, next, id) {
+        var query = Faq.findById(id);
+        query.exec(function (err, faq) {
+            if (err) {
+                return next(err);
+            }
+            if (!faq) {
+                return next(new Error('can\'t find the faq'));
+            }
+            req.faq = faq;
+            return next();
+        })
+    });
+    //FAQ: get specific faq
+    router.get('/api/faqs/:faq', function (req, res, next) {
+        res.json(req.faq);
+    });
+    //FAQ: create faq
+    router.post('/api/faqs', auth , function (req, res, next) {
+        var faq = new Faq(req.body);
+        faq.save(function (err, faq) {
+            if (err) {
+                return next(err);
+            }
+            res.json(faq);
+        })
+    });
+    //FAQ : delete specific faq
+    router.delete('/api/faqs/:faq', auth , function (req, res, next) {
+        Faq.remove({
+            _id: req.faq._id
+        }, function (err, faq) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Faq deleted'
+            });
+        });
+    });
+    //FAQ : update specific faq
+    router.put('/api/faqs/:faq', auth, function (req, res) {
+        Faq.findById(req.faq._id, function (err, faq) {
+            if (err) {
+                res.send(err);
+            }
+            faq.question = req.body.question;
+            faq.answer = req.body.answer;
+            faq.save(function (err, faq) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(faq);
+            })
+        });
+    });
+    //endregion
+
+
+
+    // region Recipe ROUTING
+    // Recipe : get all recipes
+    router.get('/api/recipes', function (req, res, next) {
+        Recipe.find(function (err, recipes) {
+            if (err) {
+                return next(err);
+            }
+            res.json(recipes);
+        });
+    });
+    // Recipe : param for specific recipe with parameter ID
+    router.param('recipe', function (req, res, next, id) {
+        var query = Recipe.findById(id);
+        query.exec(function (err, recipe) {
+            if (err) {
+                return next(err);
+            }
+            if (!recipe) {
+                return next(new Error('can\'t find the recipe'));
+            }
+            req.recipe = recipe;
+            return next();
+        })
+    });
+    //Recipe : get specific recipe
+    router.get('/api/recipes/:recipe', function (req, res, next) {
+        res.json(req.recipe);
+    });
+    //Recipe : create recipe
+    router.post('/api/recipes', auth , function (req, res, next) {
+        var recipe = new Recipe(req.body);
+        recipe.save(function (err, recipe) {
+            if (err) {
+                return next(err);
+            }
+            res.json(recipe);
+        })
+    });
+    //Recipe : delete specific recipe
+    router.delete('/api/recipes/:recipe', auth , function (req, res, next) {
+        Recipe.remove({
+            _id: req.recipe._id
+        }, function (err, recipe) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Recipe deleted'
+            });
+        });
+    });
+    //Recipe : update specific recipe
+    router.put('/api/recipes/:recipe', auth, function (req, res) {
+        Recipe.findById(req.recipe._id, function (err, recipe) {
+            if (err) {
+                res.send(err);
+            }
+            //TODO update recipes properties
+            recipe.name = req.body.name;
+            recipe.veganPoints = req.body.veganPoints;
+            recipe.save(function (err, recipe) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(recipe);
+            })
+        });
+    });
+    //endregion
+
 
 module.exports = router;
 

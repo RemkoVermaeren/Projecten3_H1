@@ -19,10 +19,12 @@
     <script src="/controllers/NavController.js"></script>
     <script src="/controllers/MenuController.js"></script>
     <script src="/controllers/FaqController.js"></script>
+    <script src="/controllers/RecipeController.js"></script>
     <script src="/services/authService.js"></script>
     <script src="/services/restaurantService.js"></script>
     <script src="/services/menuService.js"></script>
     <script src="/services/faqService.js"></script>
+    <script src="/services/recipeService.js"></script>
 
 
     <style>
@@ -520,7 +522,74 @@
         <span class="glyphicon glyphicon-home"></span> <b>Capacity</b> : {{ctrl.restaurant.capacity}}
     </div>
 </script>
-
+<script type="text/ng-template" id="/recipes.html">
+    <div class="page-header">
+        <h2>Recipes</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Points
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="recipe in ctrl.recipes">
+                <td>{{recipe.name}}</td>
+                <td>{{recipe.veganPoints}}</td>
+                <td>
+                    <a class="glyphicon glyphicon-cog" href="#/recipes/{{recipe._id}}"></a>
+                </td>
+                <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteRecipe(recipe)"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="#/newrecipe"><span class="glyphicon glyphicon-plus"></span> Add new recipe</a>
+</script>
+<script type="text/ng-template" id="/modifyrecipe.html">
+    <div class="page-header">
+        <h2>Modify Recipe</h2>
+    </div>
+    <form ng-submit="ctrl.modifyRecipe()" ng-init="ctrl.getRecipe()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Example question ?" ng-model="ctrl.recipe.name"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Veganp Points</label>
+            <input type="text" class="form-control" placeholder="Ex. Example answer."
+                   ng-model="ctrl.recipe.veganPoints" required/>
+        </div>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</script>
+<script type="text/ng-template" id="/newrecipe.html">
+    <div class="page-header">
+        <h2>Add new recipe</h2>
+    </div>
+    <form ng-submit="ctrl.addRecipe()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.recipe.name"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>VeganPoints</label>
+            <input type="text" class="form-control" placeholder="VeganPoints"
+                   ng-model="ctrl.recipe.veganPoints" required/>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</script>
 </body>
 
 </html>

@@ -18,7 +18,7 @@ require('./models/Menu');
 require('./config/passport');
 
 // connect MongoDB
-mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
+/*mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
   useMongoClient: true
 }, function (err, db) {
   if (!err) {
@@ -26,8 +26,10 @@ mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easy
   } else {
     console.dir(err); //failed to connect
   }
+});*/
+mongoose.connect('mongodb://localhost/easyvegan',{
+    useMongoClient: true
 });
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 

@@ -5,6 +5,11 @@ var RecipeSchema = new mongoose.Schema({
     veganPoints: Number,
     calories: Number,
     food: [[String]],
+    difficulty: String,
+    time : Number,
+    allergies : [String],
+    picture: String,
+    type: String,
     instructions: [String]
 });
 

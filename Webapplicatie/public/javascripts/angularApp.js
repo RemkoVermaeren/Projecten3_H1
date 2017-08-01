@@ -46,6 +46,32 @@
                     $state.go('login');
                 }
             }]
+        }).state('recipes', {
+                url: '/recipes',
+                templateUrl: '/recipes.html',
+                controller: 'RecipeController',
+                controllerAs : 'ctrl'
+            }
+        ).state('newrecipe', {
+            url: '/newrecipe',
+            templateUrl: '/newrecipe.html',
+            controller: 'RecipeController',
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
+        }).state('modifyrecipe', {
+            url: '/recipes/{id}',
+            templateUrl: '/modifyrecipe.html',
+            controller: 'RecipeController',
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
         }).state('login', {
             url: '/login',
             templateUrl: '/login.html',
