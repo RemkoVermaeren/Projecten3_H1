@@ -20,6 +20,11 @@
                     $state.go('login');
                 }
             }]
+        }).state('restaurants', {
+            url: '/restaurants',
+            templateUrl: '/restaurants.html',
+            controller: 'RestaurantController',
+            controllerAs: 'ctrl'
         }).state('faqs', {
             url: '/faqs',
             templateUrl: '/faqs.html',
@@ -92,7 +97,7 @@
             //         $state.go('login');
             //     }
             // }]
-        }).state('restaurants', {
+        })/*.state('restaurants', {
             url: '/restaurants/{id}/menus',
             templateUrl: '/restaurants.html',
             controller: 'MenuController',
@@ -107,7 +112,7 @@
                     $state.go('login');
                 }
             }]
-        }).state('newrestaurant', {
+        })*/.state('newrestaurant', {
             url: '/newrestaurant',
             templateUrl: '/newrestaurant.html',
             controller: 'MainController',
@@ -130,7 +135,7 @@
         }).state('modifyrestaurant', {
             url: '/restaurants/{id}/edit',
             templateUrl: '/modifyrestaurant.html',
-            controller: 'MainController',
+            controller: 'RestaurantController',
             controllerAs: 'ctrl',
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {
@@ -175,7 +180,7 @@
           }).state('restaurant', {
             url: '/restaurants/{id}',
             templateUrl: '/restaurant.html',
-            controller: 'MainController',
+            controller: 'RestaurantController',
             controllerAs: 'ctrl',
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {

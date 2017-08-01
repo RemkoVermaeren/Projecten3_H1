@@ -20,6 +20,8 @@
     <script src="/controllers/MenuController.js"></script>
     <script src="/controllers/FaqController.js"></script>
     <script src="/controllers/RecipeController.js"></script>
+    <script src="/controllers/RestaurantController.js"></script>
+
     <script src="/services/authService.js"></script>
     <script src="/services/restaurantService.js"></script>
     <script src="/services/menuService.js"></script>
@@ -120,7 +122,79 @@
     </div>
     <a href="#/newrestaurant"><span class="glyphicon glyphicon-plus"></span> Add new restaurant</a>
 </script>
+<script type="text/ng-template" id="/restaurants.html">
+    <div class="page-header">
+        <h2>Restaurants</h2>
+    </div>
+    <div ng-hide="ctrl.isRestaurantsEmpty()" class="table-responsive">
+        <table class="table table-striped">
+            <!-- Repeat for restaurants  -->
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Rating
+                </th>
+                <th>
+                    Vegan Points
+                </th>
+                <th>Wheelchair access</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="restaurant in ctrl.restaurants | orderBy:'name'">
+                <td><a href="#/restaurants/{{restaurant._id}}">{{restaurant.name}}</a></td>
+                <td>{{restaurant.address}}</td>
+                <td>{{restaurant.rating}}</td>
+                <td>{{restaurant.veganPoints}}</td>
+                <td><input type="checkbox" ng-model="restaurant.wheelchairAccess" disabled="disabled"/></td>
+                <td>
+                    <a class="glyphicon glyphicon-cog" href="#/restaurants/{{restaurant._id}}/edit"></a>
+                </td>
+                <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteRestaurant(restaurant)"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="ctrl.isRestaurantsEmpty()">
+        <p>No restaurants available.</p>
+    </div>
+    <a href="#/newrestaurant"><span class="glyphicon glyphicon-plus"></span> Add new restaurant</a>
+</script>
 
+<script type="text/ng-template" id="/restaurant.html">
+    <div class="page-header" ng-init="ctrl.getRestaurant()">
+        <h2>{{ctrl.restaurant.name}}</h2>
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-map-marker"></span> <b>Address</b> : {{ctrl.restaurant.address}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-time"></span> <b>Rating</b> : {{ctrl.restaurant.rating}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-time"></span> <b>Extra information</b> : {{ctrl.restaurant.extraInformation}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-info-sign"></span> <b>Telephone</b> : {{ctrl.restaurant.telephoneNumber}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-sort"></span> <b>Wheelchair access</b> : {{ctrl.restaurant.wheelchairAccess ? 'Yes' : 'No'}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-stats"></span> <b>Website</b> : {{ctrl.restaurant.website}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-home"></span> <b>Vegan Points</b> : {{ctrl.restaurant.veganPoints}}
+    </div>
+</script>
 
 <!-- Add restaurant -->
 <script type="text/ng-template" id="/newrestaurant.html">
@@ -130,35 +204,39 @@
     <form ng-submit="ctrl.addRestaurant()" style="margin-top:30px;">
         <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" placeholder="Ex. Building B" ng-model="ctrl.restaurant.name"
+            <input type="text" class="form-control" placeholder="Ex. Het kuikentje" ng-model="ctrl.restaurant.name"
                    required/>
         </div>
         <div class="form-group">
-            <label>Place</label>
+            <label>Address</label>
             <input type="text" class="form-control" placeholder="Ex. Stationplein 1, 9000 Gent"
-                   ng-model="ctrl.restaurant.place" required/>
+                   ng-model="ctrl.restaurant.address" required/>
         </div>
         <div class="form-group">
-            <label>Opening hour</label>
-            <input type="time" class="form-control" ng-model="ctrl.restaurant.openingtime" required></input>
+            <label>Rating</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.rating" required></input>
         </div>
         <div class="form-group">
-            <label>Closing hour</label>
-            <input type="time" class="form-control" ng-model="ctrl.restaurant.closingtime" required></input>
+            <label>Website</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.website" required></input>
+        </div>
+        <div class="form-group">
+            <label>Extra Information</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.extraInformation" required></input>
         </div>
         <div class="form-group">
             <label>Wheelchair access</label>
             <input type="checkbox" class="form-control" ng-model="ctrl.restaurant.wheelchairAccess"></input>
         </div>
         <div class="form-group">
-            <label>Extra information</label>
-            <input type="text" class="form-control" placeholder="Ex. Pizzahouse"
-                   ng-model="ctrl.restaurant.extraInformation"
+            <label>Vegan Points</label>
+            <input type="text" class="form-control" placeholder="Ex. 50"
+                   ng-model="ctrl.restaurant.veganPoints"
                    required/>
         </div>
         <div class="form-group">
-            <label>Capacity</label>
-            <input type="number" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.capacity"
+            <label>Telephone</label>
+            <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber"
                    required/>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
@@ -174,42 +252,46 @@
 
         <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" placeholder="Ex. Building B" ng-model="ctrl.restaurant.name"
+            <input type="text" class="form-control" placeholder="Ex. Het kuikentje" ng-model="ctrl.restaurant.name"
                    required/>
-
         </div>
         <div class="form-group">
-            <label>Place</label>
+            <label>Address</label>
             <input type="text" class="form-control" placeholder="Ex. Stationplein 1, 9000 Gent"
-                   ng-model="ctrl.restaurant.place" required/>
+                   ng-model="ctrl.restaurant.address" required/>
         </div>
         <div class="form-group">
-            <label>Opening hour</label>
-            <input type="time" class="form-control" ng-model="ctrl.restaurant.openingtime" required></input>
+            <label>Rating</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.rating" required></input>
         </div>
         <div class="form-group">
-            <label>Closing hour</label>
-            <input type="time" class="form-control" ng-model="ctrl.restaurant.closingtime" required></input>
+            <label>Website</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.website" required></input>
+        </div>
+        <div class="form-group">
+            <label>Extra Information</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.extraInformation" required></input>
         </div>
         <div class="form-group">
             <label>Wheelchair access</label>
             <input type="checkbox" class="form-control" ng-model="ctrl.restaurant.wheelchairAccess"></input>
         </div>
         <div class="form-group">
-            <label>Extra information</label>
-            <input type="text" class="form-control" placeholder="Ex. Pizzahouse"
-                   ng-model="ctrl.restaurant.extraInformation"
+            <label>Vegan Points</label>
+            <input type="text" class="form-control" placeholder="Ex. 50"
+                   ng-model="ctrl.restaurant.veganPoints"
                    required/>
         </div>
         <div class="form-group">
-            <label>Capacity</label>
-            <input type="number" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.capacity"
+            <label>Telephone</label>
+            <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber"
                    required/>
         </div>
         <button type="submit" class="btn btn-success">Update</button>
     </form>
 </script>
 <!-- Menu -->
+<!--
 <script type="text/ng-template" id="/restaurants.html">
     <h2>Menus in {{ctrl.restaurant.name}}</h2>
     <div ng-hide="ctrl.isMenusEmpty()" class="table-responsive">
@@ -270,6 +352,7 @@
     </div>
     <a type="button" href="#/{{ctrl.restoId}}/newmenu"><span class="glyphicon glyphicon-plus"></span> Add new menu</a>
 </script>
+-->
 <!-- Add Menu -->
 <script type="text/ng-template" id="/newmenu.html">
     <div class="page-header">
@@ -497,30 +580,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
-</script>
-<script type="text/ng-template" id="/restaurant.html">
-    <div class="page-header" ng-init="ctrl.getRestaurant()">
-        <h2>{{ctrl.restaurant.name}}</h2>
-    </div>
-    <div>
-        <span class="glyphicon glyphicon-map-marker"></span> <b>Place</b> : {{ctrl.restaurant.place}}
-    </div>
-    <div>
-        <span class="glyphicon glyphicon-time"></span> <b>Opening hours</b> : {{ctrl.restaurant.openingtime | date:'HH:mm'}} - {{ctrl.restaurant.closingtime | date:'HH:mm'}}
-    </div>
-
-    <div>
-        <span class="glyphicon glyphicon-info-sign"></span> <b>Extra information</b> : {{ctrl.restaurant.extraInformation}}
-    </div>
-    <div>
-        <span class="glyphicon glyphicon-sort"></span> <b>Wheelchair access</b> : {{ctrl.restaurant.wheelchairAccess ? 'Yes' : 'No'}}
-    </div>
-    <div>
-        <span class="glyphicon glyphicon-stats"></span> <b>Current visitors</b> : {{ctrl.restaurant.currentVisitors}}
-    </div>
-    <div>
-        <span class="glyphicon glyphicon-home"></span> <b>Capacity</b> : {{ctrl.restaurant.capacity}}
-    </div>
 </script>
 
 <script type="text/ng-template" id="/recipes.html">

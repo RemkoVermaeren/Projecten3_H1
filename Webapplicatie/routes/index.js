@@ -162,12 +162,15 @@
             }
 
             restaurant.name = req.body.name;
-            restaurant.place = req.body.place;
-            restaurant.openingtime = req.body.openingtime;
-            restaurant.closingtime = req.body.closingtime;
+            restaurant.address = req.body.address;
+            restaurant.rating = req.body.rating;
             restaurant.wheelchairAccess = req.body.wheelchairAccess;
             restaurant.extraInformation = req.body.extraInformation;
-            restaurant.capacity = req.body.capacity;
+            restaurant.veganPoints = req.body.veganPoints;
+            restaurant.website = req.body.website;
+            restaurant.telephoneNumber = req.body.telephoneNumber;
+
+
 
             restaurant.save(function (err) {
                 if (err) {
