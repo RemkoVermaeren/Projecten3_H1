@@ -35,6 +35,8 @@ import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Response;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -47,6 +49,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     //Network service
     private Service service = new ServicesInitializer().initializeService();
+
+    private String message;
 
     //boolean
     final boolean[] succes = new boolean[1];
@@ -313,13 +317,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         protected Boolean doInBackground(Void... params) {
 
             try {
-                return service.getUser(mEmail,mPassword).execute().isSuccessful();
-                //Thread.sleep(2000);
+                Response<User> response = service.getUser(mEmail,mPassword).execute();
+                if(response.errorBody() != null)
+                    message = response.errorBody().string();
+                return response.isSuccessful();
             } catch (Exception e) {
                 return false;
             }
 
-           //return succes[0];
         }
 
         @Override
@@ -328,11 +333,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             showProgress(false);
 
             if (success) {
-                //finish();
                 startActivity(new Intent(LoginActivity.this,MainActivity.class));
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(message.contains("username")){
+                    mEmailView.setError(getString(R.string.error_invalid_email));
+                    mEmailView.requestFocus();
+                }else if(message.contains("password")){
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }else if(!message.isEmpty()){
+                    mEmailView.setError(getString(R.string.error_network));
+                    mEmailView.requestFocus();
+                }
+                message = "";
+
             }
         }
 
@@ -342,26 +356,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             showProgress(false);
         }
 
-//        private void callApi(){
-//            Call<User> userCall = service.getUser(mEmail,mPassword);
-//            if(userCall != null){
-//                userCall.enqueue(new Callback<User>() {
-//                    @Override
-//                    public void onResponse(Call<User> call, Response<User> response) {
-//                        if(response.body() != null)
-//                            Log.i("user",response.body().toString());
-//                        onPostExecute(response.isSuccessful());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<User> call, Throwable t) {
-//                        Log.e("onFailure",t.toString());
-//                        onPostExecute(false);
-//
-//                    }
-//                });
-//            }
-//
-//        }
+
     }
 }
