@@ -4,7 +4,7 @@ var RecipeSchema = new mongoose.Schema({
     name: String,
     veganPoints: Number,
     calories: Number,
-    food: [[String]],
+    food: [String],
     difficulty: String,
     time : Number,
     allergies : [String],
