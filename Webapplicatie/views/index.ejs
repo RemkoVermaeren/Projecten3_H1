@@ -522,6 +522,7 @@
         <span class="glyphicon glyphicon-home"></span> <b>Capacity</b> : {{ctrl.restaurant.capacity}}
     </div>
 </script>
+
 <script type="text/ng-template" id="/recipes.html">
     <div class="page-header">
         <h2>Recipes</h2>
@@ -582,7 +583,7 @@
         <div class="form-group">
             <label>Image</label>
             <input type="text" class="form-control" placeholder="Ex. image"
-                   ng-model="ctrl.recipe.image" required/>
+                   ng-model="ctrl.recipe.picture" required/>
         </div>
         <div class="form-group">
             <label>Type</label>
@@ -593,6 +594,22 @@
             <label>Difficulty</label>
             <input type="text" class="form-control" placeholder="Ex. Beginner"
                    ng-model="ctrl.recipe.difficulty" required/>
+        </div>
+
+        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+            <label>Instructions : {{$index + 1}} </label>
+            <input type="text" class="form-control" placeholder="Ex. Add meat"
+                   ng-model="ctrl.recipe.instructions[i]" required/>
+        </div>
+        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+            <label>Allergies : {{$index + 1}} </label>
+            <input type="text" class="form-control" placeholder="Ex. nuts"
+                   ng-model="ctrl.recipe.allergies[i]" required/>
+        </div>
+        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+            <label>Ingredients : {{$index + 1}} </label>
+            <input type="text" class="form-control" placeholder="Ex. meat"
+                   ng-model="ctrl.recipe.food[i]" required/>
         </div>
         <button type="submit" class="btn btn-success">Update</button>
     </form>
@@ -625,7 +642,7 @@
         <div class="form-group">
             <label>Image</label>
             <input type="text" class="form-control" placeholder="Ex. image"
-                   ng-model="ctrl.recipe.image" required/>
+                   ng-model="ctrl.recipe.picture" required/>
         </div>
         <div class="form-group">
             <label>Type</label>
@@ -636,6 +653,21 @@
             <label>Difficulty</label>
             <input type="text" class="form-control" placeholder="Ex. Beginner"
                    ng-model="ctrl.recipe.difficulty" required/>
+        </div>
+        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+            <label>Instructions : {{$index + 1}} </label>
+            <input type="text" class="form-control" placeholder="Ex. Add meat"
+                   ng-model="ctrl.recipe.instructions[i]" required/>
+        </div>
+        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+            <label>Allergies : {{$index + 1}} </label>
+            <input type="text" class="form-control" placeholder="Ex. nuts"
+                   ng-model="ctrl.recipe.allergies[i]" required/>
+        </div>
+        <div ng-repeat="i in [1, 2, 3, 4, 5] track by $index" class="form-group">
+            <label>Ingredients : {{$index + 1}} </label>
+            <input type="text" class="form-control" placeholder="Ex. meat"
+                   ng-model="ctrl.recipe.food[i]" required/>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>

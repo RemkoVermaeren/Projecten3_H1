@@ -427,7 +427,15 @@
             }
             //TODO update recipes properties
             recipe.name = req.body.name;
-            recipe.veganPoints = req.body.veganPoints;
+                recipe.veganPoints = req.body.veganPoints;
+                recipe.calories= req.body.calories;
+                recipe.food = req.body.food;
+                recipe.difficulty = req.body.difficulty;
+                recipe.time = req.body.time;
+                recipe.allergies= req.body.allergies;
+                recipe.picture= req.body.picture;
+                recipe.type = req.body.type;
+                recipe.instructions = req.body.instructions;
             recipe.save(function (err, recipe) {
                 if (err) {
                     res.send(err);

@@ -11,6 +11,9 @@
 
         vm.recipes = [];
         vm.recipe = {};
+        vm.recipe.allergies = [];
+        vm.recipe.food = [];
+        vm.recipe.instructions = [];
         vm.getRecipes = getRecipes;
         vm.getRecipe = getRecipe;
         vm.addRecipe = addRecipe;
