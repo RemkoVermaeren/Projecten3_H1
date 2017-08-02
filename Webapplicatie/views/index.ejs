@@ -133,9 +133,7 @@
                         <th>
                             Name
                         </th>
-                        <th>
-                            Address
-                        </th>
+
                         <th>
                             Rating
                         </th>
@@ -150,7 +148,6 @@
                 <tbody>
                     <tr ng-repeat="restaurant in ctrl.restaurants | orderBy:'name'">
                         <td><a href="#/restaurants/{{restaurant._id}}">{{restaurant.name}}</a></td>
-                        <td>{{restaurant.address}}</td>
                         <td>{{restaurant.rating}}</td>
                         <td>{{restaurant.veganPoints}}</td>
                         <td><input type="checkbox" ng-model="restaurant.wheelchairAccess" disabled="disabled" /></td>
