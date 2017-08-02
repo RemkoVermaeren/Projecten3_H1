@@ -115,7 +115,7 @@
         })*/.state('newrestaurant', {
             url: '/newrestaurant',
             templateUrl: '/newrestaurant.html',
-            controller: 'MainController',
+            controller: 'RestaurantController',
             controllerAs: 'ctrl',
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {

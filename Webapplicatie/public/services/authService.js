@@ -65,6 +65,11 @@
                     Authorization: 'Bearer ' + getToken()
                 }
             }).success(function(data) {
+               /* var payload = angular.fromJson($window.atob(data.token.split('.')[1]));
+                $log.log(payload);
+                if(!payload.isAdmin){
+                    return "not an admin";
+                }*/
                 saveToken(data.token);
             }).error(function(err){
               return err;
