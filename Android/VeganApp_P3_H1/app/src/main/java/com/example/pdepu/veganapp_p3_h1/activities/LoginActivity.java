@@ -35,6 +35,9 @@ import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -52,8 +55,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private String message;
 
-    //boolean
-    final boolean[] succes = new boolean[1];
+    private String userid;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -70,11 +72,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    @BindView(R.id.new_member)
+    TextView textViewNewMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -101,6 +106,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @OnClick(R.id.new_member)
+    public void onClick() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void populateAutoComplete() {
@@ -169,7 +180,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -200,12 +215,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 0;
     }
 
@@ -317,9 +330,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         protected Boolean doInBackground(Void... params) {
 
             try {
-                Response<User> response = service.getUser(mEmail,mPassword).execute();
-                if(response.errorBody() != null)
+                Response<User> response = service.getUser(mEmail, mPassword).execute();
+                if (response.errorBody() != null)
                     message = response.errorBody().string();
+                if(response.body() != null)
+                    userid = response.body().getUserid();
                 return response.isSuccessful();
             } catch (Exception e) {
                 return false;
@@ -333,15 +348,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             showProgress(false);
 
             if (success) {
-                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("userid",userid);
+                intent.putExtras(bundle);
+                startActivity(intent);
             } else {
-                if(message.contains("username")){
+                if (message.contains("username")) {
                     mEmailView.setError(getString(R.string.error_invalid_email));
                     mEmailView.requestFocus();
-                }else if(message.contains("password")){
+                } else if (message.contains("password")) {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
-                }else if(!message.isEmpty()){
+                } else if (!message.isEmpty()) {
                     mEmailView.setError(getString(R.string.error_network));
                     mEmailView.requestFocus();
                 }

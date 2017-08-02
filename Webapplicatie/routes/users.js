@@ -25,6 +25,10 @@
         var user = new User();
         user.username = req.body.username;
         user.setPassword(req.body.password);
+        user.name = req.body.name;
+        user.surName = req.body.surName;
+        user.dateOfCreation = req.body.dateOfCreation;
+        user.isAdmin = req.body.isAdmin;
         user.save(function(err) {
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
@@ -54,7 +58,8 @@
             }
             if (user) {
                 return res.json({
-                    token: user.generateJWT()
+                    token: user.generateJWT(),
+                    userid : user._id
                 });
             } else {
                 return res.status(401).json(info);

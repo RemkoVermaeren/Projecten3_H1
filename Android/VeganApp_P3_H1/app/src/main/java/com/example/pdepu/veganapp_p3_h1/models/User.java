@@ -9,6 +9,7 @@ import java.util.Date;
 public class User {
 
 
+    private String userid;
     private String username;
     private String name;
     private String surName;
@@ -25,6 +26,30 @@ public class User {
 
     }
 
+    public User(String userid, String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String password) {
+        this.userid = userid;
+        this.username = username;
+        this.name = name;
+        this.surName = surName;
+        this.totalVeganScore = totalVeganScore;
+        this.followingUsers = followingUsers;
+        this.dateOfCreation = dateOfCreation;
+        this.challenges = challenges;
+        this.isAdmin = isAdmin;
+        this.hash = hash;
+        this.salt = salt;
+        this.password = password;
+    }
+
+    public User(String username, String name, String surName, Date dateOfCreation, boolean isAdmin, String password) {
+        this.username = username;
+        this.name = name;
+        this.surName = surName;
+        this.dateOfCreation = dateOfCreation;
+        this.isAdmin = isAdmin;
+        this.password = password;
+    }
+
     public User(String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt) {
         this.username = username;
         this.name = name;
@@ -36,6 +61,14 @@ public class User {
         this.isAdmin = isAdmin;
         this.hash = hash;
         this.salt = salt;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getUsername() {
