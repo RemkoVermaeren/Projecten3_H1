@@ -9,7 +9,7 @@ import java.util.Date;
 public class User {
 
 
-    private String userid;
+    private String _id;
     private String username;
     private String name;
     private String surName;
@@ -20,26 +20,14 @@ public class User {
     private boolean isAdmin;
     private String hash;
     private String salt;
+    private String image;
     private String password;
+    private Token token;
 
     public User(){
 
     }
 
-    public User(String userid, String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String password) {
-        this.userid = userid;
-        this.username = username;
-        this.name = name;
-        this.surName = surName;
-        this.totalVeganScore = totalVeganScore;
-        this.followingUsers = followingUsers;
-        this.dateOfCreation = dateOfCreation;
-        this.challenges = challenges;
-        this.isAdmin = isAdmin;
-        this.hash = hash;
-        this.salt = salt;
-        this.password = password;
-    }
 
     public User(String username, String name, String surName, Date dateOfCreation, boolean isAdmin, String password) {
         this.username = username;
@@ -50,7 +38,8 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt) {
+    public User(String _id,String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String image) {
+        this._id = _id;
         this.username = username;
         this.name = name;
         this.surName = surName;
@@ -61,14 +50,15 @@ public class User {
         this.isAdmin = isAdmin;
         this.hash = hash;
         this.salt = salt;
+        this.image = image;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getId() {
+        return _id;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setId(String _id) {
+        this._id = _id;
     }
 
     public String getUsername() {
@@ -151,7 +141,23 @@ public class User {
         this.salt = salt;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 }

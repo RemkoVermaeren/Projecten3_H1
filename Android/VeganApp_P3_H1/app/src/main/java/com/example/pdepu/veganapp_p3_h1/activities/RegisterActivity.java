@@ -222,6 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (success) {
                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                finish();
             } else {
                 if (!message.isEmpty()) {
                     editTextName.setError(getString(R.string.error_network));

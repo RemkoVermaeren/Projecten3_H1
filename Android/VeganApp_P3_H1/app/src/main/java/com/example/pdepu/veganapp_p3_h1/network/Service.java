@@ -2,6 +2,7 @@ package com.example.pdepu.veganapp_p3_h1.network;
 
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
 import com.example.pdepu.veganapp_p3_h1.models.User;
+import com.example.pdepu.veganapp_p3_h1.models.Token;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface Service {
     //region HANDLE USERS
     @FormUrlEncoded
     @POST("users/login")
-    Call<User> getUser(@Field("username") String username, @Field("password") String password);
+    Call<Token> loginUser(@Field("username") String username, @Field("password") String password);
 
     @POST("users/register")
     Call<User> registerUser(@Body User user);

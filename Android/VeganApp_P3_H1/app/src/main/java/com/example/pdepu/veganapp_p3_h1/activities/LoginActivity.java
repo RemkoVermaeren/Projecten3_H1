@@ -28,9 +28,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private String message;
 
-    private String userid;
+    private Token token;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -112,6 +114,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     public void onClick() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 
     private void populateAutoComplete() {
@@ -330,11 +337,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         protected Boolean doInBackground(Void... params) {
 
             try {
-                Response<User> response = service.getUser(mEmail, mPassword).execute();
+                Response<Token> response = service.loginUser(mEmail, mPassword).execute();
                 if (response.errorBody() != null)
                     message = response.errorBody().string();
                 if(response.body() != null)
-                    userid = response.body().getUserid();
+                    token = response.body();
                 return response.isSuccessful();
             } catch (Exception e) {
                 return false;
@@ -350,21 +357,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             if (success) {
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("userid",userid);
+                Gson gson = new Gson();
+                String tokenString = gson.toJson(token);
+                bundle.putString("tokenString",tokenString);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             } else {
-                if (message.contains("username")) {
-                    mEmailView.setError(getString(R.string.error_invalid_email));
-                    mEmailView.requestFocus();
-                } else if (message.contains("password")) {
-                    mPasswordView.setError(getString(R.string.error_incorrect_password));
-                    mPasswordView.requestFocus();
-                } else if (!message.isEmpty()) {
-                    mEmailView.setError(getString(R.string.error_network));
-                    mEmailView.requestFocus();
+                if(!message.isEmpty()){
+                    if (message.contains("username")) {
+                        mEmailView.setError(getString(R.string.error_invalid_email));
+                        mEmailView.requestFocus();
+                    } else if (message.contains("password")) {
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        mPasswordView.requestFocus();
+                    } else if (!message.isEmpty()) {
+                        mEmailView.setError(getString(R.string.error_network));
+                        mEmailView.requestFocus();
+                    }
+                    message = "";
                 }
-                message = "";
+
 
             }
         }

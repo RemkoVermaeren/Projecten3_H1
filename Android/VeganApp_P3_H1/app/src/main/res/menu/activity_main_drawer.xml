@@ -5,22 +5,26 @@
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Feed" />
         <item
             android:id="@+id/nav_challenge"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Challenge" />
         <item
             android:id="@+id/nav_leaderboard"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Leaderbord" />
     </group>
 
     <group android:id="@+id/group_secondary" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_share"
-            android:title="Share" />
+            android:title="Search" />
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Sign out" />
     </group>
 
     <!--<item android:title="">-->
