@@ -113,7 +113,52 @@
             return next();
         });
     });
+    router.param('userfollow', function(req, res, next, id) {
+        var query = User.findById(id);
 
+        query.exec(function(err, user) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return next(new Error('can\'t find user'));
+            }
+
+            req.userfollow = user;
+            return next();
+        });
+    });
+    router.post('/:user/followers/add/:userfollow', function(req,res){
+        console.log("Called the followers function");
+        console.log(req.userfollow);
+        User.findById(req.user._id, function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            user.followingUsers.addToSet(req.userfollow);
+            user.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(user);
+            })
+        });
+    });
+    router.post('/:user/followers/remove/:userfollow', function(req,res){
+        console.log("Called the followers function - remove");
+        User.findById(req.user._id, function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            user.followingUsers.pull(req.userfollow._id);
+            user.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(user);
+            })
+        });
+    });
 
     router.delete('/:user', auth, function(req, res, next) {
         User.remove({
