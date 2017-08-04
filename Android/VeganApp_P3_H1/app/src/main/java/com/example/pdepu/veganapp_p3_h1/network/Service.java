@@ -35,6 +35,9 @@ public interface Service {
 
     @GET("users/{userid}")
     Call<User> getUserById(@Path("userid") String userid);
+
+    @GET("users")
+    Call<List<User>> getAllUsers();
     //endregion
 
 

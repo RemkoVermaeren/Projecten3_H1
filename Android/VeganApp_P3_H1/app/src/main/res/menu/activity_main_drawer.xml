@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_leaderboard"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Leaderbord" />
+            android:title="Leaderboard" />
     </group>
 
     <group android:id="@+id/group_secondary" android:checkableBehavior="single">

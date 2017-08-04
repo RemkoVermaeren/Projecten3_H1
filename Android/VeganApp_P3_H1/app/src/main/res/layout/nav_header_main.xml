@@ -13,7 +13,6 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageViewUser"
         android:layout_width="80dp"
         android:layout_height="80dp"

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.fragments.LeaderboardFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_challenge) {
 
         } else if (id == R.id.nav_leaderboard) {
-
+            LeaderboardFragment leaderboardFragment = new LeaderboardFragment();
+            this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, leaderboardFragment).commit();
         } else if (id == R.id.nav_search) {
 
         } else if(id == R.id.nav_signout){
