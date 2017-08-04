@@ -128,9 +128,7 @@
             return next();
         });
     });
-    router.post('/:user/followers/add/:userfollow', function(req,res){
-        console.log("Called the followers function");
-        console.log(req.userfollow);
+    router.post('/:user/followers/add/:userfollow', auth ,function(req,res){
         User.findById(req.user._id, function (err, user) {
             if (err) {
                 res.send(err);
@@ -144,8 +142,7 @@
             })
         });
     });
-    router.post('/:user/followers/remove/:userfollow', function(req,res){
-        console.log("Called the followers function - remove");
+    router.post('/:user/followers/remove/:userfollow', auth ,function(req,res){
         User.findById(req.user._id, function (err, user) {
             if (err) {
                 res.send(err);
