@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.models;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -23,6 +24,7 @@ public class User {
     private String image;
     private String password;
     private Token token;
+    private String fullName;
 
     public User(){
 
@@ -51,6 +53,7 @@ public class User {
         this.hash = hash;
         this.salt = salt;
         this.image = image;
+        this.fullName = name + " " + surName;
     }
 
     public String getId() {
@@ -159,5 +162,63 @@ public class User {
 
     public void setToken(Token token) {
         this.token = token;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (totalVeganScore != user.totalVeganScore) return false;
+        if (isAdmin != user.isAdmin) return false;
+        if (_id != null ? !_id.equals(user._id) : user._id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null)
+            return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (surName != null ? !surName.equals(user.surName) : user.surName != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(followingUsers, user.followingUsers)) return false;
+        if (dateOfCreation != null ? !dateOfCreation.equals(user.dateOfCreation) : user.dateOfCreation != null)
+            return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(challenges, user.challenges)) return false;
+        if (hash != null ? !hash.equals(user.hash) : user.hash != null) return false;
+        if (salt != null ? !salt.equals(user.salt) : user.salt != null) return false;
+        if (image != null ? !image.equals(user.image) : user.image != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null)
+            return false;
+        if (token != null ? !token.equals(user.token) : user.token != null) return false;
+        return fullName != null ? fullName.equals(user.fullName) : user.fullName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _id != null ? _id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surName != null ? surName.hashCode() : 0);
+        result = 31 * result + totalVeganScore;
+        result = 31 * result + Arrays.hashCode(followingUsers);
+        result = 31 * result + (dateOfCreation != null ? dateOfCreation.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(challenges);
+        result = 31 * result + (isAdmin ? 1 : 0);
+        result = 31 * result + (hash != null ? hash.hashCode() : 0);
+        result = 31 * result + (salt != null ? salt.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (token != null ? token.hashCode() : 0);
+        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        return result;
     }
 }
