@@ -16,6 +16,8 @@ import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.example.pdepu.veganapp_p3_h1.views.LeaderboardAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,9 +69,16 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.isSuccessful()){
-                    List<User> iet = response.body();
+                    ArrayList<User> userResponse = new ArrayList<User>(response.body());
+                    Collections.sort(userResponse, new Comparator<User>() {
+                        @Override
+                        public int compare(User obj1, User obj2) {
+                            return Integer.valueOf(obj1.getTotalVeganScore()).compareTo(obj2.getTotalVeganScore());
+                        }
+                    });
+
                     users.clear();
-                    users.addAll(new ArrayList<User>(response.body()));
+                    users.addAll(userResponse);
                     adapter.notifyDataSetChanged();
 
                 }

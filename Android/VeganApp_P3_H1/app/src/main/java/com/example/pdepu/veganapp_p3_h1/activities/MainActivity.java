@@ -160,6 +160,6 @@ public class MainActivity extends AppCompatActivity
         textViewFollowerAmount = (TextView)headerView.findViewById(R.id.followerAmount);
         imageViewUser = (CircleImageView)headerView.findViewById(R.id.imageViewUser);
         textViewUsername.setText(user.getName() + " " + user.getSurName());
-        textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length));
+        textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
 }
