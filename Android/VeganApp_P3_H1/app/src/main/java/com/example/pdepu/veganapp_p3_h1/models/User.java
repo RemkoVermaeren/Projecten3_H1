@@ -40,7 +40,7 @@ public class User {
         this.password = password;
     }
 
-    public User(String _id,String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String image) {
+    public User(String _id,String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String image, String fullName) {
         this._id = _id;
         this.username = username;
         this.name = name;
@@ -53,7 +53,7 @@ public class User {
         this.hash = hash;
         this.salt = salt;
         this.image = image;
-        this.fullName = name + " " + surName;
+        this.fullName = fullName;
     }
 
     public String getId() {

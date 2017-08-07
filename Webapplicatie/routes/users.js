@@ -29,6 +29,7 @@
         user.surName = req.body.surName;
         user.dateOfCreation = req.body.dateOfCreation;
         user.isAdmin = req.body.isAdmin;
+        user.fullName = req.body.name + " " + req.body.surName;
         user.save(function(err) {
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
@@ -41,7 +42,8 @@
                 return res.status(500).send(err);
             }
             return res.json({
-                token: user.generateJWT()
+                token: user.generateJWT(),
+                userid : user._id
             });
         });
     });

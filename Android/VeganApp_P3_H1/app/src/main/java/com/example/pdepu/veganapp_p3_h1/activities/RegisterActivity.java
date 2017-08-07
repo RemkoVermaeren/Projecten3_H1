@@ -15,9 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
@@ -55,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String message;
     private UserRegisterTask registerTask = null;
     private Service service = new ServicesInitializer().initializeService();
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,12 +204,14 @@ public class RegisterActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
 
 
-
             User user = new User(mEmail, mName, mSurname, Calendar.getInstance().getTime(), false, mPassword);
             try {
-                Response<User> response = service.registerUser(user).execute();
+                Response<Token> response = service.registerUser(user).execute();
                 if (response.errorBody() != null)
                     message = response.errorBody().string();
+                if(response.body() != null){
+                    token = response.body();
+                }
                 return response.isSuccessful();
             } catch (Exception e) {
                 return false;
@@ -221,10 +226,19 @@ public class RegisterActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                Bundle bundle = new Bundle();
+                Gson gson = new Gson();
+                String tokenString = gson.toJson(token);
+                bundle.putString("tokenString",tokenString);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 finish();
             } else {
-                if (!message.isEmpty()) {
+                if (message != null && !message.isEmpty() && message.toLowerCase().contains("already") && message.toLowerCase().contains("user")) {
+                    editTextName.setError(getString(R.string.userExists));
+                    editTextName.requestFocus();
+                } else if (message != null && !message.isEmpty()) {
                     editTextName.setError(getString(R.string.error_network));
                     editTextName.requestFocus();
                 }

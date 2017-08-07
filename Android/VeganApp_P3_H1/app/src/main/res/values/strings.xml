@@ -30,4 +30,5 @@
     <string name="action_register">Register</string>
     <string name="already_registered">Already registered? Log me in.</string>
     <string name="new_member">Not a member yet? Sign up now.</string>
+    <string name="userExists">User already exists</string>
 </resources>

@@ -31,13 +31,16 @@ public interface Service {
     Call<Token> loginUser(@Field("username") String username, @Field("password") String password);
 
     @POST("users/register")
-    Call<User> registerUser(@Body User user);
+    Call<Token> registerUser(@Body User user);
 
     @GET("users/{userid}")
     Call<User> getUserById(@Path("userid") String userid);
 
     @GET("users")
     Call<List<User>> getAllUsers();
+
+    @POST("{user}/followers/add/{userfollow}")
+    Call<User> addFollower(@Path("user") String user, @Path("userfollow") String follower);
     //endregion
 
 

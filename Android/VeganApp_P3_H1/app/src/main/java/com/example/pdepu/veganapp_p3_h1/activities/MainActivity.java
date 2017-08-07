@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity
             this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, leaderboardFragment).commit();
         } else if (id == R.id.nav_search) {
             SearchFragment searchFragment = new SearchFragment();
+            Bundle extras = new Bundle();
+            extras.putString("user", new Gson().toJson(user));
+            searchFragment.setArguments(extras);
             this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
 
         } else if(id == R.id.nav_signout){
@@ -156,6 +159,7 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
 
     private void updateView(User user) {
         View headerView = navigationViewHeader.getHeaderView(0);

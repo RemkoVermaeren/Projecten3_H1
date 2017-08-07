@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.example.pdepu.veganapp_p3_h1.databinding.FragmentSearchCardviewBinding;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    private ArrayList<User> users;
 
     private final SortedList<User> userSortedList = new SortedList<>(User.class, new SortedList.Callback<User>() {
         @Override
@@ -60,24 +58,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     private final LayoutInflater inflater;
     private final Comparator<User> comparator;
+    private User userOriginal;
 
-    public SearchAdapter(Context context, Comparator<User> comparator) {
+    public SearchAdapter(Context context, Comparator<User> comparator, User user) {
         inflater = LayoutInflater.from(context);
         this.comparator = comparator;
+        this.userOriginal = user;
     }
 
     public static class SearchViewHolder extends RecyclerView.ViewHolder{
 
-//        @BindView(R.id.imageViewUserCardViewSearch)
-//        CircleImageView imageViewUserCardView;
-//
-//        @BindView(R.id.usernameCardViewSearch)
-//        TextView usernameCardView;
-//
-//        @BindView(R.id.veganPointsCardViewSearch)
-//        TextView veganPointsCardView;
-
         private final FragmentSearchCardviewBinding binding;
+
 
 
         public SearchViewHolder(FragmentSearchCardviewBinding binding){
@@ -85,30 +77,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             this.binding = binding;
         }
 
-        public void bind(User user){
+        public void bind(User user, Handlers handlers){
+            this.binding.setHandler(handlers);
             this.binding.setModel(user);
         }
     }
 
     @Override
     public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_search_cardview,parent,false);
-        //return new SearchViewHolder(view);
         final FragmentSearchCardviewBinding binding = FragmentSearchCardviewBinding.inflate(inflater,parent,false);
         return new SearchViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(SearchViewHolder holder, int position){
-//        User user = users.get(position);
-//        CircleImageView image = holder.imageViewUserCardView;
-//        TextView username = holder.usernameCardView;
-//        TextView veganScore = holder.veganPointsCardView;
-//        Context context = holder.imageViewUserCardView.getContext();
-//        //username.setText(String.valueOf(position) + ". " + user.getName() + " " + user.getSurName());
-//        veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");
         final User user = userSortedList.get(position);
-        holder.bind(user);
+        holder.bind(user, new Handlers(userOriginal,user));
 
     }
 

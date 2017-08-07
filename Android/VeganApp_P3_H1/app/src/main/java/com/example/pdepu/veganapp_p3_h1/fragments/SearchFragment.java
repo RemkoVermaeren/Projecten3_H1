@@ -17,9 +17,9 @@ import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.example.pdepu.veganapp_p3_h1.views.SearchAdapter;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
     private SearchAdapter adapter;
     private FragmentSearchBinding binding;
 
-
+    private User user;
 
 
     private static final Comparator<User> FullNameComparator = new Comparator<User>() {
@@ -56,9 +56,7 @@ public class SearchFragment extends Fragment {
 
 
 
-    protected LinearLayoutManager layoutManager;
     private ArrayList<User> users = new ArrayList<>();
-    private List<User> mModels;
 
 
 
@@ -66,35 +64,24 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
-        //callApi();
+        if(getArguments() != null){
+            user = new Gson().fromJson(getArguments().getString("user"),User.class);
+        }
+        callApi();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.fragment_search,container,false);
         ButterKnife.bind(this,rootView);
-        binding = DataBindingUtil.setContentView(this.getActivity(),R.layout.fragment_search);
-////        layoutManager = new LinearLayoutManager(getActivity());
-////        searchRecyclerView.setLayoutManager(layoutManager);
-////
-////        adapter = new SearchAdapter(this.getContext(),FullNameComparator);
-////        searchRecyclerView.setAdapter(adapter);
-//
-        adapter = new SearchAdapter(this.getContext(),FullNameComparator);
 
+
+        binding = DataBindingUtil.setContentView(this.getActivity(),R.layout.fragment_search);
+        adapter = new SearchAdapter(this.getContext(),FullNameComparator,user);
         binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.searchRecyclerView.setAdapter(adapter);
 
 
-        mModels = new ArrayList<>();
-        User x = new User("zgzg","STRONG","STRONTG", "giagagag",52,null, null, null, false, "gag","zgaga","agaga");
-        User y = new User("zgzg","STRONG","STRONTG", "zzzzzzzzzzzzzzz",52,null, null, null, false, "gag","zgaga","agaga");
-        mModels.add(x);
-        mModels.add(y);
-        adapter.add(mModels);
-
-
-       // SearchView searchView = (SearchView)getView().findViewById(R.id.searchView);
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -103,7 +90,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                final List<User> filteredModelList = filter(mModels, newText);
+                final List<User> filteredModelList = filter(users, newText);
                 adapter.replaceAll(filteredModelList);
                 binding.searchRecyclerView.scrollToPosition(0);
                 return true;
@@ -115,6 +102,10 @@ public class SearchFragment extends Fragment {
         return rootView;
 
     }
+
+
+
+
 
 
     private static List<User> filter(List<User> models, String query) {
@@ -133,24 +124,19 @@ public class SearchFragment extends Fragment {
 
 
 
+
+
     private void callApi(){
         Call<List<User>> usersCall = service.getAllUsers();
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.isSuccessful()){
-                    ArrayList<User> userResponse = new ArrayList<User>(response.body());
-                    Collections.sort(userResponse, new Comparator<User>() {
-                        @Override
-                        public int compare(User obj1, User obj2) {
-                            return Integer.valueOf(obj1.getTotalVeganScore()).compareTo(obj2.getTotalVeganScore());
-                        }
-                    });
+                    ArrayList<User> userResponse = new ArrayList<>(response.body());
 
                     users.clear();
                     users.addAll(userResponse);
                     adapter.add(users);
-                    adapter.notifyDataSetChanged();
 
                 }
                 Log.i("users", response.body().toString());

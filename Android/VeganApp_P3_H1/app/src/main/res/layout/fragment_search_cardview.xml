@@ -4,6 +4,9 @@
     <data>
 
         <variable
+            name="handler"
+            type="com.example.pdepu.veganapp_p3_h1.views.Handlers"/>
+        <variable
             name="model"
             type="com.example.pdepu.veganapp_p3_h1.models.User"/>
 
@@ -55,14 +58,15 @@
                     android:layout_marginRight="@dimen/activity_vertical_margin"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-                <TextView
-                    android:id="@+id/veganPointsCardViewSearch"
+                <Button
+                    android:id="@+id/addFollowerCardViewSearch"
                     android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text="points" />
+                    android:background="@drawable/add_follower_drawable"
+                    android:onClick="@{(view) -> handler.onClickFriend(view)}"/>
 
 
             </RelativeLayout>
