@@ -46,7 +46,7 @@
             console.log(result.url);
             res.send(result.url);
         });
-    })
+    });
 
     //region FAQ ROUTING
     // FAQ : get all faqs

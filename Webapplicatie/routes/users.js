@@ -130,11 +130,12 @@
             return next();
         });
     });
-    router.post('/:user/followers/add/:userfollow', auth ,function(req,res){
+    router.post('/:user/followers/add/:userfollow',function(req,res){
         User.findById(req.user._id, function (err, user) {
             if (err) {
                 res.send(err);
             }
+            // TODO : Indien problemen met users, ligt het wss hieraan
             user.followingUsers.addToSet(req.userfollow);
             user.save(function (err) {
                 if (err) {
@@ -144,7 +145,7 @@
             })
         });
     });
-    router.post('/:user/followers/remove/:userfollow', auth ,function(req,res){
+    router.post('/:user/followers/remove/:userfollow' ,function(req,res){
         User.findById(req.user._id, function (err, user) {
             if (err) {
                 res.send(err);
