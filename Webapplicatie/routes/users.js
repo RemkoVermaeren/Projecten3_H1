@@ -110,7 +110,6 @@
             }
             return res.json(users);
         });
-        //res.json(req.user.followingUsers);
     });
     router.param('user', function(req, res, next, id) {
         var query = User.findById(id);
