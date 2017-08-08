@@ -19,6 +19,7 @@
     var User = mongoose.model('User');
     var Faq = mongoose.model('Faq');
     var Recipe = mongoose.model('Recipe');
+    var Challenge = mongoose.model('Challenge');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var auth = jwt({
@@ -473,7 +474,16 @@
         });
     });
     //endregion
+    //Challenges routing
+    router.get('/api/challenges', function (req, res, next) {
+        Challenge.find(function (err, challenges) {
+            if (err) {
+                return next(err);
+            }
 
+            res.json(challenges);
+        });
+    });
 
     module.exports = router;
 

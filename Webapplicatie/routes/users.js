@@ -7,6 +7,7 @@
     var mongoose = require('mongoose');
     var passport = require('passport');
     var User = mongoose.model('User');
+    var Challenge = mongoose.model('Challenge');
     var jwt = require('express-jwt');
     var auth = jwt({
         secret: 'SECRET',
@@ -111,6 +112,7 @@
             return res.json(users);
         });
     });
+
     router.param('user', function(req, res, next, id) {
         var query = User.findById(id);
 
@@ -184,6 +186,31 @@
         });
     });
     //endregion
+
+
+    router.post('/:user/challenges/', function (req, res, next) {
+        var challenge = new Challenge(req.body);
+        challenge.save(function (err, faq) {
+            if (err) {
+                return next(err);
+            }
+            //res.json(faq);
+            //next();
+        });
+        console.log(challenge);
+        User.findById(req.user._id, function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            user.challenges.addToSet(challenge);
+            user.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(user);
+            });
+        });
+    });
 
     module.exports = router;
 
