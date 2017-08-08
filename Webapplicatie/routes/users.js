@@ -99,7 +99,9 @@
     router.get('/:user', function(req, res, next) {
         res.json(req.user);
     });
-
+    router.get('/:user/followers', function(req, res, next) {
+        res.json(req.user.followingUsers);
+    });
     router.param('user', function(req, res, next, id) {
         var query = User.findById(id);
 
