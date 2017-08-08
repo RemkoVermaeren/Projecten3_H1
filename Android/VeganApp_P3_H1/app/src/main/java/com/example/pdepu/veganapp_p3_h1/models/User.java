@@ -1,5 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.models;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import java.util.Arrays;
 import java.util.Date;
 
@@ -7,7 +10,7 @@ import java.util.Date;
  * Created by pdepu on 1/08/2017.
  */
 
-public class User {
+public class User extends BaseObservable {
 
 
     private String _id;
@@ -96,10 +99,12 @@ public class User {
         this.totalVeganScore = totalVeganScore;
     }
 
+    @Bindable
     public String[] getFollowingUsers() {
         return followingUsers;
     }
 
+    @Bindable
     public void setFollowingUsers(String[] followingUsers) {
         this.followingUsers = followingUsers;
     }

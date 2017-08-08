@@ -5,23 +5,23 @@ package com.example.pdepu.veganapp_p3_h1.models;
  */
 
 public class Token {
-    private String Token;
+    private String token;
     private String userid;
 
     public Token() {
     }
 
     public Token(String token, String userid) {
-        this.Token = token;
+        this.token = token;
         this.userid = userid;
     }
 
     public String getToken() {
-        return this.Token;
+        return this.token;
     }
 
     public void setToken(String token) {
-        this.Token = token;
+        this.token = token;
     }
 
     public String getUserid() {

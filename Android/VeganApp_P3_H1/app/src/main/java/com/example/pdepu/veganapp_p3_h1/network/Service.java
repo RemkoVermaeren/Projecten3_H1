@@ -42,6 +42,10 @@ public interface Service {
     @FormUrlEncoded
     @POST("users/{user}/followers/add/{userfollow}")
     Call<User> addFollower(@Path("user") String userid, @Path("userfollow") String followerid, @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("users/{user}/followers/remove/{userfollow}")
+    Call<User> deleteFollower(@Path("user") String userid, @Path("userfollow") String followerid, @Field("token") String token);
     //endregion
 
 

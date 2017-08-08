@@ -13,10 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.fragments.LeaderboardFragment;
+import com.example.pdepu.veganapp_p3_h1.fragments.ProfileFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.SearchFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationViewHeader;
+
+
 
     //@BindView(R.id.username)
     TextView textViewUsername;
@@ -65,6 +69,21 @@ public class MainActivity extends AppCompatActivity
         getUser(token);
 
 
+        View headerView = navigationViewHeader.getHeaderView(0);
+        RelativeLayout relativeLayout = (RelativeLayout)headerView.findViewById(R.id.nav_header_relativelayout);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createProfileFragment();
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
+
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -152,6 +172,14 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void createProfileFragment(){
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle extras = new Bundle();
+        extras.putString("tokenString", new Gson().toJson(token));
+        profileFragment.setArguments(extras);
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
+    }
+
     private void createLoginActivity(){
         user.setToken(null);
         this.user = null;
@@ -167,7 +195,7 @@ public class MainActivity extends AppCompatActivity
     private void createSearchFragment(){
         SearchFragment searchFragment = new SearchFragment();
         Bundle extras = new Bundle();
-        extras.putString("user", new Gson().toJson(user));
+        extras.putString("tokenString", new Gson().toJson(token));
         searchFragment.setArguments(extras);
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
     }
