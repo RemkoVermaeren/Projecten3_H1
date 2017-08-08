@@ -100,7 +100,17 @@
         res.json(req.user);
     });
     router.get('/:user/followers', function(req, res, next) {
-        res.json(req.user.followingUsers);
+        var query = User.where('_id').in(req.user.followingUsers);
+        query.exec(function (err, users) {
+            if (err) {
+                return next(err);
+            }
+            if (!users) {
+                return next(new Error('can\'t find the users'));
+            }
+            return res.json(users);
+        });
+        //res.json(req.user.followingUsers);
     });
     router.param('user', function(req, res, next, id) {
         var query = User.findById(id);
