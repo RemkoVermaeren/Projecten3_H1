@@ -13,6 +13,7 @@ import android.widget.SearchView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.databinding.FragmentSearchBinding;
+import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
@@ -55,29 +56,24 @@ public class SearchFragment extends Fragment {
     };
 
 
-
     private ArrayList<User> users = new ArrayList<>();
 
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
-        if(getArguments() != null){
-            user = new Gson().fromJson(getArguments().getString("user"),User.class);
+        if (getArguments() != null) {
+            user = new Gson().fromJson(getArguments().getString("user"), User.class);
         }
         callApi();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_search,container,false);
-        ButterKnife.bind(this,rootView);
-
-
-        binding = DataBindingUtil.setContentView(this.getActivity(),R.layout.fragment_search);
-        adapter = new SearchAdapter(this.getContext(),FullNameComparator,user);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search,container,false);
+        ButterKnife.bind(this, binding.getRoot());
+        adapter = new SearchAdapter(this.getContext(), FullNameComparator, user);
         binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.searchRecyclerView.setAdapter(adapter);
 
@@ -90,52 +86,54 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                final List<User> filteredModelList = filter(users, newText);
-                adapter.replaceAll(filteredModelList);
+                final List<User> filteredUserList = filter(users, newText);
+                adapter.replaceAll(filteredUserList);
                 binding.searchRecyclerView.scrollToPosition(0);
                 return true;
             }
         });
 
 
-
-        return rootView;
+        return binding.getRoot();
 
     }
 
 
-
-
-
-
-    private static List<User> filter(List<User> models, String query) {
+    private static List<User> filter(List<User> users, String query) {
         final String lowerCaseQuery = query.toLowerCase();
 
-        final List<User> filteredModelList = new ArrayList<>();
-        for (User model : models) {
-            final String text = model.getFullName().toLowerCase();
+        final List<User> filteredUserList = new ArrayList<>();
+        for (User user : users) {
+            final String text = user.getFullName().toLowerCase();
             if (text.contains(lowerCaseQuery)) {
-                filteredModelList.add(model);
+                filteredUserList.add(user);
             }
         }
-        return filteredModelList;
+        return filteredUserList;
     }
 
 
-
-
-
-
-    private void callApi(){
+    private void callApi() {
         Call<List<User>> usersCall = service.getAllUsers();
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ArrayList<User> userResponse = new ArrayList<>(response.body());
 
                     users.clear();
                     users.addAll(userResponse);
+
+                    for(int i = 0; i < users.size(); i++){
+                        if(users.get(i).get_id().equals(user.get_id())){
+                            Token token = user.getToken();
+                            user = users.get(i);
+                            user.setToken(token);
+                            users.remove(i);
+                        }
+
+                    }
+                    adapter.setUserOriginal(user);
                     adapter.add(users);
 
                 }

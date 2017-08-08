@@ -118,21 +118,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_challenge) {
 
         } else if (id == R.id.nav_leaderboard) {
-            LeaderboardFragment leaderboardFragment = new LeaderboardFragment();
-            this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, leaderboardFragment).commit();
+            createLeaderboardFragment();
         } else if (id == R.id.nav_search) {
-            SearchFragment searchFragment = new SearchFragment();
-            Bundle extras = new Bundle();
-            extras.putString("user", new Gson().toJson(user));
-            searchFragment.setArguments(extras);
-            this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
+            createSearchFragment();
 
         } else if(id == R.id.nav_signout){
-            user.setToken(null);
-            this.user = null;
-            Intent loginActivity = new Intent(this,LoginActivity.class);
-            startActivity(loginActivity);
-            finish();
+            createLoginActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,13 +131,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void getUser(Token token) {
+    private void getUser(final Token token) {
         Call<User> userCall = service.getUserById(token.getUserid());
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     user = response.body();
+                    user.setToken(token);
                     Log.i("iet", response.body().toString());
                     updateView(user);
                 }
@@ -158,6 +150,26 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    private void createLoginActivity(){
+        user.setToken(null);
+        this.user = null;
+        Intent loginActivity = new Intent(this,LoginActivity.class);
+        startActivity(loginActivity);
+        finish();
+    }
+
+    private void createLeaderboardFragment(){
+        LeaderboardFragment leaderboardFragment = new LeaderboardFragment();
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, leaderboardFragment).commit();
+    }
+    private void createSearchFragment(){
+        SearchFragment searchFragment = new SearchFragment();
+        Bundle extras = new Bundle();
+        extras.putString("user", new Gson().toJson(user));
+        searchFragment.setArguments(extras);
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
     }
 
 

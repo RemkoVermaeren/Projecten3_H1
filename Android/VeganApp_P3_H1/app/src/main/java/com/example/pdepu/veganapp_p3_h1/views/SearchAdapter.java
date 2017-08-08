@@ -52,7 +52,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         @Override
         public boolean areItemsTheSame(User item1, User item2) {
-            return item1.getId() == item2.getId();
+            return item1.get_id() == item2.get_id();
         }
     });
 
@@ -77,9 +77,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             this.binding = binding;
         }
 
-        public void bind(User user, Handlers handlers){
+        public void bind(User user, Handlers handlers, User original){
             this.binding.setHandler(handlers);
             this.binding.setModel(user);
+            this.binding.setOriginal(original);
+
+
         }
     }
 
@@ -92,7 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(SearchViewHolder holder, int position){
         final User user = userSortedList.get(position);
-        holder.bind(user, new Handlers(userOriginal,user));
+        holder.bind(user, new Handlers(userOriginal,user),userOriginal);
 
     }
 
@@ -133,6 +136,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         }
         userSortedList.addAll(models);
         userSortedList.endBatchedUpdates();
+    }
+
+    public void setUserOriginal(User user){
+        this.userOriginal = user;
     }
 
 

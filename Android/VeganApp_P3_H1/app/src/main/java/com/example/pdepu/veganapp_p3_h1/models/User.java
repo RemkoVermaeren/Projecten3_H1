@@ -15,7 +15,7 @@ public class User {
     private String name;
     private String surName;
     private int totalVeganScore;
-    private User[] followingUsers;
+    private String[] followingUsers;
     private Date dateOfCreation;
     private Challenge[] challenges;
     private boolean isAdmin;
@@ -40,7 +40,7 @@ public class User {
         this.password = password;
     }
 
-    public User(String _id,String username, String name, String surName, int totalVeganScore, User[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String image, String fullName) {
+    public User(String _id,String username, String name, String surName, int totalVeganScore, String[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String image, String fullName) {
         this._id = _id;
         this.username = username;
         this.name = name;
@@ -56,11 +56,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getId() {
+    public String get_id() {
         return _id;
     }
 
-    public void setId(String _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
@@ -96,11 +96,11 @@ public class User {
         this.totalVeganScore = totalVeganScore;
     }
 
-    public User[] getFollowingUsers() {
+    public String[] getFollowingUsers() {
         return followingUsers;
     }
 
-    public void setFollowingUsers(User[] followingUsers) {
+    public void setFollowingUsers(String[] followingUsers) {
         this.followingUsers = followingUsers;
     }
 
@@ -170,6 +170,15 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+
+    public boolean IsFollower(String user){
+        for (String userid : this.getFollowingUsers()){
+            if(userid.equals(user))
+                return true;
+        }
+        return false;
     }
 
     @Override

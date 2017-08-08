@@ -29,8 +29,8 @@ public class Handlers {
     }
 
     public void onClickFriend(final View view) {
-        Call usersCall = service.addFollower(user.getId(), follower.getId());
-        usersCall.enqueue(new Callback() {
+        Call<User> usersCall = service.addFollower(user.get_id(), follower.get_id(),user.getToken().getToken());
+        usersCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful())
@@ -44,4 +44,14 @@ public class Handlers {
         });
 
     }
+
+//    public boolean checkIfFollow(View v){
+//        for(String userid : user.getFollowingUsers()){
+//            if(userid.equals(follower.get_id()))
+//                v.setBackgroundResource(R.drawable.ic_checkmark_holo_light);
+//            else{
+//                v.setBackgroundResource(R.drawable.add_follower_drawable);
+//            }
+//        }
+//    }
 }

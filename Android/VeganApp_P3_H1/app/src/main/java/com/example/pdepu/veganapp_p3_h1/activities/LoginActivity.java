@@ -364,7 +364,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 startActivity(intent);
                 finish();
             } else {
-                if(!message.isEmpty()){
+                if(message != null && !message.isEmpty()){
                     if (message.contains("username")) {
                         mEmailView.setError(getString(R.string.error_invalid_email));
                         mEmailView.requestFocus();

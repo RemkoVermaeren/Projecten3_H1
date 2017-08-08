@@ -9,6 +9,9 @@
         <variable
             name="model"
             type="com.example.pdepu.veganapp_p3_h1.models.User"/>
+        <variable
+            name="original"
+            type="com.example.pdepu.veganapp_p3_h1.models.User"/>
 
     </data>
 
@@ -65,7 +68,7 @@
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/add_follower_drawable"
+                    android:background="@{original.IsFollower(model._id) ? @drawable/ic_checkmark_holo_light : @drawable/add_follower_drawable }"
                     android:onClick="@{(view) -> handler.onClickFriend(view)}"/>
 
 
