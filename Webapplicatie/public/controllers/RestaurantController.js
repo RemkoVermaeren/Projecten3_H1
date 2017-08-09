@@ -4,9 +4,9 @@
 
     angular.module('hoGentApp').controller('RestaurantController', RestaurantController);
 
-    RestaurantController.$inject = ['$log', 'restaurantService', 'auth', '$state', '$stateParams', 'Upload'];
+    RestaurantController.$inject = ['$log', 'restaurantService', 'auth', '$state', '$stateParams'];
 
-    function RestaurantController($log, restaurantService, auth, $state, $stateParams, upload) {
+    function RestaurantController($log, restaurantService, auth, $state, $stateParams) {
         var vm = this;
 
         //vm.isLoggedIn = authService.isLoggedIn;
@@ -19,7 +19,6 @@
         vm.deleteRestaurant = deleteRestaurant;
         vm.convertDate = convertDate;
         vm.isRestaurantsEmpty = isRestaurantsEmpty;
-        vm.upload = uploadImage;
 
         activate();
 
@@ -49,9 +48,9 @@
 
 
         function addRestaurant() {
-            $log.log("test");
-            $log.log("Called");
-            $log.log(vm.restaurants);
+
+            $log.log(vm.image);
+            $log.log('testController')
             // if (!vm.restaurant.name || vm.restaurant.name === '' || !vm.restaurant.place || vm.restaurant.place === '' || !vm.restaurant.openingtime || !vm.restaurant.closingtime) {
             //     return;
             // }
@@ -59,7 +58,7 @@
             restaurantService.uploadImage(vm.image).succes(function (dataImg) {
                 vm.restaurant.image = dataImg;
                 console.log(vm.restaurant);
-                 return restaurantService.create(vm.restaurant).then(function (data) {
+                return restaurantService.create(vm.restaurant).then(function (data) {
                     $log.log(data);
                     vm.restaurants.push(data.data);
                 })

@@ -13,7 +13,8 @@
             create: create,
             get: get,
             update: update,
-            deleteRestaurant: deleteRestaurant
+            deleteRestaurant: deleteRestaurant,
+            uploadImage : uploadImage
         };
         return service;
 
@@ -65,8 +66,9 @@
 
         function uploadImage(image) {
             $log.log(image);
+            $log.log('service test');
             return $http.post('/upload/image', image).success(function (data) {
-                $log.log("Return from router: ", data);
+                $log.log("Return from database: ", data);
                 return data;
             });
         }

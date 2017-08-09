@@ -36,8 +36,6 @@
 
     /* Upload images */
     router.post('/upload/image', function (req, res, next) {
-        $log.log(req.body);
-        $log.log(req.body.data);
         cloudinary.v2.uploader.upload(req.body.data, {
             resource_type: "image"
         }, function (error, result) {
