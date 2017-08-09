@@ -8,7 +8,8 @@ var RestaurantSchema = new mongoose.Schema({
     website : String,
     extraInformation: {type: String, default : ""},
     wheelchairAccess: Boolean,
-    veganPoints: Number
+    veganPoints: Number, 
+    picture: String
 });
 
 
