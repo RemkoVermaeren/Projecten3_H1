@@ -48,17 +48,14 @@
 
 
         function addRestaurant() {
-
-            $log.log(vm.image);
-            $log.log('testController')
-            // if (!vm.restaurant.name || vm.restaurant.name === '' || !vm.restaurant.place || vm.restaurant.place === '' || !vm.restaurant.openingtime || !vm.restaurant.closingtime) {
-            //     return;
-            // }
+             if (!vm.restaurant.name || vm.restaurant.name === '' || !vm.restaurant.place || vm.restaurant.place === '' || !vm.restaurant.openingtime || !vm.restaurant.closingtime) {
+                 return;
+             }
             //TODO Controle op empty
-            restaurantService.uploadImage(vm.image).succes(function (dataImg) {
+            restaurantService.uploadImage(vm.image).success(function (dataImg) {
                 vm.restaurant.image = dataImg;
                 console.log(vm.restaurant);
-                return restaurantService.create(vm.restaurant).then(function (data) {
+                return restaurantService.create(vm.restaurant).success(function (data) {
                     $log.log(data);
                     vm.restaurants.push(data.data);
                 })

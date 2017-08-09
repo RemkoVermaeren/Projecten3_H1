@@ -65,10 +65,7 @@
         }
 
         function uploadImage(image) {
-            $log.log(image);
-            $log.log('service test');
-            return $http.post('/upload/image', image).success(function (data) {
-                $log.log("Return from database: ", data);
+            return $http.post('api/upload/image', image).success(function (data) {
                 return data;
             });
         }

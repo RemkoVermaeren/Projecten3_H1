@@ -35,14 +35,13 @@
     });
 
     /* Upload images */
-    router.post('/upload/image', function (req, res, next) {
+    router.post('/api/upload/image', function (req, res, next) {
         cloudinary.v2.uploader.upload(req.body.data, {
             resource_type: "image"
         }, function (error, result) {
             if (error) {
                 return console.log(error);
             }
-            console.log(result.url);
             res.send(result.url);
         });
     });
