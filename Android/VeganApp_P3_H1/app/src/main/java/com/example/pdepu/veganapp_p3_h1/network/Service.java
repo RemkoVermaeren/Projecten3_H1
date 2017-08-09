@@ -23,6 +23,9 @@ public interface Service {
     //region HANDLE RECIPES
     @GET("recipes")
     Call<List<Recipe>> getRecipesList();
+
+    @GET("recipes/{recipe}")
+    Call<Recipe> getRecipe(@Path("recipe") String recipeId);
     //endregion
 
     //region HANDLE USERS
@@ -34,21 +37,21 @@ public interface Service {
     Call<Token> registerUser(@Body User user);
 
     @GET("users/{userid}")
-    Call<User> getUserById(@Path("userid") String userid);
+    Call<User> getUserById(@Path("userid") String userId);
 
     @GET("users")
     Call<List<User>> getAllUsers();
 
     @GET("users/{user}/followers")
-    Call<List<User>> getAllFollowers(@Path("user") String userid);
+    Call<List<User>> getAllFollowers(@Path("user") String userId);
 
     @FormUrlEncoded
     @POST("users/{user}/followers/add/{userfollow}")
-    Call<User> addFollower(@Path("user") String userid, @Path("userfollow") String followerid, @Field("token") String token);
+    Call<User> addFollower(@Path("user") String userId, @Path("userfollow") String followerId, @Field("token") String token);
 
     @FormUrlEncoded
     @POST("users/{user}/followers/remove/{userfollow}")
-    Call<User> deleteFollower(@Path("user") String userid, @Path("userfollow") String followerid, @Field("token") String token);
+    Call<User> deleteFollower(@Path("user") String userId, @Path("userfollow") String followerId, @Field("token") String token);
     //endregion
 
 

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.fragments.ChooseRecipeFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
     @Override
     public ChooseRecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_challenge_choose_recipe_cardview, parent, false);
+        view.setOnClickListener(ChooseRecipeFragment.listFragmentOnClickListener);
         return new ChooseRecipeViewHolder(view);
     }
 

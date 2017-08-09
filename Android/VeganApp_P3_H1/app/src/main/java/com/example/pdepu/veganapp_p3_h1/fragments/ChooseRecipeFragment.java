@@ -1,7 +1,9 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -37,14 +39,20 @@ public class ChooseRecipeFragment extends Fragment {
     @BindView(R.id.chooseRecipeRecylerView)
     RecyclerView chooseRecipeRecyclerView;
 
+
+    public static ListFragmentOnClickListener listFragmentOnClickListener;
     private LinearLayoutManager layoutManager;
     private ChooseRecipeAdapter adapter;
+    private String recipeToPass;
+
+    private int currentIndex;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
+        listFragmentOnClickListener = new ListFragmentOnClickListener(this.getContext());
         callApi();
     }
 
@@ -60,6 +68,36 @@ public class ChooseRecipeFragment extends Fragment {
         chooseRecipeRecyclerView.setAdapter(adapter);
 
         return rootView;
+
+    }
+
+    private class ListFragmentOnClickListener implements View.OnClickListener {
+        private final Context context;
+
+        public ListFragmentOnClickListener(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View view) {
+            currentIndex = chooseRecipeRecyclerView.getChildAdapterPosition(view);
+            RecipeFragment recipeFragment;
+
+            recipeFragment = new RecipeFragment();
+            Bundle extras = new Bundle();
+            recipeToPass = recipes.get(currentIndex).get_id();
+            extras.putString("recipe", recipeToPass);
+            recipeFragment.setArguments(extras);
+
+
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, recipeFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+
+        }
+
 
     }
 
