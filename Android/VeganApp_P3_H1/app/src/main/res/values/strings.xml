@@ -9,6 +9,10 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="followers">Followers</string>
     <string name="search">Search</string>
+    <string name="make_food">Make food</string>
+    <string name="choose_recipe">Choose a recipe</string>
+    <string name="dinner">Go out for dinner</string>
+    <string name="todo">Todo</string>
 
 
     <!-- Strings related to login -->

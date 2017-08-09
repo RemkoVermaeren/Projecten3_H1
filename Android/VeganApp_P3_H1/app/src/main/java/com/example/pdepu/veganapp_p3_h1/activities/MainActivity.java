@@ -2,6 +2,7 @@ package com.example.pdepu.veganapp_p3_h1.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.fragments.ChallengeFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.LeaderboardFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.ProfileFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.SearchFragment;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationViewHeader;
 
 
-
     //@BindView(R.id.username)
     TextView textViewUsername;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     //@BindView(R.id.imageViewUser)
     ImageView imageViewUser;
+    private Handler handler;
 
     private Token token;
     private User user;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        handler = new Handler();
         service = new ServicesInitializer().initializeService();
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -70,18 +73,20 @@ public class MainActivity extends AppCompatActivity
 
 
         View headerView = navigationViewHeader.getHeaderView(0);
-        RelativeLayout relativeLayout = (RelativeLayout)headerView.findViewById(R.id.nav_header_relativelayout);
+        RelativeLayout relativeLayout = (RelativeLayout) headerView.findViewById(R.id.nav_header_relativelayout);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createProfileFragment();
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
+                final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawer.closeDrawer(GravityCompat.START);
+                    }
+                }, 200);
             }
         });
-
-
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -136,18 +141,23 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_feed) {
             // Handle the camera action
         } else if (id == R.id.nav_challenge) {
-
+            createChallengeFragment();
         } else if (id == R.id.nav_leaderboard) {
             createLeaderboardFragment();
         } else if (id == R.id.nav_search) {
             createSearchFragment();
-
-        } else if(id == R.id.nav_signout){
+        } else if (id == R.id.nav_signout) {
             createLoginActivity();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        }, 200);
+
         return true;
     }
 
@@ -159,7 +169,6 @@ public class MainActivity extends AppCompatActivity
                 if (response.isSuccessful()) {
                     user = response.body();
                     user.setToken(token);
-                    Log.i("iet", response.body().toString());
                     updateView(user);
                 }
             }
@@ -172,7 +181,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void createProfileFragment(){
+    private void createProfileFragment() {
         ProfileFragment profileFragment = new ProfileFragment();
         Bundle extras = new Bundle();
         extras.putString("tokenString", new Gson().toJson(token));
@@ -180,19 +189,25 @@ public class MainActivity extends AppCompatActivity
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
     }
 
-    private void createLoginActivity(){
+    private void createLoginActivity() {
         user.setToken(null);
         this.user = null;
-        Intent loginActivity = new Intent(this,LoginActivity.class);
+        Intent loginActivity = new Intent(this, LoginActivity.class);
         startActivity(loginActivity);
         finish();
     }
 
-    private void createLeaderboardFragment(){
+    private void createLeaderboardFragment() {
         LeaderboardFragment leaderboardFragment = new LeaderboardFragment();
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, leaderboardFragment).commit();
     }
-    private void createSearchFragment(){
+
+    private void createChallengeFragment() {
+        ChallengeFragment challengeFragment = new ChallengeFragment();
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, challengeFragment).commit();
+    }
+
+    private void createSearchFragment() {
         SearchFragment searchFragment = new SearchFragment();
         Bundle extras = new Bundle();
         extras.putString("tokenString", new Gson().toJson(token));
@@ -201,12 +216,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void updateView(User user) {
+    public void updateView(User user) {
         View headerView = navigationViewHeader.getHeaderView(0);
-        textViewUsername = (TextView)headerView.findViewById(R.id.username);
-        textViewFollowerAmount = (TextView)headerView.findViewById(R.id.followerAmount);
-        imageViewUser = (CircleImageView)headerView.findViewById(R.id.imageViewUser);
+        textViewUsername = (TextView) headerView.findViewById(R.id.username);
+        textViewFollowerAmount = (TextView) headerView.findViewById(R.id.followerAmount);
+        imageViewUser = (CircleImageView) headerView.findViewById(R.id.imageViewUser);
         textViewUsername.setText(user.getName() + " " + user.getSurName());
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
+
+
 }

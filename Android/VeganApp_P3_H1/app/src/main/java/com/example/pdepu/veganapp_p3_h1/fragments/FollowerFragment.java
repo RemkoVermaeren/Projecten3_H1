@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
 import com.example.pdepu.veganapp_p3_h1.databinding.FragmentFollowersBinding;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -71,7 +72,7 @@ public class FollowerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers,container,false);
         ButterKnife.bind(this, binding.getRoot());
-        adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user);
+        adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user, ((MainActivity)getActivity()));
         binding.followersRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.followersRecyclerView.setAdapter(adapter);
 
@@ -85,29 +86,14 @@ public class FollowerFragment extends Fragment {
 
 
     private void callApi() {
-        Call<List<User>> usersCall = service.getAllUsers();
+        Call<List<User>> usersCall = service.getAllFollowers(user.get_id());
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
                     ArrayList<User> userResponse = new ArrayList<>(response.body());
-                    ArrayList<User> followers = new ArrayList<User>();
-                    for (String id : user.getFollowingUsers()){
-                        for(User f : userResponse){
-                            if(id.equals(f.get_id()))
-                                followers.add(f);
-                        }
-                    }
                     users.clear();
-                    users.addAll(followers);
-
-
-                    for(int i = 0; i < users.size(); i++){
-                        if(users.get(i).get_id().equals(token.getUserid())){
-                            users.remove(i);
-                        }
-
-                    }
+                    users.addAll(userResponse);
                     adapter.add(users);
 
                 }

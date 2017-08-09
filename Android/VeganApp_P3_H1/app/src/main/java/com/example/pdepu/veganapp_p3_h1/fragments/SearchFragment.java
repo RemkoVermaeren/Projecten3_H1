@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
 import com.example.pdepu.veganapp_p3_h1.databinding.FragmentSearchBinding;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -35,8 +36,6 @@ import retrofit2.Response;
 public class SearchFragment extends Fragment {
 
     private Service service;
-
-
 
 
     private SearchAdapter adapter;
@@ -65,13 +64,14 @@ public class SearchFragment extends Fragment {
             token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
         }
         callApi();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         ButterKnife.bind(this, binding.getRoot());
-        adapter = new SearchAdapter(this.getContext(), FullNameComparator, new User());
+        adapter = new SearchAdapter(this.getContext(), FullNameComparator, new User(), (MainActivity) getActivity());
         binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.searchRecyclerView.setAdapter(adapter);
 
@@ -122,8 +122,8 @@ public class SearchFragment extends Fragment {
                     users.clear();
                     users.addAll(userResponse);
 
-                    for(int i = 0; i < users.size(); i++){
-                        if(users.get(i).get_id().equals(token.getUserid())){
+                    for (int i = 0; i < users.size(); i++) {
+                        if (users.get(i).get_id().equals(token.getUserid())) {
                             user = users.get(i);
                             user.setToken(token);
                             users.remove(i);
@@ -143,4 +143,7 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+
+
 }

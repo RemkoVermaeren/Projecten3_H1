@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
 import com.example.pdepu.veganapp_p3_h1.databinding.FragmentSearchCardviewBinding;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 
@@ -59,11 +60,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     private final LayoutInflater inflater;
     private final Comparator<User> comparator;
     private User userOriginal;
+    private MainActivity activity;
 
-    public SearchAdapter(Context context, Comparator<User> comparator, User user) {
+    public SearchAdapter(Context context, Comparator<User> comparator, User user, MainActivity activity) {
         inflater = LayoutInflater.from(context);
         this.comparator = comparator;
         this.userOriginal = user;
+        this.activity = activity;
     }
 
     public static class SearchViewHolder extends RecyclerView.ViewHolder{
@@ -95,7 +98,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(SearchViewHolder holder, int position){
         final User user = userSortedList.get(position);
-        holder.bind(user, new Handlers(userOriginal,user),userOriginal);
+        holder.bind(user, new Handlers(userOriginal,user, activity),userOriginal);
 
     }
 

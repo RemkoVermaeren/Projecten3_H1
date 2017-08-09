@@ -31,6 +31,7 @@ import retrofit2.Response;
  */
 
 public class LeaderboardFragment extends Fragment {
+
     @BindView(R.id.leaderboardRecyclerView)
     RecyclerView leaderboardRecyclerView;
 

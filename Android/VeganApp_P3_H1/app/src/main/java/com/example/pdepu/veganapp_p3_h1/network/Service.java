@@ -39,6 +39,9 @@ public interface Service {
     @GET("users")
     Call<List<User>> getAllUsers();
 
+    @GET("users/{user}/followers")
+    Call<List<User>> getAllFollowers(@Path("user") String userid);
+
     @FormUrlEncoded
     @POST("users/{user}/followers/add/{userfollow}")
     Call<User> addFollower(@Path("user") String userid, @Path("userfollow") String followerid, @Field("token") String token);

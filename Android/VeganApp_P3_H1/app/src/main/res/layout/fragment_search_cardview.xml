@@ -69,7 +69,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:background="@{original.IsFollower(model._id) ? @drawable/ic_checkmark_holo_light : @drawable/add_follower_drawable }"
-                    android:onClick="@{(view) -> handler.onClickFriend(view)}"/>
+                    android:onClick="@{(view) -> handler.toAddOrDelete(view,false)}"/>
 
 
             </RelativeLayout>
