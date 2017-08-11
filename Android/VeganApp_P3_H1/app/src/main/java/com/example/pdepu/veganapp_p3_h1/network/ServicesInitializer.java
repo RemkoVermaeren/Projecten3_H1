@@ -17,7 +17,7 @@ public class ServicesInitializer {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http:/192.168.1.8:3000/api/")
+                .baseUrl("http://192.168.1.8:3000/api/") //.0.227
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

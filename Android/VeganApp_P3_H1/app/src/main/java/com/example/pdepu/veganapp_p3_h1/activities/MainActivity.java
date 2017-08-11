@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.fragments.ChallengeFragment;
+import com.example.pdepu.veganapp_p3_h1.fragments.FeedFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.LeaderboardFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.ProfileFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.SearchFragment;
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_feed) {
+            createFeedFragment();
             // Handle the camera action
         } else if (id == R.id.nav_challenge) {
             createChallengeFragment();
@@ -189,7 +191,12 @@ public class MainActivity extends AppCompatActivity
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
     }
 
-    private void createLoginActivity() {
+    private void createFeedFragment(){
+        FeedFragment feedFragment = new FeedFragment();
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, feedFragment).commit();
+    }
+
+    private void createLoginActivity(){
         user.setToken(null);
         this.user = null;
         Intent loginActivity = new Intent(this, LoginActivity.class);
