@@ -96,7 +96,15 @@
             res.json(users);
         });
     });
+    router.get('/nonadmins', function(req, res, next) {
+        User.find({'isAdmin': 'false'},function(err, users) {
+            if (err) {
+                return next(err);
+            }
 
+            res.json(users);
+        });
+    });
     router.get('/:user', function(req, res, next) {
         res.json(req.user);
     });
