@@ -50,8 +50,7 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         callApi();
-
-        ArrayList <FeedItem> vullen;
+        
         for (User u : users){
             for (Challenge c : u.getChallenges()){
                 if (c.isCompleted()){
