@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/followers"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView

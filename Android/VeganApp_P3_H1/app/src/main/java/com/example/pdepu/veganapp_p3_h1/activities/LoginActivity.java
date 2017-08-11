@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -16,6 +17,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -43,6 +46,7 @@ import butterknife.OnClick;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 /**
  * Created by pdepu on 1/08/2017.
@@ -63,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final int REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -117,12 +122,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
     }
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
+            return;
+        }
+        if(!mayRequestPhotos()){
             return;
         }
 
@@ -151,6 +159,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         return false;
     }
 
+    private boolean mayRequestPhotos() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            Snackbar.make(mEmailView, getString(R.string.permission_read_storage) , Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ActivityCompat.requestPermissions(getParent(), new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+                        }
+                    });
+        }else{
+            ActivityCompat.requestPermissions(this,new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+        }
+        return false;
+    }
+
     /**
      * Callback received when a permissions request has been completed.
      */
@@ -159,6 +185,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_CONTACTS) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                populateAutoComplete();
+            }
+        }
+        if(requestCode == REQUEST_READ_EXTERNAL_STORAGE){
+            if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 populateAutoComplete();
             }
         }
@@ -319,6 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         int IS_PRIMARY = 1;
     }
 
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -340,7 +372,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 Response<Token> response = service.loginUser(mEmail, mPassword).execute();
                 if (response.errorBody() != null)
                     message = response.errorBody().string();
-                if(response.body() != null)
+                if (response.body() != null)
                     token = response.body();
                 return response.isSuccessful();
             } catch (Exception e) {
@@ -355,16 +387,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
                 Gson gson = new Gson();
                 String tokenString = gson.toJson(token);
-                bundle.putString("tokenString",tokenString);
+                bundle.putString("tokenString", tokenString);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
             } else {
-                if(message != null && !message.isEmpty()){
+                if (message != null && !message.isEmpty()) {
                     if (message.contains("username")) {
                         mEmailView.setError(getString(R.string.error_invalid_email));
                         mEmailView.requestFocus();

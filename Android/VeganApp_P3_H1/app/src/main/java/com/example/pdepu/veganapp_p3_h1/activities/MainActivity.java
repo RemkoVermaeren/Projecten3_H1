@@ -225,5 +225,17 @@ public class MainActivity extends AppCompatActivity
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
 
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//        if (fragments != null) {
+//            for (Fragment fragment : fragments) {
+//                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//            }
+//        }
+//    }
+
+
 
 }

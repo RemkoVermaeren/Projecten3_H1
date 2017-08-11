@@ -58,7 +58,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         TextView username = holder.usernameCardView;
         TextView veganScore = holder.veganPointsCardView;
         Context context = holder.imageViewUserCardView.getContext();
-        username.setText(String.valueOf(position) + ". " + user.getName() + " " + user.getSurName());
+        username.setText(String.valueOf(position + 1) + ". " + user.getName() + " " + user.getSurName());
         veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");
 
     }
