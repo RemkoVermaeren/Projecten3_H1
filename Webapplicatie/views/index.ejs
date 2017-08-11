@@ -10,11 +10,8 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-    <script src="/javascripts/directives/ng-file-model.js"></script>
-    <script src="/javascripts/directives/ng-file-upload-all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <script src="/javascripts/hoGentApp.module.js"></script>
     <script src="/javascripts/angularApp.js"></script>
     <script src="/controllers/MainController.js"></script>
@@ -236,8 +233,8 @@
             </div>
             <div class="form-group">
                 <label>Afbeelding</label>
-                <input type="file"  <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="20MB" ngf-min-height="100" 
-                                        ngf-resize="{width: 100, height: 100} required"></input>
+                <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="20MB" ngf-min-height="100"
+                    ngf-resize="{width: 100, height: 100} required"></input>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
@@ -281,11 +278,6 @@
             <div class="form-group">
                 <label>Telephone</label>
                 <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber" required/>
-            </div>
-             <div class="form-group">
-                <label>Afbeelding</label>
-                <input type="file"  <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="20MB" ngf-min-height="100" 
-                                        ngf-resize="{width: 100, height: 100} required"></input>
             </div>
             <button type="submit" class="btn btn-success">Update</button>
         </form>

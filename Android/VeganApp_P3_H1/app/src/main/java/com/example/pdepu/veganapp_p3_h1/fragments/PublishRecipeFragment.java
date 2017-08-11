@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,22 +19,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,9 +61,13 @@ public class PublishRecipeFragment extends Fragment {
     @BindView(R.id.uploadRecipeImageButton)
     Button uploadRecipeImageButton;
 
+    private UploadImageTask uploadImageTask;
+    private Map response;
+
     private Service service;
     private File file;
-    private Uri uri;
+    private String uri;
+    private String message;
 
 
     @Override
@@ -95,7 +98,7 @@ public class PublishRecipeFragment extends Fragment {
     @OnClick(R.id.publishRecipeButton)
     public void onClickPublish() {
         if (file != null && uri != null)
-            uploadImage(file, uri);
+            uploadImage();
     }
 
     private void pickImage() {
@@ -111,9 +114,8 @@ public class PublishRecipeFragment extends Fragment {
         if (resultCode == RESULT_OK) {
             String path = getPath(getContext(), data.getData());
             file = new File(path);
-            uri = data.getData();
+            uri = path;
             Picasso.with(getActivity()).load(file).fit().into(recipeImageView);
-            uploadImage(file, data.getData());
         }
     }
 
@@ -244,38 +246,60 @@ public class PublishRecipeFragment extends Fragment {
     }
 
 
-    private void uploadImage(File file, Uri uri) {
-        final RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(uri)),
-                file);
-
-        MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
-
-        String descriptionString = "Recipe image";
-        RequestBody description =
-                RequestBody.create(
-                        okhttp3.MultipartBody.FORM, descriptionString);
-
-        Call<String> imageCall = service.upload(description, body);
-        imageCall.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    String test = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-
-
+    private void uploadImage() {
+        uploadImageTask = new UploadImageTask(file.getAbsolutePath());
+        uploadImageTask.execute((Void)null);
     }
 
 
     private void updateView() {
         recipeNamePublishTextView.setText("You have made " + recipeName);
         recipePointsPublishTextView.setText("+" + recipePoints + " points" + "\n");
+    }
+
+    public class UploadImageTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String filePath;
+
+        UploadImageTask(String filePath) {
+            this.filePath = filePath;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            Map config = new HashMap();
+            config.put("cloud_name", "douskchks");
+            config.put("api_key", "552883666323728");
+            config.put("api_secret", "RhDl-TvAXIiaPkeBWOHY8OcCwr8");
+            final Cloudinary cloudinary = new Cloudinary(config);
+            try {
+                response = cloudinary.uploader().upload(file.getAbsolutePath(), ObjectUtils.emptyMap());
+                if (response != null)
+                    return true;
+                else
+                    return false;
+            } catch (Exception e) {
+                return false;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+
+            } else {
+
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            uploadImageTask = null;
+        }
+
+
     }
 }

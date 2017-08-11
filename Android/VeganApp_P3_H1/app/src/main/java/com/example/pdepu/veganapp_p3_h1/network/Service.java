@@ -6,16 +6,12 @@ import com.example.pdepu.veganapp_p3_h1.models.User;
 
 import java.util.List;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 /**
@@ -32,11 +28,6 @@ public interface Service {
     Call<Recipe> getRecipe(@Path("recipe") String recipeId);
     //endregion
 
-    //region HANDLE IMAGES
-    @Multipart
-    @POST("/upload/image")
-    Call<String> upload(@Part("description")RequestBody description, @Part MultipartBody.Part file);
-    //endregion
 
     //region HANDLE USERS
     @FormUrlEncoded
@@ -49,7 +40,7 @@ public interface Service {
     @GET("users/{userid}")
     Call<User> getUserById(@Path("userid") String userId);
 
-    @GET("users")
+    @GET("users/nonadmins")
     Call<List<User>> getAllUsers();
 
     @GET("users/{user}/followers")

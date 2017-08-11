@@ -36,12 +36,16 @@
 
     /* Upload images */
     router.post('/api/upload/image', function (req, res, next) {
-        cloudinary.v2.uploader.upload(req.body.data, {
+        console.log("IAGE ZGGOZJOZJH");
+        console.log(req.body);
+        console.log(req.body.data);
+        cloudinary.v2.uploader.upload(req.body, {
             resource_type: "image"
         }, function (error, result) {
             if (error) {
                 return console.log(error);
             }
+            console.log(result.url);
             res.send(result.url);
         });
     });
