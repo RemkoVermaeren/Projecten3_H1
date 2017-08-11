@@ -12,6 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServicesInitializer {
 
     public Service initializeService(){
+
+//        .baseUrl("http://192.168.1.8:3000/api/") //.0.227
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
