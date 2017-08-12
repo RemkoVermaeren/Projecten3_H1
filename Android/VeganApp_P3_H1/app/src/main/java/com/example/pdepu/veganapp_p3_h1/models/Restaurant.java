@@ -15,6 +15,7 @@ public class Restaurant {
     private String extraInformation;
     private boolean wheelchairAccess;
     private int veganPoints;
+    private String picture;
 
     public Restaurant(){
 
@@ -22,7 +23,7 @@ public class Restaurant {
 
 
 
-    public Restaurant(String _id, String name, String address, double rating, String telephoneNumber, String website, String extraInformation, boolean wheelchairAccess, int veganPoints) {
+    public Restaurant(String _id, String name, String address, double rating, String telephoneNumber, String website, String extraInformation, boolean wheelchairAccess, int veganPoints, String picture) {
         this._id = _id;
         this.name = name;
         this.address = address;
@@ -32,6 +33,7 @@ public class Restaurant {
         this.extraInformation = extraInformation;
         this.wheelchairAccess = wheelchairAccess;
         this.veganPoints = veganPoints;
+        this.picture = picture;
     }
 
     public String get_id() {
@@ -104,5 +106,13 @@ public class Restaurant {
 
     public void setVeganPoints(int veganPoints) {
         this.veganPoints = veganPoints;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

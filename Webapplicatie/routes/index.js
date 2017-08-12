@@ -36,10 +36,9 @@
 
     /* Upload images */
     router.post('/api/upload/image', function (req, res, next) {
-  /*      console.log("IAGE ZGGOZJOZJH");
         console.log(req.body);
-        console.log(req.body.data);*/
-        cloudinary.v2.uploader.upload(req.body.data, {
+        console.log(req.body.data);
+        cloudinary.v2.uploader.upload(req.body, {
             resource_type: "image"
         }, function (error, result) {
             if (error) {
@@ -456,7 +455,6 @@
             if (err) {
                 res.send(err);
             }
-            console.log(req.body.picture);
             //TODO update recipes properties
             recipe.name = req.body.name;
             recipe.veganPoints = req.body.veganPoints;
