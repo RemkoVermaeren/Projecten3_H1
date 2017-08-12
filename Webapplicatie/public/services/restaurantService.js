@@ -13,7 +13,8 @@
             create: create,
             get: get,
             update: update,
-            deleteRestaurant: deleteRestaurant
+            deleteRestaurant: deleteRestaurant,
+            uploadImage: uploadImage
         };
         return service;
 
