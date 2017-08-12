@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBorder">#535252</color>
     <color name="colorTextCardView">#fcfcfc</color>
+    <color name="text_shadow">#7F000000</color>
 </resources>
