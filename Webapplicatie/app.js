@@ -46,11 +46,9 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-<<<<<<< HEAD
-=======
+
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
->>>>>>> origin/master
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
