@@ -472,6 +472,8 @@
                 if (err) {
                     res.send(err);
                 }
+                console.log("Saved recipe");
+                console.log(recipe);
                 res.json(recipe);
             })
         });

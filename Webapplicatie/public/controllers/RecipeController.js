@@ -93,13 +93,17 @@
                 recipeService.uploadImage(vm.image).success(function(dataImg){
                     vm.recipe.picture = dataImg;
                     $log.log("New img url : "+ dataImg);
+                    recipeService.update($stateParams.id, vm.recipe).then($state.go("recipes"));
+                    $log.log("IF");
                 })
-            }
-            $log.log("Update volgend recipe");
-            $log.log(vm.recipe);
-            return recipeService.update($stateParams.id, vm.recipe).then($state.go("recipes"));
+            }else{
+                $log.log("ELSEA");
 
+                return recipeService.update($stateParams.id, vm.recipe).then($state.go("recipes"));
+
+            }
         }
+
         function deleteRecipe(recipe) {
             return recipeService.deleteRecipe(recipe).then(function(){
               getRecipes();
