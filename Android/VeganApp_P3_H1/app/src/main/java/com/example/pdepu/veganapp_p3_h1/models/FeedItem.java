@@ -5,8 +5,8 @@ package com.example.pdepu.veganapp_p3_h1.models;
  */
 
 public class FeedItem {
-    public User user;
-    public Challenge challenge;
+    private User user;
+    private Challenge challenge;
 
     public FeedItem(){
 
@@ -17,8 +17,24 @@ public class FeedItem {
         this.challenge = challenge;
     }
 
+    public Challenge getChallenge(){
+        return this.challenge;
+    }
+
+    public User getUser(){
+        return this.user;
+    }
+
+    private void setChallenge(Challenge challenge){
+        this.challenge = challenge;
+    }
+
+    private void setUser(User user){
+        this.user = user;
+    }
+
     @Override
     public String toString(){
-        return user.getSurName() + " just completed the challenge: " + challenge.getName();
+        return user.getSurName() + " completed the challenge: " + challenge.getName();
     }
 }

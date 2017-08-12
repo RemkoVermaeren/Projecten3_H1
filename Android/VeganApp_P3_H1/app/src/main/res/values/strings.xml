@@ -15,6 +15,11 @@
     <string name="todo">Todo</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
+
+    <string name="claim_your_points">Claim your points</string>
+    <string name="placeholder">placeholder</string>
+    <string name="upload">Upload</string>
+    <string name="publish">Publish</string>
     <string name="feed">Feed</string>
 
 
@@ -34,6 +39,9 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
+    </string>
+    <string name="permission_read_storage">"Storage permissions are needed for accessing images
+        from the gallery."
     </string>
     <string name= "error_network">Something went wrong, please try again!</string>
     <string name="action_register">Register</string>

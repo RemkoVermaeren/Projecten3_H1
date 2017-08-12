@@ -1,5 +1,7 @@
 package com.example.pdepu.veganapp_p3_h1.network;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -12,12 +14,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServicesInitializer {
 
     public Service initializeService(){
+
+//        .baseUrl("http://192.168.1.8:3000/api/") //.0.227
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100,TimeUnit.SECONDS).build();
+
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.8:3000/api/") //.0.227
+                .baseUrl("http:/192.168.1.58:3000/api/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

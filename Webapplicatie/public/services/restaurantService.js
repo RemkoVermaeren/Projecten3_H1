@@ -13,8 +13,7 @@
             create: create,
             get: get,
             update: update,
-            deleteRestaurant: deleteRestaurant,
-            uploadImage : uploadImage
+            deleteRestaurant: deleteRestaurant
         };
         return service;
 
@@ -65,7 +64,9 @@
         }
 
         function uploadImage(image) {
-            return $http.post('api/upload/image', image).success(function (data) {
+            $log.log(image);
+            return $http.post('/upload/image', image).success(function (data) {
+                $log.log("Return from router: ", data);
                 return data;
             });
         }

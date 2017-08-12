@@ -1,8 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.network;
 
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
-import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
+import com.example.pdepu.veganapp_p3_h1.models.User;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ public interface Service {
     Call<Recipe> getRecipe(@Path("recipe") String recipeId);
     //endregion
 
+
     //region HANDLE USERS
     @FormUrlEncoded
     @POST("users/login")
@@ -39,7 +40,7 @@ public interface Service {
     @GET("users/{userid}")
     Call<User> getUserById(@Path("userid") String userId);
 
-    @GET("users")
+    @GET("users/nonadmins")
     Call<List<User>> getAllUsers();
 
     @GET("users/{user}/followers")

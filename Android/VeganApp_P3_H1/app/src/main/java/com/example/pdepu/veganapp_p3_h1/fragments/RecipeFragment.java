@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
@@ -15,6 +16,7 @@ import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,6 +39,9 @@ public class RecipeFragment extends Fragment {
     @BindView(R.id.recipeDetails)
     TextView recipeDetails;
 
+    @BindView(R.id.claimYourPointsButton)
+    Button claimYourPointsButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -53,6 +58,16 @@ public class RecipeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
         ButterKnife.bind(this,rootView);
         return rootView;
+    }
+
+    @OnClick(R.id.claimYourPointsButton)
+    public void onClick(){
+        PublishRecipeFragment publishRecipeFragment = new PublishRecipeFragment();
+        Bundle extras = new Bundle();
+        extras.putString("recipeName",recipe.getName());
+        extras.putString("recipePoints",String.valueOf(recipe.getVeganPoints()));
+        publishRecipeFragment.setArguments(extras);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, publishRecipeFragment ).addToBackStack(null).commit();
     }
 
     private void callApi(){
@@ -75,11 +90,13 @@ public class RecipeFragment extends Fragment {
     }
 
     private String getDetails(Recipe recipe){
+        int time = (int)recipe.getTime() % 60;
+        int exactTime = ((int)recipe.getTime() / 60);
         StringBuilder builder = new StringBuilder();
         builder.append(recipe.getName() + "\n");
         builder.append("Difficulty: " + recipe.getDifficulty() + "\n");
         builder.append(String.valueOf(recipe.getCalories()) + " calories" +  "\n");
-        builder.append(String.valueOf(recipe.getTime() + " minutes" + "\n"));
+        builder.append(String.valueOf(exactTime) + " hour " + String.valueOf(time) + " minutes" + "\n");
         builder.append(String.valueOf(recipe.getVeganPoints()) + " points" + "\n");
         builder.append("Type: " + String.valueOf(recipe.getType()) + "\n");
         return builder.toString();

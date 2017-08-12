@@ -33,7 +33,7 @@
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Android Studio"
+        android:text="@string/placeholder"
         android:layout_marginTop="@dimen/margin_textToImageView"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_toEndOf="@+id/imageViewUser"
@@ -43,7 +43,7 @@
         android:id="@+id/followerAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="android.studio@android.com"
+        android:text="@string/placeholder"
         android:layout_below="@+id/username"
         android:layout_toEndOf="@+id/imageViewUser"
         android:layout_toRightOf="@+id/imageViewUser"/>

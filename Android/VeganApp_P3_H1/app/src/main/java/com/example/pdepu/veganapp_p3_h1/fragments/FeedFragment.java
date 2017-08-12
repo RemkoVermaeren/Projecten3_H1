@@ -2,6 +2,7 @@ package com.example.pdepu.veganapp_p3_h1.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,6 +37,8 @@ import retrofit2.Response;
 public class FeedFragment extends Fragment {
     @BindView(R.id.feedRecyclerView)
     RecyclerView feedRecyclerView;
+    @BindView(R.id.swipeToRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     protected LinearLayoutManager layoutManager;
     private ArrayList<User> users = new ArrayList<>();
@@ -50,14 +53,14 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         callApi();
-        
-        for (User u : users){
-            for (Challenge c : u.getChallenges()){
-                if (c.isCompleted()){
-                    FeedItem item = new FeedItem(u, c);
-                    feedItems.add(item);        }
-            }
-        }
+
+        // Collections.sort(feedItems, new Comparator<FeedItem>() {
+        //     @Override
+        //     public int compare(FeedItem obj1, FeedItem obj2) {
+        //         return obj1.getChallenge().getDate().compareTo(obj2.getChallenge().getDate());
+        //     }
+        // });
+
     }
 
     @Override
@@ -65,15 +68,26 @@ public class FeedFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_feed,container,false);
         ButterKnife.bind(this,rootView);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh(){
+                callApi();
+
+                //test refresh
+                User test = new User("testUser", "testName", "Marieke", new Date(), true, "password");
+                feedItems.add(new FeedItem(test, new Challenge("Become a vegan", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
         layoutManager = new LinearLayoutManager(getActivity());
         feedRecyclerView.setLayoutManager(layoutManager);
 
-
         //User test = new User("testUser", "testName", "testSurname", new Date(), true, "password");
         //feedItems.add(new FeedItem(test, new Challenge("testChallengeTrue", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
-
-        //feedItems.add(new FeedItem(test, new Challenge("testChallengeFalse", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, false)));
-
 
         adapter = new FeedAdapter(feedItems);
         feedRecyclerView.setAdapter(adapter);
@@ -98,8 +112,28 @@ public class FeedFragment extends Fragment {
 
                     users.clear();
                     users.addAll(userResponse);
-
                     adapter.notifyDataSetChanged();
+
+                    for (User u : users){
+                        for (Challenge c : u.getChallenges()){
+                            if (c.isCompleted()){
+                                FeedItem item = new FeedItem(u, c);
+                                feedItems.add(item);
+                            }
+                        }
+                    }
+
+                    Collections.sort(feedItems, new Comparator<FeedItem>() {
+                        @Override
+                        public int compare(FeedItem obj1, FeedItem obj2) {
+                            return obj1.getChallenge().getDate().compareTo(obj2.getChallenge().getDate());
+                        }
+                    });
+
+                    //Challenges in db
+                   //adapter.clear();
+                   //adapter.addAll(feedItems);
+                   //swipeRefreshLayout.setRefreshing(false);
 
                 }
                 Log.i("users", response.body().toString());
