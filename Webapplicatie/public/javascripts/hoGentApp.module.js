@@ -1,4 +1,4 @@
 (function() {
     'use strict';
-    angular.module('hoGentApp', ['ui.router', 'ngFileUpload', 'ng-file-model']);
+    angular.module('hoGentApp', ['ui.router', 'ng-file-model', 'ngFileUpload']);
 })();

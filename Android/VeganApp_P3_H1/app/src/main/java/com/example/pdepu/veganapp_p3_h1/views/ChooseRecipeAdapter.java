@@ -37,8 +37,8 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
         @BindView(R.id.chooseRecipeName)
         TextView chooseRecipeName;
 
-        @BindView(R.id.chooseRecipeVeganPoints)
-        TextView chooseRecipeVeganPoints;
+//        @BindView(R.id.chooseRecipeVeganPoints)
+//        TextView chooseRecipeVeganPoints;
 
         public ChooseRecipeViewHolder(View itemView) {
             super(itemView);
@@ -58,10 +58,10 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
         Recipe recipe = recipes.get(position);
         //CircleImageView image = holder.imageViewUserCardView;
         TextView recipeName = holder.chooseRecipeName;
-        TextView veganScore = holder.chooseRecipeVeganPoints;
+        //TextView veganScore = holder.chooseRecipeVeganPoints;
        // Context context = holder.imageViewUserCardView.getContext();
         recipeName.setText(recipe.getName());
-        veganScore.setText(String.valueOf(recipe.getVeganPoints()) + " points");
+        //veganScore.setText(String.valueOf(recipe.getVeganPoints()) + " points");
 
     }
 
