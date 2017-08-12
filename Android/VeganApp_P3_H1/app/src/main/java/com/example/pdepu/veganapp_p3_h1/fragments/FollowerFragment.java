@@ -75,6 +75,7 @@ public class FollowerFragment extends Fragment {
         adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user, ((MainActivity)getActivity()));
         binding.followersRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.followersRecyclerView.setAdapter(adapter);
+        binding.followersRecyclerView.setHasFixedSize(true);
 
 
 

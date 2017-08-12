@@ -59,6 +59,7 @@ public class LeaderboardFragment extends Fragment {
 
         adapter = new LeaderboardAdapter(users);
         leaderboardRecyclerView.setAdapter(adapter);
+        leaderboardRecyclerView.setHasFixedSize(true);
 
         return rootView;
 

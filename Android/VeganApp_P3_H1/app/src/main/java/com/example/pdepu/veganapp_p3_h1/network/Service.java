@@ -14,6 +14,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -51,6 +52,9 @@ public interface Service {
 
     @POST("users/register")
     Call<Token> registerUser(@Body User user);
+
+    @PUT("users/{user}")
+    Call<User> updateUser(@Path("user") String userid, @Body User user);
 
     @GET("users/{userid}")
     Call<User> getUserById(@Path("userid") String userId);

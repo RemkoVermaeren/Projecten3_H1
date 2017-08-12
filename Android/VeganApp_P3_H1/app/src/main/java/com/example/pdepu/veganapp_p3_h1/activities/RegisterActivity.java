@@ -64,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+        this.getSupportActionBar().hide();
 
     }
 
@@ -236,8 +237,8 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             } else {
                 if (message != null && !message.isEmpty() && message.toLowerCase().contains("already") && message.toLowerCase().contains("user")) {
-                    editTextName.setError(getString(R.string.userExists));
-                    editTextName.requestFocus();
+                    editTextEmail.setError(getString(R.string.userExists));
+                    editTextEmail.requestFocus();
                 } else if (message != null && !message.isEmpty()) {
                     editTextName.setError(getString(R.string.error_network));
                     editTextName.requestFocus();

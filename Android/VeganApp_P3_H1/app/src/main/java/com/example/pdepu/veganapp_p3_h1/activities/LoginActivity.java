@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,8 +22,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -80,18 +83,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     private View mProgressView;
     private View mLoginFormView;
     @BindView(R.id.new_member)
-    TextView textViewNewMember;
+    Button textViewNewMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        this.getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView.setTypeface(Typeface.DEFAULT);
+        mPasswordView.setTransformationMethod(new PasswordTransformationMethod());
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -130,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         if (!mayRequestContacts()) {
             return;
         }
-        if(!mayRequestPhotos()){
+        if (!mayRequestPhotos()) {
             return;
         }
 
@@ -164,15 +173,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             return true;
         }
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            Snackbar.make(mEmailView, getString(R.string.permission_read_storage) , Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mEmailView, getString(R.string.permission_read_storage), Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             ActivityCompat.requestPermissions(getParent(), new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
                         }
                     });
-        }else{
-            ActivityCompat.requestPermissions(this,new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
         }
         return false;
     }
@@ -188,8 +197,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 populateAutoComplete();
             }
         }
-        if(requestCode == REQUEST_READ_EXTERNAL_STORAGE){
-            if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 populateAutoComplete();
             }
         }

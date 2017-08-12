@@ -6,12 +6,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
 import com.example.pdepu.veganapp_p3_h1.databinding.FragmentSearchCardviewBinding;
 import com.example.pdepu.veganapp_p3_h1.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.Comparator;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by pdepu on 4/08/2017.
@@ -73,10 +79,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         private final FragmentSearchCardviewBinding binding;
 
+        @BindView(R.id.imageViewUserCardViewSearch)
+        CircleImageView imageViewUserCardViewSearch;
 
 
         public SearchViewHolder(FragmentSearchCardviewBinding binding){
             super(binding.getRoot());
+            ButterKnife.bind(this,binding.getRoot());
             this.binding = binding;
         }
 
@@ -98,6 +107,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(SearchViewHolder holder, int position){
         final User user = userSortedList.get(position);
+        CircleImageView image = holder.imageViewUserCardViewSearch;
+        if (user.getImage() != null && !user.getImage().isEmpty())
+            Picasso.with(image.getContext()).load(user.getImage()).into(image);
         holder.bind(user, new Handlers(userOriginal,user, activity),userOriginal);
 
     }

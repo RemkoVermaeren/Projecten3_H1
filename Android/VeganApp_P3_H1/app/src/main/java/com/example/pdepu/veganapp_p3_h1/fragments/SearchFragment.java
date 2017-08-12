@@ -74,6 +74,7 @@ public class SearchFragment extends Fragment {
         adapter = new SearchAdapter(this.getContext(), FullNameComparator, new User(), (MainActivity) getActivity());
         binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.searchRecyclerView.setAdapter(adapter);
+        binding.searchRecyclerView.setHasFixedSize(true);
 
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

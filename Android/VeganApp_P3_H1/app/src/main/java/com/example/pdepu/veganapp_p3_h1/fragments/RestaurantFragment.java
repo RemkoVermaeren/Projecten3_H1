@@ -1,5 +1,7 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -41,11 +43,12 @@ public class RestaurantFragment extends Fragment {
     @BindView(R.id.claimYourPointsRestaurantButton)
     Button claimYourPointsRestaurantButton;
 
-    @BindView(R.id.wheelChairAccessText)
-    TextView wheelChairAccesTextView;
 
     @BindView(R.id.wheelChairAccessCheckbox)
     CheckBox wheelChairAccessCheckbox;
+
+    @BindView(R.id.openGoogleMaps)
+    Button openGoogleMapsButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class RestaurantFragment extends Fragment {
         return rootView;
     }
 
-    @OnClick(R.id.claimYourPointsButton)
+    @OnClick(R.id.claimYourPointsRestaurantButton)
     public void onClick() {
         PublishRestaurantFragment publishRestaurantFragment = new PublishRestaurantFragment();
         Bundle extras = new Bundle();
@@ -73,6 +76,13 @@ public class RestaurantFragment extends Fragment {
         extras.putString("restaurantPoints", String.valueOf(restaurant.getVeganPoints()));
         publishRestaurantFragment.setArguments(extras);
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, publishRestaurantFragment).addToBackStack(null).commit();
+    }
+
+    @OnClick(R.id.openGoogleMaps)
+    public void openMaps(){
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
+        startActivity(intent);
     }
 
     private void callApi() {
@@ -106,13 +116,13 @@ public class RestaurantFragment extends Fragment {
         builder.append("Website: " + restaurant.getWebsite() + "\n");
         builder.append("ExtraInformation: " + restaurant.getExtraInformation() + "\n");
         builder.append(String.valueOf(restaurant.getVeganPoints()) + " points" + "\n");
+        builder.append("Wheelchair acces: ");
         return builder.toString();
     }
 
 
     private void updateView() {
         restaurantDetails.setText(getDetails(restaurant));
-        wheelChairAccesTextView.setText("Wheelchair access: ");
         wheelChairAccessCheckbox.setChecked(restaurant.isWheelchairAccess());
     }
 }

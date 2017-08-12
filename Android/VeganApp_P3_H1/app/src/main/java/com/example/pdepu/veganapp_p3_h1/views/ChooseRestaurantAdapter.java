@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.views;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
-import com.example.pdepu.veganapp_p3_h1.fragments.ChooseRecipeFragment;
+import com.example.pdepu.veganapp_p3_h1.fragments.ChooseRestaurantFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Restaurant;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,8 +38,8 @@ public class ChooseRestaurantAdapter  extends RecyclerView.Adapter<ChooseRestaur
         @BindView(R.id.chooseRestaurantName)
         TextView chooseRestaurantName;
 
-        @BindView(R.id.chooseRestaurantVeganPoints)
-        TextView chooseRestaurantVeganPoints;
+//        @BindView(R.id.chooseRestaurantVeganPoints)
+//        TextView chooseRestaurantVeganPoints;
 
         public ChooseRestaurantViewHolder(View itemView) {
             super(itemView);
@@ -48,19 +50,20 @@ public class ChooseRestaurantAdapter  extends RecyclerView.Adapter<ChooseRestaur
     @Override
     public ChooseRestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_challenge_choose_restaurant_cardview, parent, false);
-        view.setOnClickListener(ChooseRecipeFragment.listFragmentOnClickListener);
+        view.setOnClickListener(ChooseRestaurantFragment.listFragmentOnClickListener);
         return new ChooseRestaurantViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ChooseRestaurantViewHolder holder, int position) {
         Restaurant restaurant = restaurants.get(position);
-        //CircleImageView image = holder.imageViewUserCardView;
+        ImageView image = holder.chooseRestaurantImage;
         TextView recipeName = holder.chooseRestaurantName;
-        TextView veganScore = holder.chooseRestaurantVeganPoints;
-        // Context context = holder.imageViewUserCardView.getContext();
+        //TextView veganScore = holder.chooseRestaurantVeganPoints;
+        Context context = holder.chooseRestaurantImage.getContext();
+        Picasso.with(context).load(restaurant.getPicture()).fit().into(image);
         recipeName.setText(restaurant.getName());
-        veganScore.setText(String.valueOf(restaurant.getVeganPoints()) + " points");
+       // veganScore.setText(String.valueOf(restaurant.getVeganPoints()) + " points");
 
     }
 

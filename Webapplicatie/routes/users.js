@@ -31,6 +31,7 @@
         user.dateOfCreation = req.body.dateOfCreation;
         user.isAdmin = req.body.isAdmin;
         user.fullName = req.body.name + " " + req.body.surName;
+        user.image = "ahgahgpaga";
         user.save(function(err) {
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
@@ -107,6 +108,25 @@
     });
     router.get('/:user', function(req, res, next) {
         res.json(req.user);
+    });
+
+
+    router.put('/:user', function (req, res) {
+        User.findById(req.user._id, function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            user.body = req.body;
+            user.image = req.body.image;
+
+            user.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(user);
+            })
+
+        });
     });
     router.get('/:user/followers', function(req, res, next) {
         var query = User.where('_id').in(req.user.followingUsers);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         this.users = users;
     }
 
-    public static class LeaderboardViewHolder extends RecyclerView.ViewHolder{
+    public static class LeaderboardViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageViewUserCardView)
         CircleImageView imageViewUserCardView;
@@ -39,34 +40,35 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         @BindView(R.id.veganPointsCardView)
         TextView veganPointsCardView;
 
-        public LeaderboardViewHolder(View itemView){
+        public LeaderboardViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     @Override
-    public LeaderboardViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_leaderboard_cardview,parent,false);
+    public LeaderboardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_leaderboard_cardview, parent, false);
         return new LeaderboardViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(LeaderboardViewHolder holder, int position){
+    public void onBindViewHolder(LeaderboardViewHolder holder, int position) {
         User user = users.get(position);
         CircleImageView image = holder.imageViewUserCardView;
         TextView username = holder.usernameCardView;
         TextView veganScore = holder.veganPointsCardView;
         Context context = holder.imageViewUserCardView.getContext();
+        if (user.getImage() != null && !user.getImage().isEmpty())
+            Picasso.with(context).load(user.getImage()).into(image);
         username.setText(String.valueOf(position + 1) + ". " + user.getName() + " " + user.getSurName());
         veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");
 
     }
 
 
-
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return users.size();
     }
 }

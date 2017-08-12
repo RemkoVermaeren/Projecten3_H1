@@ -28,6 +28,7 @@ import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -191,12 +192,12 @@ public class MainActivity extends AppCompatActivity
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
     }
 
-    private void createFeedFragment(){
+    private void createFeedFragment() {
         FeedFragment feedFragment = new FeedFragment();
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, feedFragment).commit();
     }
 
-    private void createLoginActivity(){
+    private void createLoginActivity() {
         user.setToken(null);
         this.user = null;
         Intent loginActivity = new Intent(this, LoginActivity.class);
@@ -231,12 +232,11 @@ public class MainActivity extends AppCompatActivity
         textViewUsername = (TextView) headerView.findViewById(R.id.username);
         textViewFollowerAmount = (TextView) headerView.findViewById(R.id.followerAmount);
         imageViewUser = (CircleImageView) headerView.findViewById(R.id.imageViewUser);
+        if (user.getImage() != null && !user.getImage().isEmpty())
+            Picasso.with(imageViewUser.getContext()).load(user.getImage()).fit().into(imageViewUser);
         textViewUsername.setText(user.getName() + " " + user.getSurName());
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
-
-
-
 
 
 }
