@@ -45,29 +45,28 @@ import retrofit2.Response;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by pdepu on 10/08/2017.
+ * Created by pdepu on 12/08/2017.
  */
 
-public class PublishRecipeFragment extends Fragment {
-
-    private String recipeName;
-    private String recipePoints;
+public class PublishRestaurantFragment extends Fragment {
+    private String restaurantName;
+    private String restaurantPoints;
     private static final int PICK_IMAGE = 0;
 
-    @BindView(R.id.recipeNamePublish)
-    TextView recipeNamePublishTextView;
+    @BindView(R.id.restaurantNamePublish)
+    TextView restaurantNamePublishTextView;
 
-    @BindView(R.id.recipePointsPublish)
-    TextView recipePointsPublishTextView;
+    @BindView(R.id.restaurantPointsPublish)
+    TextView restaurantPointsPublishTextView;
 
-    @BindView(R.id.recipeImage)
-    ImageView recipeImageView;
+    @BindView(R.id.restaurantImage)
+    ImageView restaurantImageView;
 
-    @BindView(R.id.publishRecipeButton)
-    Button publishRecipeButton;
+    @BindView(R.id.publishRestaurantButton)
+    Button publishRestaurantButton;
 
-    @BindView(R.id.uploadRecipeImageButton)
-    Button uploadRecipeImageButton;
+    @BindView(R.id.uploadRestaurantImageButton)
+    Button uploadRestaurantImageButton;
 
     private UploadImageTask uploadImageTask;
     private Map response;
@@ -76,7 +75,6 @@ public class PublishRecipeFragment extends Fragment {
     private Service service;
     private File file;
     private String uri;
-    private String message;
     private String imageUrl;
 
 
@@ -84,8 +82,8 @@ public class PublishRecipeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            recipeName = getArguments().getString("recipeName");
-            recipePoints = getArguments().getString("recipePoints");
+            restaurantName = getArguments().getString("restaurantName");
+            restaurantPoints = getArguments().getString("restaurantPoints");
         }
         service = new ServicesInitializer().initializeService();
 
@@ -93,19 +91,19 @@ public class PublishRecipeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_publish_recipe, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_publish_restaurant, container, false);
         ButterKnife.bind(this, rootView);
         updateView();
         return rootView;
     }
 
-    @OnClick(R.id.uploadRecipeImageButton)
+    @OnClick(R.id.uploadRestaurantImageButton)
     public void onClick() {
         pickImage();
     }
 
 
-    @OnClick(R.id.publishRecipeButton)
+    @OnClick(R.id.publishRestaurantButton)
     public void onClickPublish() {
         if (file != null && uri != null)
             uploadImage();
@@ -125,7 +123,7 @@ public class PublishRecipeFragment extends Fragment {
             String path = getPath(getContext(), data.getData());
             file = new File(path);
             uri = path;
-            Picasso.with(getActivity()).load(file).fit().into(recipeImageView);
+            Picasso.with(getActivity()).load(file).fit().into(restaurantImageView);
         }
     }
 
@@ -249,8 +247,8 @@ public class PublishRecipeFragment extends Fragment {
 
 
     private void updateView() {
-        recipeNamePublishTextView.setText("You have made " + recipeName);
-        recipePointsPublishTextView.setText("+" + recipePoints + " points" + "\n");
+        restaurantNamePublishTextView.setText("You went to " + restaurantName);
+        restaurantPointsPublishTextView.setText("+" + restaurantPoints + " points" + "\n");
     }
 
     private void callApi() {
@@ -303,7 +301,7 @@ public class PublishRecipeFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                challenge = new Challenge("RecipeChallenge", recipeName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(recipePoints), true);
+                challenge = new Challenge("RecipeChallenge", restaurantName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(restaurantPoints), true);
                 callApi();
             } else {
 

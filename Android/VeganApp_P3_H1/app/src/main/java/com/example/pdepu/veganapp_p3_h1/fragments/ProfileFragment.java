@@ -51,8 +51,9 @@ public class ProfileFragment extends Fragment {
         service = new ServicesInitializer().initializeService();
         if (getArguments() != null) {
             token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
+            callApi();
         }
-        callApi(token);
+
     }
 
     @Override
@@ -75,7 +76,7 @@ public class ProfileFragment extends Fragment {
                 .commit();
     }
 
-    private void callApi(final Token token) {
+    private void callApi() {
         Call<User> userCall = service.getUserById(token.getUserid());
         userCall.enqueue(new Callback<User>() {
             @Override
@@ -83,7 +84,6 @@ public class ProfileFragment extends Fragment {
                 if (response.isSuccessful()) {
                     user = response.body();
                     user.setToken(token);
-                    Log.i("iet", response.body().toString());
                     updateView(user);
                 }
             }

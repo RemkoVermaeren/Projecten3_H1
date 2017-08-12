@@ -71,13 +71,13 @@ public class RecipeFragment extends Fragment {
     }
 
     private void callApi(){
-        final Call<Recipe> recipeCall = service.getRecipe(recipeString);
+        Call<Recipe> recipeCall = service.getRecipe(recipeString);
         recipeCall.enqueue(new Callback<Recipe>() {
             @Override
             public void onResponse(Call<Recipe> call, Response<Recipe> response) {
                 if(response.isSuccessful()){
                     recipe = response.body();
-                    updateView(recipe);
+                    updateView();
                 }
             }
 
@@ -118,7 +118,7 @@ public class RecipeFragment extends Fragment {
         return builder.toString();
     }
 
-    private void updateView(Recipe recipe){
+    private void updateView(){
         recipeDetails.setText(getDetails(recipe));
         recipeIngredientsTextView.setText(getIngredients(recipe));
         recipeInstructionsTextView.setText(getInstructions(recipe));

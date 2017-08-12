@@ -39,7 +39,7 @@
         console.log("IAGE ZGGOZJOZJH");
         console.log(req.body);
         console.log(req.body.data);
-        cloudinary.v2.uploader.upload(req.body, {
+        cloudinary.v2.uploader.upload(req.body.data, {
             resource_type: "image"
         }, function (error, result) {
             if (error) {

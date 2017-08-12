@@ -10,11 +10,14 @@
     <string name="followers">Followers</string>
     <string name="search">Search</string>
     <string name="make_food">Make food</string>
+    <string name="goto_restaurant">Go to restaurant</string>
     <string name="choose_recipe">Choose a recipe</string>
+    <string name="choose_restaurant">Choose a restaurant</string>
     <string name="dinner">Go out for dinner</string>
     <string name="todo">Todo</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
+    <string name="open_google_maps">Open on map</string>
 
     <string name="claim_your_points">Claim your points</string>
     <string name="placeholder">placeholder</string>

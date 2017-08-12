@@ -22,9 +22,14 @@ public class ChallengeFragment extends Fragment {
     @BindView(R.id.makeFood)
     Button makeFoodButton;
 
+    @BindView(R.id.goToDinner)
+    Button goToDinnerButton;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -37,6 +42,12 @@ public class ChallengeFragment extends Fragment {
     @OnClick(R.id.makeFood)
     public void onClick(){
         ChooseRecipeFragment fragment = new ChooseRecipeFragment();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+    }
+
+    @OnClick(R.id.goToDinner)
+    public void onClickDinner(){
+        ChooseRestaurantFragment fragment = new ChooseRestaurantFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 

@@ -114,14 +114,14 @@ public class FeedFragment extends Fragment {
                     users.addAll(userResponse);
                     adapter.notifyDataSetChanged();
 
-                    for (User u : users){
-                        for (Challenge c : u.getChallenges()){
-                            if (c.isCompleted()){
-                                FeedItem item = new FeedItem(u, c);
-                                feedItems.add(item);
-                            }
-                        }
-                    }
+//                    for (User u : users){
+//                        for (Challenge c : u.getChallenges()){
+//                            if (c.isCompleted()){
+//                                FeedItem item = new FeedItem(u, c);
+//                                feedItems.add(item);
+//                            }
+//                        }
+//                    }
 
                     Collections.sort(feedItems, new Comparator<FeedItem>() {
                         @Override

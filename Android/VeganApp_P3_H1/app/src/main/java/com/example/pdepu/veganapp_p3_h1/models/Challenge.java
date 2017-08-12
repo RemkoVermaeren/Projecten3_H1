@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Challenge {
+    private String _id;
     private String name;
     private String description;
     private String picture;
@@ -19,6 +20,17 @@ public class Challenge {
 
     }
 
+    public Challenge(String _id, String name, String description, String picture, Date date, int amountOfLikes, int veganScore, boolean isCompleted) {
+        this._id = _id;
+        this.name = name;
+        this.description = description;
+        this.picture = picture;
+        this.date = date;
+        this.amountOfLikes = amountOfLikes;
+        this.veganScore = veganScore;
+        this.isCompleted = isCompleted;
+    }
+
     public Challenge(String name, String description, String picture, Date date, int amountOfLikes, int veganScore, boolean isCompleted) {
         this.name = name;
         this.description = description;
@@ -27,6 +39,14 @@ public class Challenge {
         this.amountOfLikes = amountOfLikes;
         this.veganScore = veganScore;
         this.isCompleted = isCompleted;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {

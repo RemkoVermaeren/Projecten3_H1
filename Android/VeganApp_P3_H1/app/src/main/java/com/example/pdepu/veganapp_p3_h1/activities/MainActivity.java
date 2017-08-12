@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
     ImageView imageViewUser;
     private Handler handler;
 
-    private Token token;
+    public Token token;
     private User user;
 
     @Override
@@ -211,6 +211,9 @@ public class MainActivity extends AppCompatActivity
 
     private void createChallengeFragment() {
         ChallengeFragment challengeFragment = new ChallengeFragment();
+        Bundle extras = new Bundle();
+        extras.putString("tokenString", new Gson().toJson(token));
+        challengeFragment.setArguments(extras);
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, challengeFragment).commit();
     }
 

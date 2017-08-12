@@ -20,7 +20,7 @@ public class User extends BaseObservable {
     private int totalVeganScore;
     private String[] followingUsers;
     private Date dateOfCreation;
-    private Challenge[] challenges;
+    private String[] challenges;
     private boolean isAdmin;
     private String hash;
     private String salt;
@@ -43,7 +43,7 @@ public class User extends BaseObservable {
         this.password = password;
     }
 
-    public User(String _id,String username, String name, String surName, int totalVeganScore, String[] followingUsers, Date dateOfCreation, Challenge[] challenges, boolean isAdmin, String hash, String salt, String image, String fullName) {
+    public User(String _id,String username, String name, String surName, int totalVeganScore, String[] followingUsers, Date dateOfCreation, String[] challenges, boolean isAdmin, String hash, String salt, String image, String fullName) {
         this._id = _id;
         this.username = username;
         this.name = name;
@@ -117,11 +117,11 @@ public class User extends BaseObservable {
         this.dateOfCreation = dateOfCreation;
     }
 
-    public Challenge[] getChallenges() {
+    public String[] getChallenges() {
         return challenges;
     }
 
-    public void setChallenges(Challenge[] challenges) {
+    public void setChallenges(String[] challenges) {
         this.challenges = challenges;
     }
 

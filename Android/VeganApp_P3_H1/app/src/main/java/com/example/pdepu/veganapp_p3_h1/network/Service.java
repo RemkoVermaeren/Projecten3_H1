@@ -1,6 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.network;
 
+import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
+import com.example.pdepu.veganapp_p3_h1.models.Restaurant;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 
@@ -28,6 +30,19 @@ public interface Service {
     Call<Recipe> getRecipe(@Path("recipe") String recipeId);
     //endregion
 
+    //region HANDLE RESTAURANTS
+    @GET("restaurants")
+    Call<List<Restaurant>> getRestaurantsList();
+
+    @GET("restaurants/{restaurant}")
+    Call<Restaurant> getRestaurant(@Path("restaurant") String restaurantId);
+    //endregion
+
+
+    //region HANDLE CHALLENGES
+    @POST("users/{user}/challenges/")
+    Call<User> postChallenge(@Path("user") String userId, @Body Challenge challenge);
+    //endregion
 
     //region HANDLE USERS
     @FormUrlEncoded

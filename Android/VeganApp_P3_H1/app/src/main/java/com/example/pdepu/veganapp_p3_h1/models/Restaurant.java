@@ -6,6 +6,7 @@ package com.example.pdepu.veganapp_p3_h1.models;
 
 public class Restaurant {
 
+    private String _id;
     private String name;
     private String address;
     private double rating;
@@ -19,7 +20,10 @@ public class Restaurant {
 
     }
 
-    public Restaurant(String name, String address, double rating, String telephoneNumber, String website, String extraInformation, boolean wheelchairAccess, int veganPoints) {
+
+
+    public Restaurant(String _id, String name, String address, double rating, String telephoneNumber, String website, String extraInformation, boolean wheelchairAccess, int veganPoints) {
+        this._id = _id;
         this.name = name;
         this.address = address;
         this.rating = rating;
@@ -28,6 +32,14 @@ public class Restaurant {
         this.extraInformation = extraInformation;
         this.wheelchairAccess = wheelchairAccess;
         this.veganPoints = veganPoints;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
