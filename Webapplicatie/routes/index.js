@@ -185,6 +185,7 @@
             }
 
             restaurant.name = req.body.name;
+            restaurant.picture = req.body.picture;
             restaurant.address = req.body.address;
             restaurant.rating = req.body.rating;
             restaurant.wheelchairAccess = req.body.wheelchairAccess;

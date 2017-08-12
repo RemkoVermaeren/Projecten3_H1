@@ -16,7 +16,7 @@
       function logOut() {
         auth.logOut();
         $state.go('login');
-        };
+        }
 
     }
 })();

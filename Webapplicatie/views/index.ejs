@@ -236,8 +236,8 @@
             </div>
             <div class="form-group">
                 <label>Afbeelding</label>
-                <input type="file"  <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="20MB" ngf-min-height="100" 
-                                        ngf-resize="{width: 100, height: 100} required"></input>
+                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
+                                          ngf-resize="{width: 100, height: 100} required">
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
@@ -282,11 +282,16 @@
                 <label>Telephone</label>
                 <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber" required/>
             </div>
-             <div class="form-group">
+            <!-- TODO in CSS schrijven -->
+            <div class="form-group">
                 <label>Afbeelding</label>
-                <input type="file"  <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="20MB" ngf-min-height="100" 
-                                        ngf-resize="{width: 100, height: 100} required"></input>
+                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="20MB" ngf-min-height="100"
+                                        ngf-resize="{width: 100, height: 100} required">
+             </div>
+            <div ng-show="!(ctrl.restaurant.picture.length == 0 || !ctrl.restaurant.picture)" style="margin-bottom: 10px">
+                <img  src="{{ctrl.restaurant.picture}}" alt="{{ctrl.restaurant.name}}" height="200" width="200">
             </div>
+
             <button type="submit" class="btn btn-success">Update</button>
         </form>
     </script>
@@ -573,7 +578,6 @@
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </script>
-
     <script type="text/ng-template" id="/recipes.html">
         <div class="page-header">
             <h2>Recipes</h2>
@@ -629,7 +633,11 @@
             </div>
             <div class="form-group">
                 <label>Image</label>
-                <input type="text" class="form-control" placeholder="Ex. image" ng-model="ctrl.recipe.picture" required/>
+                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
+                       ngf-resize="{width: 100, height: 100} required">
+            </div>
+            <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
+                <img  src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
             </div>
             <div class="form-group">
                 <label>Type</label>
@@ -639,19 +647,27 @@
                 <label>Difficulty</label>
                 <input type="text" class="form-control" placeholder="Ex. Beginner" ng-model="ctrl.recipe.difficulty" required/>
             </div>
-
-            <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
-                <label>Instructions : {{$index + 1}} </label>
-                <input type="text" class="form-control" placeholder="Ex. Add meat" ng-model="ctrl.recipe.instructions[i]" required/>
-            </div>
-            <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
-                <label>Allergies : {{$index + 1}} </label>
-                <input type="text" class="form-control" placeholder="Ex. nuts" ng-model="ctrl.recipe.allergies[i]" required/>
-            </div>
-            <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
-                <label>Ingredients : {{$index + 1}} </label>
-                <input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[i]" required/>
-            </div>
+            <h4>Instructions</h4>
+            <ul list-style-type="none">
+                <div ng-repeat="instruction in ctrl.recipe.instructions track by $index" class="form-group">
+                    <li> <input type="text" class="form-control" placeholder="Ex. Add meat" ng-model="ctrl.recipe.instructions[$index]" required/><a href ng-click="ctrl.removeInstruction($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
+                </div>
+            </ul>
+            <button ng-click="ctrl.addInstruction()">Add instruction</button>
+            <h4>Allergies</h4>
+            <ul>
+                <div ng-repeat="allergie in ctrl.recipe.allergies track by $index" class="form-group">
+                    <li><input type="text" class="form-control" placeholder="Ex. nuts" ng-model="ctrl.recipe.allergies[$index]" required/><a href ng-click="ctrl.removeAllergie($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
+                </div>
+            </ul>
+            <button ng-click="ctrl.addAllergie()">Add allergie</button>
+            <h4>Ingredients</h4>
+            <ul>
+                <div ng-repeat="f in ctrl.recipe.food track by $index" class="form-group">
+                    <li><input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[$index]" required/><a href ng-click="ctrl.removeFood($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
+                </div>
+            </ul>
+            <button ng-click="ctrl.addFood()">Add ingredient</button>
             <button type="submit" class="btn btn-success">Update</button>
         </form>
     </script>
@@ -678,7 +694,11 @@
             </div>
             <div class="form-group">
                 <label>Image</label>
-                <input type="text" class="form-control" placeholder="Ex. image" ng-model="ctrl.recipe.picture" required/>
+                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
+                       ngf-resize="{width: 100, height: 100} required">
+            </div>
+            <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
+                <img  src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
             </div>
             <div class="form-group">
                 <label>Type</label>
@@ -688,18 +708,31 @@
                 <label>Difficulty</label>
                 <input type="text" class="form-control" placeholder="Ex. Beginner" ng-model="ctrl.recipe.difficulty" required/>
             </div>
-            <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
-                <label>Instructions : {{$index + 1}} </label>
-                <input type="text" class="form-control" placeholder="Ex. Add meat" ng-model="ctrl.recipe.instructions[i]" required/>
+            <h4>Instructions</h4>
+            <ul>
+            <div ng-repeat="instruction in ctrl.recipe.instructions track by $index" class="form-group">
+                <li><input type="text" class="form-control" placeholder="Ex. Add meat" ng-model="ctrl.recipe.instructions[$index]" required/><a href ng-click="ctrl.removeInstruction($index)"> <span class="glyphicon glyphicon-remove"></span></a>
+                </li>
             </div>
-            <div ng-repeat="i in [0 ,1, 2, 3, 4]] track by $index" class="form-group">
-                <label>Allergies : {{$index + 1}} </label>
-                <input type="text" class="form-control" placeholder="Ex. nuts" ng-model="ctrl.recipe.allergies[i]" required/>
+            </ul>
+            <button ng-click="ctrl.addInstruction()">Add instruction</button>
+            <h4>Allergies</h4>
+            <ul>
+            <div ng-repeat="allergie in ctrl.recipe.allergies track by $index" class="form-group">
+               <li><input type="text" class="form-control" placeholder="Ex. nuts" ng-model="ctrl.recipe.allergies[$index]" required/><a href ng-click="ctrl.removeAllergie($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
             </div>
-            <div ng-repeat="i in [0 ,1, 2, 3, 4] track by $index" class="form-group">
-                <label>Ingredients : {{$index + 1}} </label>
-                <input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[i]" required/>
+            </ul>
+            <button ng-click="ctrl.addAllergie()">Add allergie</button>
+            <h4>Ingredients</h4>
+            <ul>
+            <div ng-repeat="f in ctrl.recipe.food track by $index" class="form-group">
+               <li><input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[$index]" required/><a href ng-click="ctrl.removeFood($index)"> <span class="glyphicon glyphicon-remove"></span></a>
+               </li>
             </div>
+            </ul>
+
+            <button ng-click="ctrl.addFood()">Add ingredient</button>
+
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </script>

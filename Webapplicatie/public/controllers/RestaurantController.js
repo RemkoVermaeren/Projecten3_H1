@@ -63,15 +63,20 @@
         }
 
         function modifyRestaurant() {
+            $log.log(vm.image);
             $log.log("modifyRestaurant in MainController was called");
             if (!vm.restaurant.name || vm.restaurant.name === '') {
                 return;
             }
-            if(vm.image != null){
+            if(vm.image){
                 restaurantService.uploadImage(vm.image).success(function(dataImg){
                     vm.restaurant.picture = dataImg;
+                    $log.log("Data image : " + dataImg);
+
                 })
             }
+            $log.log("Update volgend resto");
+            $log.log(vm.restaurant);
             return restaurantService.update($stateParams.id, vm.restaurant).then($state.go("home"));
         }
 

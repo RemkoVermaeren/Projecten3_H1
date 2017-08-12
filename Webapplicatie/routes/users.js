@@ -195,8 +195,12 @@
     });
     //endregion
 
-
-    router.post('/:user/challenges/', function (req, res, next) {
+    router.get('/:user/challenges', function(req,res){
+       User.findById(req.user._id).populate('challenges').exec(function(err,user){
+        res.json(user.challenges);
+       });
+    });
+   router.post('/:user/challenges/', function (req, res, next) {
         var challenge = new Challenge(req.body);
         challenge.save(function (err, faq) {
             if (err) {
