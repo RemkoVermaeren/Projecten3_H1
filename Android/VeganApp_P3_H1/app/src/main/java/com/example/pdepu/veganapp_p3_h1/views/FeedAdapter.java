@@ -61,6 +61,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         feed.setText(f.toString());
     }
 
+    public void clear() {
+        feedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<FeedItem> items){
+        feedItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount(){
         return feedItems.size();
