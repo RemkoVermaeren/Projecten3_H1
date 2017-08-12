@@ -72,12 +72,11 @@
                 restaurantService.uploadImage(vm.image).success(function(dataImg){
                     vm.restaurant.picture = dataImg;
                     $log.log("Data image : " + dataImg);
-
-                })
+                    restaurantService.update($stateParams.id, vm.restaurant).then($state.go("home"));
+                });
+            }else {
+                restaurantService.update($stateParams.id, vm.restaurant).then($state.go("home"));
             }
-            $log.log("Update volgend resto");
-            $log.log(vm.restaurant);
-            return restaurantService.update($stateParams.id, vm.restaurant).then($state.go("home"));
         }
 
         function deleteRestaurant(restaurant) {
