@@ -66,7 +66,7 @@
 
         function uploadImage(image) {
             $log.log(image);
-            return $http.post('/upload/image', image).success(function (data) {
+            return $http.post('/api/upload/image', image).success(function (data) {
                 $log.log("Return from router: ", data);
                 return data;
             });
