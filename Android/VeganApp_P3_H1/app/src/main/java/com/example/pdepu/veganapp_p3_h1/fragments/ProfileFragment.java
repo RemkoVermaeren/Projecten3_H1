@@ -13,6 +13,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +27,19 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
+import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
+import com.example.pdepu.veganapp_p3_h1.views.ProfileChallengeAdapter;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -69,6 +75,9 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.linearLayoutProfile)
     LinearLayout linearLayoutProfile;
 
+    @BindView(R.id.challengeRecyclerView)
+    RecyclerView challengeRecyclerView;
+
     private static final int PICK_IMAGE = 0;
 
     @BindView(R.id.fab)
@@ -81,6 +90,9 @@ public class ProfileFragment extends Fragment {
     private File file;
     private String uri;
     private String imageUrl;
+    private ArrayList<Challenge> challenges = new ArrayList<>();
+    private LinearLayoutManager layoutManager;
+    private ProfileChallengeAdapter adapter;
 
 
     @Override
@@ -98,6 +110,16 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, rootView);
+
+
+        layoutManager = new LinearLayoutManager(getContext());
+        adapter = new ProfileChallengeAdapter(challenges);
+
+        challengeRecyclerView.setLayoutManager(layoutManager);
+        challengeRecyclerView.setAdapter(adapter);
+        challengeRecyclerView.setHasFixedSize(true);
+
+
         return rootView;
 
     }
@@ -267,6 +289,7 @@ public class ProfileFragment extends Fragment {
                     user = response.body();
                     user.setToken(token);
                     updateView(user);
+                    getUserChallenges();
                 }
             }
 
@@ -296,6 +319,25 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    private void getUserChallenges(){
+        Call<List<Challenge>> challengeCall = service.getChallengesUser(user.get_id());
+        challengeCall.enqueue(new Callback<List<Challenge>>() {
+            @Override
+            public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
+                if(response.isSuccessful()){
+                    challenges.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Challenge>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void updateView(User user) {
