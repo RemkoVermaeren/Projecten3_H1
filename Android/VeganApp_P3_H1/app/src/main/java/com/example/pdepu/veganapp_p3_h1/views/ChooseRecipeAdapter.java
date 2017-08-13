@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.views;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.fragments.ChooseRecipeFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -56,10 +58,11 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
     @Override
     public void onBindViewHolder(ChooseRecipeViewHolder holder, int position) {
         Recipe recipe = recipes.get(position);
-        //CircleImageView image = holder.imageViewUserCardView;
+        ImageView image = holder.chooseRecipeImage;
         TextView recipeName = holder.chooseRecipeName;
-        //TextView veganScore = holder.chooseRecipeVeganPoints;
-       // Context context = holder.imageViewUserCardView.getContext();
+        Context context = holder.chooseRecipeImage.getContext();
+        if (recipe.getPicture() != null && !recipe.getPicture().isEmpty())
+            Picasso.with(context).load(recipe.getPicture()).resize(200, 200).into(image);
         recipeName.setText(recipe.getName());
         //veganScore.setText(String.valueOf(recipe.getVeganPoints()) + " points");
 

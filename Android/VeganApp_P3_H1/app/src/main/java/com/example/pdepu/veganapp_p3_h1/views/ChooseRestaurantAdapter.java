@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by pdepu on 12/08/2017.
  */
 
-public class ChooseRestaurantAdapter  extends RecyclerView.Adapter<ChooseRestaurantAdapter.ChooseRestaurantViewHolder> {
+public class ChooseRestaurantAdapter extends RecyclerView.Adapter<ChooseRestaurantAdapter.ChooseRestaurantViewHolder> {
 
     private ArrayList<Restaurant> restaurants;
 
@@ -61,9 +61,10 @@ public class ChooseRestaurantAdapter  extends RecyclerView.Adapter<ChooseRestaur
         TextView recipeName = holder.chooseRestaurantName;
         //TextView veganScore = holder.chooseRestaurantVeganPoints;
         Context context = holder.chooseRestaurantImage.getContext();
-        Picasso.with(context).load(restaurant.getPicture()).fit().into(image);
+        if (restaurant.getPicture() != null && !restaurant.getPicture().isEmpty())
+            Picasso.with(context).load(restaurant.getPicture()).resize(200, 200).into(image);
         recipeName.setText(restaurant.getName());
-       // veganScore.setText(String.valueOf(restaurant.getVeganPoints()) + " points");
+        // veganScore.setText(String.valueOf(restaurant.getVeganPoints()) + " points");
 
     }
 
