@@ -1,6 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -20,7 +22,7 @@ import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.fragments.ChallengeFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.FeedFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.LeaderboardFragment;
-import com.example.pdepu.veganapp_p3_h1.fragments.ProfileFragment;
+import com.example.pdepu.veganapp_p3_h1.fragments.ProfileTabFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.SearchFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -69,8 +71,11 @@ public class MainActivity extends AppCompatActivity
         handler = new Handler();
         service = new ServicesInitializer().initializeService();
         Bundle extras = getIntent().getExtras();
-        if (extras != null)
+        if (extras != null){
             token = new Gson().fromJson(extras.getString("tokenString"), Token.class);
+            setSharedPreferences();
+        }
+
         getUser(token);
 
 
@@ -185,7 +190,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createProfileFragment() {
-        ProfileFragment profileFragment = new ProfileFragment();
+        ProfileTabFragment profileFragment = new ProfileTabFragment();
         Bundle extras = new Bundle();
         extras.putString("tokenString", new Gson().toJson(token));
         profileFragment.setArguments(extras);
@@ -236,6 +241,11 @@ public class MainActivity extends AppCompatActivity
             Picasso.with(imageViewUser.getContext()).load(user.getImage()).fit().into(imageViewUser);
         textViewUsername.setText(user.getName() + " " + user.getSurName());
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
+    }
+
+    private void setSharedPreferences(){
+        SharedPreferences preferences = getSharedPreferences("prefs", Activity.MODE_PRIVATE);
+        preferences.edit().putString("tokenStringPreferences", new Gson().toJson(token)).apply();
     }
 
 

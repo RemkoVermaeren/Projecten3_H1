@@ -43,7 +43,7 @@ public class ProfileChallengeAdapter extends RecyclerView.Adapter<ProfileChallen
 
     @Override
     public ProfileChallengeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_profile_challenge, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_profile_challenge_view, parent, false);
         return new ProfileChallengeViewHolder(view);
     }
 
