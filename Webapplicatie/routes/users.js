@@ -31,7 +31,8 @@
         user.dateOfCreation = req.body.dateOfCreation;
         user.isAdmin = req.body.isAdmin;
         user.fullName = req.body.name + " " + req.body.surName;
-        user.image = "ahgahgpaga";
+        user.image = "";
+        user.totalVeganScore = 0;
         user.save(function(err) {
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
@@ -116,16 +117,25 @@
             if (err) {
                 res.send(err);
             }
-            user.body = req.body;
+            user.username = req.body.username;
+            user.name = req.body.name;
+            user.surName = req.body.surName;
+            user.fullName = req.body.name + " " + req.body.surName;
             user.image = req.body.image;
 
-            user.save(function (err) {
+            user.save(function(err) {
                 if (err) {
-                    res.send(err);
+                    if (err.name === 'MongoError' && err.code === 11000) {
+                        //Duplicate username
+                        return res.status(500).send({
+                            success: false,
+                            message: 'User already exists'
+                        });
+                    }
+                    return res.status(500).send(err);
                 }
-                res.json(user);
-            })
-
+                return res.json(user);
+            });
         });
     });
     router.get('/:user/followers', function(req, res, next) {
@@ -235,6 +245,8 @@
                 res.send(err);
             }
             user.challenges.addToSet(challenge);
+            if(challenge.isCompleted)
+               user.totalVeganScore += challenge.veganScore;
             user.save(function (err) {
                 if (err) {
                     res.send(err);

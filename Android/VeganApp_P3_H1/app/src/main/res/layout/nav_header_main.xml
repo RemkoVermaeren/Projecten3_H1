@@ -4,7 +4,7 @@
     android:id="@+id/nav_header_relativelayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/bg_login"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -21,7 +21,7 @@
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
         app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"/>
+        app:civ_border_color="@color/text_shadow"/>
 
     <!--<ImageView-->
         <!--android:id="@+id/imageViewUser"-->

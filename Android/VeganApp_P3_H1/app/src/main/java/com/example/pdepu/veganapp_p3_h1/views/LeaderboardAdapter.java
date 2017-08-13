@@ -60,7 +60,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         TextView veganScore = holder.veganPointsCardView;
         Context context = holder.imageViewUserCardView.getContext();
         if (user.getImage() != null && !user.getImage().isEmpty())
-            Picasso.with(context).load(user.getImage()).into(image);
+            Picasso.with(context).load(user.getImage()).resize(60, 60).into(image);
         username.setText(String.valueOf(position + 1) + ". " + user.getName() + " " + user.getSurName());
         veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");
 

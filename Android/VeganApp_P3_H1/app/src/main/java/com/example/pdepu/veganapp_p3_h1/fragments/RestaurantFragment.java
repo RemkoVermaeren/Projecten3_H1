@@ -80,8 +80,9 @@ public class RestaurantFragment extends Fragment {
 
     @OnClick(R.id.openGoogleMaps)
     public void openMaps(){
+        String map = "http://maps.google.co.in/maps?q=" + restaurant.getAddress();
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
+                Uri.parse(map));
         startActivity(intent);
     }
 
