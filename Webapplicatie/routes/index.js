@@ -20,6 +20,7 @@
     var Faq = mongoose.model('Faq');
     var Recipe = mongoose.model('Recipe');
     var Challenge = mongoose.model('Challenge');
+    var Blog = mongoose.model('Blog');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var auth = jwt({
@@ -450,6 +451,85 @@
         });
     });
     //endregion
+
+    // region Blog ROUTING
+    // Blog : get all blogs
+    router.get('/api/blogs', function (req, res, next) {
+        Blog.find(function (err, blogs) {
+            if (err) {
+                return next(err);
+            }
+            res.json(blogs);
+        });
+    });
+    // Blog : param for specific blog with parameter ID
+    router.param('blog', function (req, res, next, id) {
+        var query = Blog.findById(id);
+        query.exec(function (err, blog) {
+            if (err) {
+                return next(err);
+            }
+            if (!blog) {
+                return next(new Error('can\'t find the blog'));
+            }
+            req.blog = blog;
+            return next();
+        })
+    });
+    //Blog : get specific blog
+    router.get('/api/blogs/:blog', function (req, res, next) {
+        res.json(req.blog);
+    });
+    //Blog : create blog
+    router.post('/api/blogs', auth, function (req, res, next) {
+        var blog = new Blog(req.body);
+        blog.save(function (err, blog) {
+            if (err) {
+                return next(err);
+            }
+            res.json(blog);
+        })
+    });
+    //Blog : delete specific blog
+    router.delete('/api/blogs/:blog', auth, function (req, res, next) {
+        Blog.remove({
+            _id: req.blog._id
+        }, function (err, blog) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Recipe deleted'
+            });
+        });
+    });
+    //Blog : update specific blog
+    router.put('/api/blogs/:blog', auth, function (req, res) {
+        Recipe.findById(req.blog._id, function (err, blog) {
+            if (err) {
+                res.send(err);
+            }
+            blog.name = req.body.name;
+            blog.veganPoints = req.body.veganPoints;
+            blog.author = req.body.author;
+            blog.picture = req.body.picture;
+            blog.date = req.body.date;
+            blog.website = req.body.website;
+            blog.save(function (err, blog) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(blog);
+            })
+        });
+    });
+    //endregion
+
+
+
+
+
+
     //Challenges routing
     router.get('/api/challenges', function (req, res, next) {
         Challenge.find(function (err, challenges) {

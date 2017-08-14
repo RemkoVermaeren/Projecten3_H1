@@ -15,6 +15,7 @@ require('./models/Recipes');
 require('./models/Challenge');
 require('./models/Faq');
 require('./models/Menu');
+require('./models/Blogs');
 require('./config/passport');
 
 // connect MongoDB online
