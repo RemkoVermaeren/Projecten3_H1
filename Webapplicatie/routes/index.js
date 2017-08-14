@@ -228,33 +228,6 @@
         });
     });
 
-    // router.delete('/api/restaurants/:restaurant/menus/:menu', function(req, res, next) {
-    //     Menu.remove({
-    //         _id: req.menu._id
-    //     }, function(err, menu) {
-    //         if (err) {
-    //             res.send(err);
-    //         }
-    //         res.json({
-    //             message: 'Menu deleted'
-    //         });
-    //     });
-    //     Restaurant.findById(req.restaurant._id, function(err, restaurant) {
-    //         if (err) {
-    //             res.send(err);
-    //         }
-    //         restaurant.menus.remove({
-    //             id: req.menu._id
-    //         }, function(err, menu) {
-    //             if (err) {
-    //                 res.send(err);
-    //             }
-    //             res.json({
-    //                 message: 'Menu inside restaurant deleted'
-    //             });
-    //         });
-    //     });
-    // });
 
     router.param('menu', function (req, res, next, id) {
         var query = Menu.findById(id);
@@ -456,8 +429,6 @@
             if (err) {
                 res.send(err);
             }
-            console.log(req.body.picture);
-            //TODO update recipes properties
             recipe.name = req.body.name;
             recipe.veganPoints = req.body.veganPoints;
             recipe.calories = req.body.calories;

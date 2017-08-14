@@ -13,4 +13,4 @@ var ChallengeSchema = new mongoose.Schema({
 mongoose.model('Challenge', ChallengeSchema);
 
 
-// Todo : Property voor persoon die gechallenged word, methode voor likes + 1 en likes - 1
+// Todo : Methode voor likes + 1 en likes - 1

@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -12,12 +12,12 @@
         vm.recipes = [];
         vm.recipe = {};
         vm.recipe.allergies = [];
+        vm.recipe.food = [];
+        vm.recipe.instructions = [];
         vm.addAllergie = addAllergie;
         vm.removeAllergie = removeAllergie;
-        vm.recipe.food = [];
         vm.addFood = addFood;
         vm.removeFood = removeFood;
-        vm.recipe.instructions = [];
         vm.addInstruction = addInstruction;
         vm.removeInstruction = removeInstruction;
         vm.getRecipes = getRecipes;
@@ -32,83 +32,92 @@
             return getRecipes();
         }
 
-        function addAllergie(){
-            //var nrOfAllergies = vm.recipe.allergies.length + 1;
+        function addAllergie() {
             vm.recipe.allergies.push("");
         }
-        function removeAllergie(index){
-            //var nrOfAllergies = vm.recipe.allergies.count + 1;
-            vm.recipe.allergies.splice(index,1);
-        }
-        function addFood(){
-            //var nrOfAllergies = vm.recipe.allergies.length + 1;
-            vm.recipe.food.push("");
-        }
-        function removeFood(index){
-            //var nrOfAllergies = vm.recipe.allergies.count + 1;
-            vm.recipe.food.splice(index,1);
-        }
-        function addInstruction(){
-            //var nrOfAllergies = vm.recipe.allergies.length + 1;
-            vm.recipe.instructions.push("");
-        }
-        function removeInstruction(index){
-            //var nrOfAllergies = vm.recipe.allergies.count + 1;
-            vm.recipe.instructions.splice(index,1);
+
+        function removeAllergie(index) {
+            vm.recipe.allergies.splice(index, 1);
         }
 
-        function getRecipes(){
+        function addFood() {
+            vm.recipe.food.push("");
+        }
+
+        function removeFood(index) {
+            vm.recipe.food.splice(index, 1);
+        }
+
+        function addInstruction() {
+            vm.recipe.instructions.push("");
+        }
+
+        function removeInstruction(index) {
+            vm.recipe.instructions.splice(index, 1);
+        }
+
+        function getRecipes() {
             return recipeService.getAll()
-                .then(function(data) {
+                .then(function (data) {
                     vm.recipes = data.data;
                     return vm.recipes;
                 });
         }
 
-        function getRecipe(){
-            return recipeService.get($stateParams.id).then(function(data){
+        function getRecipe() {
+            return recipeService.get($stateParams.id).then(function (data) {
                 vm.recipe = data;
             });
         }
 
         function addRecipe() {
-            //TODO Controle op properties
-          /*  if (!vm.faq.question || vm.faq.question === '' || !vm.faq.answer || vm.faq.answer === '') {
+            if (!validRecipe()) {
                 return;
-            }*/
-            return recipeService.uploadImage(vm.image).success(function(dataImg) {
-                vm.recipe.picture = dataImg;
-                return recipeService.create(vm.recipe).success(function(data) {
-                    vm.recipes.push(data.data);
-                }).then($state.go("recipes"));
-            });
-        }
-        function modifyRecipe() {
-            //TODO Controle op properties
-
-            /*if (!vm.faq.question || vm.faq.question === '' || !vm.faq.answer || vm.faq.answer === '') {
-                return;
-            }*/
-            if(vm.image){
-                recipeService.uploadImage(vm.image).success(function(dataImg){
+            }
+            if (vm.image) {
+                return recipeService.uploadImage(vm.image).success(function (dataImg) {
                     vm.recipe.picture = dataImg;
-                    $log.log("New img url : "+ dataImg);
+                    recipeService.create(vm.recipe).success(function (data) {
+                        vm.recipes.push(data.data);
+                    }).then($state.go("recipes"));
+                });
+            }
+            return recipeService.create(vm.recipe).success(function (data) {
+                vm.recipes.push(data.data);
+            }).then($state.go("recipes"));
+
+        }
+
+        function modifyRecipe() {
+            if (!validRecipe()) {
+                return;
+            }
+            if (vm.image) {
+               return recipeService.uploadImage(vm.image).success(function (dataImg) {
+                    vm.recipe.picture = dataImg;
                     recipeService.update($stateParams.id, vm.recipe).then($state.go("recipes"));
-                    $log.log("IF");
-                })
-            }else{
-                $log.log("ELSEA");
-
+                });
+            } else {
                 return recipeService.update($stateParams.id, vm.recipe).then($state.go("recipes"));
-
             }
         }
 
         function deleteRecipe(recipe) {
-            return recipeService.deleteRecipe(recipe).then(function(){
-              getRecipes();
+            return recipeService.deleteRecipe(recipe).then(function () {
+                getRecipes();
             });
         }
 
+        function validRecipe() {
+            return (vm.recipe.name && vm.recipe.name !== '' &&
+                vm.recipe.veganPoints && vm.recipe.veganPoints !== '' &&
+                vm.recipe.calories && vm.recipe.calories !== '' &&
+                vm.recipe.difficulty && vm.recipe.difficulty !== '' &&
+                vm.recipe.time && vm.recipe.time !== '' &&
+                vm.recipe.type && vm.recipe.type !== '' &&
+                vm.recipe.food &&
+                vm.recipe.instructions &&
+                vm.recipe.allergies)
+            }
     }
 })();

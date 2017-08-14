@@ -186,7 +186,6 @@
             if (err) {
                 res.send(err);
             }
-            // TODO : Indien problemen met users, ligt het wss hieraan
             user.followingUsers.addToSet(req.userfollow);
             user.save(function (err) {
                 if (err) {

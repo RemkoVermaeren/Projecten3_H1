@@ -9,30 +9,23 @@
     function RestaurantController($log, restaurantService, auth, $state, $stateParams) {
         var vm = this;
 
-        //vm.isLoggedIn = authService.isLoggedIn;
         vm.restaurants = [];
-        vm.restaurant;
+        vm.restaurant = {};
         vm.getRestaurants = getRestaurants;
         vm.getRestaurant = getRestaurant;
         vm.addRestaurant = addRestaurant;
         vm.modifyRestaurant = modifyRestaurant;
         vm.deleteRestaurant = deleteRestaurant;
-        vm.convertDate = convertDate;
         vm.isRestaurantsEmpty = isRestaurantsEmpty;
-
         activate();
 
-
         function activate() {
-            return getRestaurants().then(function () {
-                $log.log("Restaurants were retrieved");
-            });
+            return getRestaurants();
         }
 
         function getRestaurants() {
             return restaurantService.getAll()
                 .then(function (data) {
-                    $log.log("getRestaurants in RestaurantController was called");
                     vm.restaurants = data.data;
                     return vm.restaurants;
                 });
@@ -41,41 +34,46 @@
         function getRestaurant() {
             return restaurantService.get($stateParams.id).then(function (data) {
                 vm.restaurant = data;
-                convertDate(vm.restaurant);
-                $log.log(vm.restaurant);
             });
         }
 
-
         function addRestaurant() {
-             if (!vm.restaurant.name || vm.restaurant.name === '') {
+             if (!validRestaurant()) {
                  return;
              }
-            //TODO Controle op empty
-            restaurantService.uploadImage(vm.image).success(function (dataImg) {
-                vm.restaurant.picture = dataImg;
-                console.log(vm.restaurant);
-                return restaurantService.create(vm.restaurant).success(function (data) {
-                    $log.log(data);
-                    vm.restaurants.push(data.data);
-                })
-            }).then($state.go("home"));
+             if(vm.image){
+                 return restaurantService.uploadImage(vm.image).success(function (dataImg) {
+                     vm.restaurant.picture = dataImg;
+                     restaurantService.create(vm.restaurant).success(function (data) {
+                         vm.restaurants.push(data.data);
+                     })
+                 }).then($state.go("restaurants"));
+             }else{
+                 return  restaurantService.create(vm.restaurant).success(function (data) {
+                     vm.restaurants.push(data.data);
+                 }).then($state.go("restaurants"));
+             }
         }
 
         function modifyRestaurant() {
-            $log.log(vm.image);
-            $log.log("modifyRestaurant in MainController was called");
-            if (!vm.restaurant.name || vm.restaurant.name === '') {
+            if (!validRestaurant()) {
+                $log.log("NOT VALID");
+
+                $log.log(vm.restaurant);
                 return;
             }
             if(vm.image){
-                restaurantService.uploadImage(vm.image).success(function(dataImg){
+                $log.log("if");
+                $log.log(vm.restaurant);
+
+                return restaurantService.uploadImage(vm.image).success(function(dataImg){
                     vm.restaurant.picture = dataImg;
-                    $log.log("Data image : " + dataImg);
-                    restaurantService.update($stateParams.id, vm.restaurant).then($state.go("home"));
+                    restaurantService.update($stateParams.id, vm.restaurant).then($state.go("restaurants"));
                 });
             }else {
-                restaurantService.update($stateParams.id, vm.restaurant).then($state.go("home"));
+                $log.log("else");
+                $log.log(vm.restaurant);
+                return restaurantService.update($stateParams.id, vm.restaurant).then($state.go("restaurants"));
             }
         }
 
@@ -85,18 +83,20 @@
             });
         }
 
-        function convertDate(restaurant) {
-            var openingtime = vm.restaurant.openingtime;
-            var closingtime = vm.restaurant.closingtime;
-            vm.restaurant.openingtime = new Date(openingtime);
-            vm.restaurant.closingtime = new Date(closingtime);
-        }
 
         function isRestaurantsEmpty() {
-            return vm.restaurants.length == 0;
+            return vm.restaurants.length === 0;
+        }
+
+        function validRestaurant() {
+            return (vm.restaurant.name && vm.restaurant.name !== '' &&
+                vm.restaurant.veganPoints && vm.restaurant.veganPoints !== '' &&
+                vm.restaurant.address && vm.restaurant.address !== '' &&
+                vm.restaurant.rating && vm.restaurant.rating !== '' &&
+                vm.restaurant.telephoneNumber && vm.restaurant.telephoneNumber !== ''&&
+                vm.restaurant.website && vm.restaurant.website !== '' &&
+                vm.restaurant.extraInformation && vm.restaurant.extraInformation !== ''
+            );
         }
     }
-
-
-
 })();
