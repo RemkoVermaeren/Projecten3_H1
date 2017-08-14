@@ -77,6 +77,32 @@
                     $state.go('login');
                 }
             }]
+        }).state('blogs', {
+                url: '/blogs',
+                templateUrl: '/blogs.html',
+                controller: 'BlogController',
+                controllerAs : 'ctrl'
+            }
+        ).state('newblog', {
+            url: '/newblog',
+            templateUrl: '/newblog.html',
+            controller: 'BlogController',
+            controllerAs: 'ctrl'
+            /*onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]*/
+        }).state('modifyblog', {
+            url: '/blogs/{id}',
+            templateUrl: '/modifyblog.html',
+            controller: 'BlogController',
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
         }).state('login', {
             url: '/login',
             templateUrl: '/login.html',

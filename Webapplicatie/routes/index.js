@@ -505,7 +505,7 @@
     });
     //Blog : update specific blog
     router.put('/api/blogs/:blog', auth, function (req, res) {
-        Recipe.findById(req.blog._id, function (err, blog) {
+        Blog.findById(req.blog._id, function (err, blog) {
             if (err) {
                 res.send(err);
             }

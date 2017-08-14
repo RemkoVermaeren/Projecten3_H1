@@ -35,6 +35,7 @@
         function getBlog() {
             return blogService.get($stateParams.id).then(function (data) {
                 vm.blog = data;
+                vm.blog.date = new Date(data.date);
             });
         }
 
