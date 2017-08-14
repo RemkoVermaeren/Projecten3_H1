@@ -40,6 +40,7 @@ import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
+import com.example.pdepu.veganapp_p3_h1.views.AndroidBug5497Workaround;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -90,10 +91,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        this.getSupportActionBar().hide();
+        AndroidBug5497Workaround.assistActivity(this);
+        //this.getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Set up the login form.

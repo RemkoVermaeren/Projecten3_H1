@@ -75,7 +75,7 @@ public class LeaderboardFragment extends Fragment {
                     Collections.sort(userResponse, new Comparator<User>() {
                         @Override
                         public int compare(User obj1, User obj2) {
-                            return Integer.valueOf(obj1.getTotalVeganScore()).compareTo(obj2.getTotalVeganScore());
+                            return Integer.valueOf(obj2.getTotalVeganScore()).compareTo(obj1.getTotalVeganScore());
                         }
                     });
 

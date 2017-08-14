@@ -1,5 +1,7 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,10 +64,16 @@ public class FollowerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         if (getArguments() != null) {
-            user = new Gson().fromJson(getArguments().getString("user"), User.class);
-            token = user.getToken();
+            token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
+            callApi();
+        }else{
+            SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
+            if(prefs.getString("tokenStringPreferences",null) !=  null) {
+                token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
+                callApi();
+            }
         }
-        callApi();
+
     }
 
     @Override
@@ -83,11 +91,30 @@ public class FollowerFragment extends Fragment {
 
     }
 
-
-
-
     private void callApi() {
-        Call<List<User>> usersCall = service.getAllFollowers(user.get_id());
+        Call<User> userCall = service.getUserById(token.getUserid());
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    user = response.body();
+                    user.setToken(token);
+                    adapter.setUserOriginal(user);
+                    getUserFollowers();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.i("failure", t.toString());
+            }
+        });
+
+    }
+
+
+    private void getUserFollowers() {
+        Call<List<User>> usersCall = service.getAllFollowers(token.getUserid());
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

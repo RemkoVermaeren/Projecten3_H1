@@ -4,26 +4,26 @@
     <group android:id="@+id/group_main" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home"
             android:title="Feed" />
         <item
             android:id="@+id/nav_challenge"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_flag"
             android:title="Challenge" />
         <item
             android:id="@+id/nav_leaderboard"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_leaderboard"
             android:title="Leaderboard" />
     </group>
 
     <group android:id="@+id/group_secondary" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_search"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_search"
             android:title="Search" />
         <item
             android:id="@+id/nav_signout"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_sign_out"
             android:title="Sign out" />
     </group>
 

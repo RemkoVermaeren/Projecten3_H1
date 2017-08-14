@@ -48,6 +48,9 @@ public interface Service {
     //region HANDLE CHALLENGES
     @POST("users/{user}/challenges/")
     Call<User> postChallenge(@Path("user") String userId, @Body Challenge challenge);
+
+    @GET("users/{user}/challenges")
+    Call<List<Challenge>> getChallengesUser(@Path("user") String userId);
     //endregion
 
     //region HANDLE USERS

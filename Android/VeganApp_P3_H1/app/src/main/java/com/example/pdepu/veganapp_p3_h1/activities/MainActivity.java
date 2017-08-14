@@ -1,6 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -10,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +22,7 @@ import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.fragments.ChallengeFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.FeedFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.LeaderboardFragment;
-import com.example.pdepu.veganapp_p3_h1.fragments.ProfileFragment;
+import com.example.pdepu.veganapp_p3_h1.fragments.ProfileTabFragment;
 import com.example.pdepu.veganapp_p3_h1.fragments.SearchFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity
     private Handler handler;
 
     public Token token;
-    private User user;
+    public User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,11 @@ public class MainActivity extends AppCompatActivity
         handler = new Handler();
         service = new ServicesInitializer().initializeService();
         Bundle extras = getIntent().getExtras();
-        if (extras != null)
+        if (extras != null){
             token = new Gson().fromJson(extras.getString("tokenString"), Token.class);
+            setSharedPreferences();
+        }
+
         getUser(token);
 
 
@@ -112,27 +117,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//            return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -185,7 +190,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createProfileFragment() {
-        ProfileFragment profileFragment = new ProfileFragment();
+        ProfileTabFragment profileFragment = new ProfileTabFragment();
         Bundle extras = new Bundle();
         extras.putString("tokenString", new Gson().toJson(token));
         profileFragment.setArguments(extras);
@@ -237,4 +242,14 @@ public class MainActivity extends AppCompatActivity
         textViewUsername.setText(user.getName() + " " + user.getSurName());
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
+<<<<<<< HEAD
+=======
+
+    private void setSharedPreferences(){
+        SharedPreferences preferences = getSharedPreferences("prefs", Activity.MODE_PRIVATE);
+        preferences.edit().putString("tokenStringPreferences", new Gson().toJson(token)).apply();
+    }
+
+
+>>>>>>> origin/master
 }

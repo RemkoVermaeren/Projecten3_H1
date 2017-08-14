@@ -104,7 +104,10 @@ public class ChooseRecipeFragment extends Fragment {
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Recipe> recipeResponse = new ArrayList<Recipe>(response.body());
-                    recipes.addAll(getRandomRecipes(recipeResponse));
+                    if (recipeResponse.size() > 4)
+                        recipes.addAll(getRandomRecipes(recipeResponse));
+                    else
+                        recipes.addAll(recipeResponse);
                     adapter.notifyDataSetChanged();
                 }
             }
