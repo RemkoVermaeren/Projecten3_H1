@@ -257,7 +257,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void startProfileFragment() {
-        ProfileFragment fragment = new ProfileFragment();
+        ProfileTabFragment fragment = new ProfileTabFragment();
         Bundle extras = new Bundle();
         extras.putString("tokenString", new Gson().toJson(token));
         fragment.setArguments(extras);

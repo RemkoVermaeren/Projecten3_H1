@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
+        android:layout_marginBottom="@dimen/leaderboard_margin"
         android:id="@+id/leaderboard_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardElevation="0dp">
 
@@ -18,42 +18,54 @@
             android:layout_height="wrap_content">
 
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imageViewUserCardView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginEnd="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_vertical_margin"
-                    android:src="@android:drawable/sym_def_app_icon"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
+            <TextView
+                android:id="@+id/positionCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:text="@string/placeholder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-                <TextView
-                    android:id="@+id/usernameCardView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/placeholder"
-                    android:layout_marginEnd="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_vertical_margin"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewUserCardView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_toEndOf="@id/positionCardView"
+                android:layout_toRightOf="@id/positionCardView"
+                android:src="@android:drawable/sym_def_app_icon"
+                app:civ_border_color="@color/text_shadow"
+                app:civ_border_width="2dp" />
 
-                <TextView
-                    android:id="@+id/veganPointsCardView"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/placeholder" />
+
+            <TextView
+                android:id="@+id/usernameCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/imageViewUserCardView"
+                android:layout_toRightOf="@id/imageViewUserCardView"
+                android:text="@string/placeholder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/veganPointsCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:text="@string/placeholder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
         </RelativeLayout>
-
 
 
     </android.support.v7.widget.CardView>

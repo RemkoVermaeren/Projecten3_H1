@@ -39,8 +39,6 @@ public class FollowerFragment extends Fragment {
     private Service service;
 
 
-
-
     private FollowersAdapter adapter;
     private FragmentFollowersBinding binding;
 
@@ -66,9 +64,9 @@ public class FollowerFragment extends Fragment {
         if (getArguments() != null) {
             token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
             callApi();
-        }else{
+        } else {
             SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
-            if(prefs.getString("tokenStringPreferences",null) !=  null) {
+            if (prefs.getString("tokenStringPreferences", null) != null) {
                 token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
                 callApi();
             }
@@ -78,13 +76,12 @@ public class FollowerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers, container, false);
         ButterKnife.bind(this, binding.getRoot());
-        adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user, ((MainActivity)getActivity()));
+        adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user, ((MainActivity) getActivity()));
         binding.followersRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.followersRecyclerView.setAdapter(adapter);
         binding.followersRecyclerView.setHasFixedSize(true);
-
 
 
         return binding.getRoot();
@@ -119,10 +116,16 @@ public class FollowerFragment extends Fragment {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<User> userResponse = new ArrayList<>(response.body());
-                    users.clear();
-                    users.addAll(userResponse);
-                    adapter.add(users);
+                    final ArrayList<User> userResponse = new ArrayList<>(response.body());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            users.clear();
+                            users.addAll(userResponse);
+                            adapter.add(users);
+                        }
+                    });
+
 
                 }
                 Log.i("users", response.body().toString());
@@ -134,4 +137,6 @@ public class FollowerFragment extends Fragment {
             }
         });
     }
+
+
 }

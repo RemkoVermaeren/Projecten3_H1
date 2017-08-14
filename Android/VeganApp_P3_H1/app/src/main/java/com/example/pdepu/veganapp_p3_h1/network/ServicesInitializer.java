@@ -16,6 +16,8 @@ public class ServicesInitializer {
     public Service initializeService(){
 
 //        .baseUrl("http://192.168.1.8:3000/api/") //.0.227
+        //.baseUrl("http:/192.168.0.146:3000/api/")
+
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -24,7 +26,7 @@ public class ServicesInitializer {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http:/192.168.0.146:3000/api/")
+                .baseUrl("http:/192.168.1.58:3000/api/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

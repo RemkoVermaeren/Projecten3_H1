@@ -88,11 +88,17 @@ public class ProfileChallengesFragment extends Fragment {
         Call<User> userCall = service.getUserById(token.getUserid());
         userCall.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<User> call, final Response<User> response) {
                 if (response.isSuccessful()) {
-                    user = response.body();
-                    user.setToken(token);
-                    getUserChallenges();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            user = response.body();
+                            user.setToken(token);
+                            getUserChallenges();
+                        }
+                    });
+
                 }
             }
 

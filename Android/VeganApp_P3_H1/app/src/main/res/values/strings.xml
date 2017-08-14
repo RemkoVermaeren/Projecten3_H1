@@ -6,8 +6,10 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="followingAmount">Following</string>
+    <string name="veganPoints">Vegan points</string>
     <string name="leaderboard">Leaderboard</string>
-    <string name="followers">Followers</string>
+    <string name="followers">Following</string>
     <string name="search">Search</string>
     <string name="make_food">Make food</string>
     <string name="goto_restaurant">Go to restaurant</string>

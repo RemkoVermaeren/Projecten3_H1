@@ -42,9 +42,9 @@ public class Handlers {
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     if (followerFragment)
-                        view.setBackgroundResource(R.drawable.ic_menu_close_clear_cancel);
+                        view.setBackgroundResource(R.drawable.ic_clear);
                     else
-                        view.setBackgroundResource(R.drawable.ic_checkmark_holo_light);
+                        view.setBackgroundResource(R.drawable.ic_check_black);
                     setFollowers(follower.get_id(), false);
                 }
             }
@@ -94,7 +94,7 @@ public class Handlers {
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     setFollowers(follower.get_id(), true);
-                    view.setBackgroundResource(R.drawable.add_follower_drawable);
+                    view.setBackgroundResource(R.drawable.ic_person_add);
                 }
 
             }

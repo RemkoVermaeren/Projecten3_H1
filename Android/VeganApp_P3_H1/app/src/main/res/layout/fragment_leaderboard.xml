@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/leaderboard"
+        android:layout_marginBottom="@dimen/leaderboard_margin"
         android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/leaderboardRecyclerView"

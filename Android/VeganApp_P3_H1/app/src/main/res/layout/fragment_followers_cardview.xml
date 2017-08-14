@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@android:color/transparent"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/leaderboard_margin"
             app:cardElevation="0dp">
 
             <RelativeLayout
@@ -46,7 +46,7 @@
                     android:layout_marginEnd="@dimen/activity_vertical_margin"
                     android:layout_marginRight="@dimen/activity_vertical_margin"
                     android:src="@android:drawable/sym_def_app_icon"
-                    app:civ_border_color="#FF000000"
+                    app:civ_border_color="@color/text_shadow"
                     app:civ_border_width="2dp" />
 
                 <TextView
@@ -67,7 +67,7 @@
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:background="@{original.IsFollower(model._id) ? @drawable/ic_menu_close_clear_cancel : @drawable/add_follower_drawable }"
+                    android:background="@{original.IsFollower(model._id) ? @drawable/ic_clear : @drawable/ic_person_add }"
                     android:onClick="@{(view) -> handler.toAddOrDelete(view,true)}"/>
 
 

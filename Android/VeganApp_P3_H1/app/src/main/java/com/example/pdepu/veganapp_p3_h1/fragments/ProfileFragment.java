@@ -35,6 +35,7 @@ public class ProfileFragment extends Fragment {
     private Token token;
     private User user;
 
+
     @BindView(R.id.imageViewUserProfile)
     ImageView imageViewUserProfile;
 
@@ -47,23 +48,24 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.veganPointsProfile)
     TextView textViewVeganPointsProfile;
 
+    @BindView(R.id.emailProfile)
+    TextView textViewEmailProfile;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
         service = new ServicesInitializer().initializeService();
         if (getArguments() != null) {
             token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
             callApi();
-        }else{
+        } else {
             SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
-            if(prefs.getString("tokenStringPreferences",null) !=  null) {
+            if (prefs.getString("tokenStringPreferences", null) != null) {
                 token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
                 callApi();
             }
         }
-
 
 
     }
@@ -76,45 +78,24 @@ public class ProfileFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu,inflater);
-//        inflater.inflate(R.menu.main, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        if (id == R.id.action_settings) {
-//            startEditFragment();
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-    private void startEditFragment() {
-        EditProfileFragment fragment = new EditProfileFragment();
-        Bundle extras = new Bundle();
-        extras.putString("tokenString", new Gson().toJson(token));
-        fragment.setArguments(extras);
-        this.getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
 
     private void callApi() {
         Call<User> userCall = service.getUserById(token.getUserid());
         userCall.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<User> call, final Response<User> response) {
                 if (response.isSuccessful()) {
-                    user = response.body();
-                    user.setToken(token);
-                    updateView(user);
+                    getActivity().runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            user = response.body();
+                            user.setToken(token);
+                            updateView(user);
+                        }
+
+                    });
+
                 }
             }
 
@@ -130,8 +111,9 @@ public class ProfileFragment extends Fragment {
         if (user.getImage() != null && !user.getImage().isEmpty())
             Picasso.with(imageViewUserProfile.getContext()).load(user.getImage()).fit().into(imageViewUserProfile);
         textViewUsernameProfile.setText(user.getFullName());
-        textViewFollowerAmountProfile.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
-        textViewVeganPointsProfile.setText(String.valueOf(user.getTotalVeganScore()) + " vegan score");
+        textViewFollowerAmountProfile.setText(String.valueOf(user.getFollowingUsers().length));
+        textViewVeganPointsProfile.setText(String.valueOf(user.getTotalVeganScore()));
+        textViewEmailProfile.setText(user.getUsername());
         MainActivity activity = (MainActivity) getActivity();
         activity.updateView(user);
 

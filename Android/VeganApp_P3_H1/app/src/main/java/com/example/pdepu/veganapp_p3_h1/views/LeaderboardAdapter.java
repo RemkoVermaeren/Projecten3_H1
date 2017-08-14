@@ -31,6 +31,9 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     public static class LeaderboardViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.positionCardView)
+        TextView positionCardView;
+
         @BindView(R.id.imageViewUserCardView)
         CircleImageView imageViewUserCardView;
 
@@ -55,13 +58,15 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(LeaderboardViewHolder holder, int position) {
         User user = users.get(position);
+        TextView number = holder.positionCardView;
         CircleImageView image = holder.imageViewUserCardView;
         TextView username = holder.usernameCardView;
         TextView veganScore = holder.veganPointsCardView;
         Context context = holder.imageViewUserCardView.getContext();
+        number.setText(String.valueOf(position + 1));
         if (user.getImage() != null && !user.getImage().isEmpty())
             Picasso.with(context).load(user.getImage()).resize(60, 60).into(image);
-        username.setText(String.valueOf(position + 1) + ". " + user.getName() + " " + user.getSurName());
+        username.setText(user.getName() + " " + user.getSurName());
         veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");
 
     }

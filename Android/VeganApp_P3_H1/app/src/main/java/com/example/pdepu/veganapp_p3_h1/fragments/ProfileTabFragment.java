@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,6 +42,7 @@ public class ProfileTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profiletab, container, false);
+        setHasOptionsMenu(true);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
@@ -46,11 +50,41 @@ public class ProfileTabFragment extends Fragment {
         return view;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            startEditFragment();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void startEditFragment() {
+        EditProfileFragment fragment = new EditProfileFragment();
+        Bundle extras = new Bundle();
+        extras.putString("tokenString", new Gson().toJson(token));
+        fragment.setArguments(extras);
+        this.getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         ProfileTabFragment.ViewPagerAdapter adapter = new ProfileTabFragment.ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(createProfileFragment(), "Account");
+        adapter.addFragment(createProfileFragment(), "Profile");
         adapter.addFragment(createProfileChallengeFragment(), "Challenges");
-        adapter.addFragment(createFollowerFragment(), "Followers");
+        adapter.addFragment(createFollowerFragment(), "Following");
         viewPager.setAdapter(adapter);
     }
 
@@ -79,7 +113,7 @@ public class ProfileTabFragment extends Fragment {
         fragment.setArguments(extras);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
