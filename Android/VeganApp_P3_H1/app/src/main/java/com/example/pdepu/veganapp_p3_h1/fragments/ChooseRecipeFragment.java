@@ -94,11 +94,7 @@ public class ChooseRecipeFragment extends Fragment {
             transaction.replace(R.id.fragment_container, recipeFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-
-
         }
-
-
     }
 
     private void callApi() {

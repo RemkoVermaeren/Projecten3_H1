@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -32,6 +33,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.Token;
@@ -375,7 +377,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+            protected Boolean doInBackground(Void... params) {
 
             try {
                 Response<Token> response = service.loginUser(mEmail, mPassword).execute();
@@ -384,10 +386,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 if (response.body() != null)
                     token = response.body();
                 return response.isSuccessful();
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 return false;
             }
-
         }
 
         @Override
@@ -405,8 +406,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 startActivity(intent);
                 finish();
             } else {
-                if (message != null && !message.isEmpty()) {
-                    if (message.contains("username")) {
+                if (message == null || !message.isEmpty()) {
+                    if (message == null){
+                        mEmailView.setError(getString(R.string.error_network));
+                        mEmailView.requestFocus();
+                    } else if (message.contains("username")) {
                         mEmailView.setError(getString(R.string.error_invalid_email));
                         mEmailView.requestFocus();
                     } else if (message.contains("password")) {

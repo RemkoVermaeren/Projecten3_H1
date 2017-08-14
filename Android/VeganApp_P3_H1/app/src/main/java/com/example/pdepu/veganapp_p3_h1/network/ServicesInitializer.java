@@ -24,7 +24,7 @@ public class ServicesInitializer {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http:/192.168.1.58:3000/api/")
+                .baseUrl("http:/192.168.0.146:3000/api/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

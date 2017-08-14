@@ -70,7 +70,7 @@ public class ChooseRestaurantFragment extends Fragment {
 
     }
 
-    private class ListFragmentOnClickListener implements View.OnClickListener {
+    public class ListFragmentOnClickListener implements View.OnClickListener {
         private final Context context;
 
         public ListFragmentOnClickListener(Context context) {

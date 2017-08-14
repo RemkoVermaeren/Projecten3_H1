@@ -8,29 +8,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/makeFood"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/make_food"
+        android:text="@string/choose_blog"
         android:layout_gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
         />
 
-    <Button
-        android:id="@+id/goToDinner"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chooseBlogRecylerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dinner"
-        android:layout_gravity="center"
-        />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/goToBlogs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/blogs"
-        android:layout_gravity="center"
-        />
-
-
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

@@ -237,6 +237,4 @@ public class MainActivity extends AppCompatActivity
         textViewUsername.setText(user.getName() + " " + user.getSurName());
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
-
-
 }

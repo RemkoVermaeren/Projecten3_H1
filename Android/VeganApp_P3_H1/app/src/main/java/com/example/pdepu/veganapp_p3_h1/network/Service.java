@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.network;
 
+import com.example.pdepu.veganapp_p3_h1.models.Blog;
 import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
 import com.example.pdepu.veganapp_p3_h1.models.Restaurant;
@@ -22,6 +23,10 @@ import retrofit2.http.Path;
  */
 
 public interface Service {
+
+    // region HANDLE BLOGS
+    @GET("blogs")
+    Call<List<Blog>> getAllBlogs();
 
     //region HANDLE RECIPES
     @GET("recipes")

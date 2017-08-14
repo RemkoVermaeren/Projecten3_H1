@@ -25,11 +25,12 @@ public class ChallengeFragment extends Fragment {
     @BindView(R.id.goToDinner)
     Button goToDinnerButton;
 
+    @BindView(R.id.goToBlogs)
+    Button goToBooksAndBlogs;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -51,5 +52,9 @@ public class ChallengeFragment extends Fragment {
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 
-
+    @OnClick(R.id.goToBlogs)
+    public void onClickBooksAndBlogs(){
+        ChooseBlogFragment fragment = new ChooseBlogFragment();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+    }
 }

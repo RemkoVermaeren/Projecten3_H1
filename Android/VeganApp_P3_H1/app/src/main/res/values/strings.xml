@@ -13,8 +13,9 @@
     <string name="goto_restaurant">Go to restaurant</string>
     <string name="choose_recipe">Choose a recipe</string>
     <string name="choose_restaurant">Choose a restaurant</string>
+    <string name="choose_blog">Blogs and articles</string>
     <string name="dinner">Go out for dinner</string>
-    <string name="todo">Todo</string>
+    <string name="blogs">Read blogs and articles</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
     <string name="open_google_maps">Open on map</string>
