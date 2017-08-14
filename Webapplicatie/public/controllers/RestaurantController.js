@@ -46,8 +46,8 @@
                      vm.restaurant.picture = dataImg;
                      restaurantService.create(vm.restaurant).success(function (data) {
                          vm.restaurants.push(data.data);
-                     })
-                 }).then($state.go("restaurants"));
+                     }).then($state.go("restaurants"));
+                 });
              }else{
                  return  restaurantService.create(vm.restaurant).success(function (data) {
                      vm.restaurants.push(data.data);
@@ -57,22 +57,14 @@
 
         function modifyRestaurant() {
             if (!validRestaurant()) {
-                $log.log("NOT VALID");
-
-                $log.log(vm.restaurant);
                 return;
             }
             if(vm.image){
-                $log.log("if");
-                $log.log(vm.restaurant);
-
                 return restaurantService.uploadImage(vm.image).success(function(dataImg){
                     vm.restaurant.picture = dataImg;
                     restaurantService.update($stateParams.id, vm.restaurant).then($state.go("restaurants"));
                 });
             }else {
-                $log.log("else");
-                $log.log(vm.restaurant);
                 return restaurantService.update($stateParams.id, vm.restaurant).then($state.go("restaurants"));
             }
         }

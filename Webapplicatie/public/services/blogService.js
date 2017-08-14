@@ -12,7 +12,8 @@
             create: create,
             get: get,
             update: update,
-            deleteBlog: deleteBlog
+            deleteBlog: deleteBlog,
+            uploadImage: uploadImage
         };
         return service;
 
@@ -54,6 +55,11 @@
             }).then(function(res) {
                 return res.data;
             })
+        }
+        function uploadImage(image) {
+            return $http.post('/api/upload/image', image).success(function (data) {
+                return data;
+            });
         }
     }
 })();

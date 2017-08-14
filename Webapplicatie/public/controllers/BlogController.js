@@ -43,14 +43,29 @@
             if (!validBlog()) {
                 return;
             }
-            return blogService.create(vm.blog).then(function (data) {
-                vm.blogs.push(data.data);
-            }).then($state.go("blogs"));
+            if(vm.image){
+                return blogService.uploadImage(vm.image).success(function(dataImg){
+                    vm.blog.picture = dataImg;
+                    blogService.create(vm.blog).success(function (data) {
+                        vm.blogs.push(data.data);
+                    }).then($state.go("blogs"));
+                });
+            }else{
+                return blogService.create(vm.blog).success(function (data) {
+                    vm.blogs.push(data.data);
+                }).then($state.go("blogs"));
+            }
         }
 
         function modifyBlog() {
             if (!validBlog()) {
                 return;
+            }
+            if(vm.image){
+                return blogService.uploadImage(vm.image).success(function(dataImg){
+                    vm.blog.picture = dataImg;
+                    blogService.update($stateParams.id, vm.blog);
+                }).then($state.go("blogs"));
             }
             return blogService.update($stateParams.id, vm.blog).then($state.go("blogs"));
         }
