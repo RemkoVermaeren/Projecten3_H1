@@ -242,14 +242,9 @@ public class MainActivity extends AppCompatActivity
         textViewUsername.setText(user.getName() + " " + user.getSurName());
         textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
     }
-<<<<<<< HEAD
-=======
 
     private void setSharedPreferences(){
         SharedPreferences preferences = getSharedPreferences("prefs", Activity.MODE_PRIVATE);
         preferences.edit().putString("tokenStringPreferences", new Gson().toJson(token)).apply();
     }
-
-
->>>>>>> origin/master
 }
