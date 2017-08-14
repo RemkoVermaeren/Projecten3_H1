@@ -82,5 +82,11 @@ public interface Service {
     Call<User> deleteFollower(@Path("user") String userId, @Path("userfollow") String followerId, @Field("token") String token);
     //endregion
 
+    //region HANDLE FEED
+    @FormUrlEncoded
+    @POST("...")
+    Call<User> likeChallenge(@Path("user") String userId, @Path("challenge") String challengeName, @Field("token") String token);
+    //endregion
+
 
 }

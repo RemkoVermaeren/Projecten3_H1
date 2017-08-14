@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.fragments.FeedFragment;
 import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.FeedItem;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by maartenvanmeersche on 9/08/17.
@@ -26,9 +29,10 @@ import butterknife.ButterKnife;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder> {
     public ArrayList<FeedItem> feedItems;
-
-    public FeedAdapter(ArrayList<FeedItem> feedItems) {
+    private FeedFragment fragment;
+    public FeedAdapter(ArrayList<FeedItem> feedItems, FeedFragment fragment) {
         this.feedItems = feedItems;
+        this.fragment = fragment;
     }
 
 
@@ -54,11 +58,22 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     @Override
     public void onBindViewHolder(FeedViewHolder holder, int position){
-        FeedItem f = feedItems.get(position);
+        final FeedItem f = feedItems.get(position);
         TextView feed = holder.feedCardView;
         Button like = holder.btnLike;
-        Context context = holder.feedCardView.getContext();
+        final Context context = holder.feedCardView.getContext();
         feed.setText(f.toString());
+
+        like.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                fragment.onClickLike(view, f); //Crash Routing has to be changed
+                //CharSequence text = "Liked post";
+                //int duration = Toast.LENGTH_SHORT;
+                //Toast toast = Toast.makeText(context, text, duration);
+                //toast.show();
+            }
+        });
     }
 
     public void clear() {
@@ -70,6 +85,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         feedItems.addAll(items);
         notifyDataSetChanged();
     }
+
+
 
     @Override
     public int getItemCount(){

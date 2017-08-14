@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.Challenge;
@@ -89,7 +90,7 @@ public class FeedFragment extends Fragment {
         //User test = new User("testUser", "testName", "testSurname", new Date(), true, "password");
         //feedItems.add(new FeedItem(test, new Challenge("testChallengeTrue", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
 
-        adapter = new FeedAdapter(feedItems);
+        adapter = new FeedAdapter(feedItems, FeedFragment.this);
         feedRecyclerView.setAdapter(adapter);
 
         return rootView;
@@ -144,5 +145,28 @@ public class FeedFragment extends Fragment {
                 Log.i("failure", t.toString());
             }
         });
+    }
+
+    public void onClickLike(final View view, FeedItem item) {
+        Call<User> usersCall = service.likeChallenge(item.getUser().get_id(), item.getChallenge().getName(), item.getUser().getToken().getToken());
+        usersCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    //lock like or different color ?
+                    CharSequence text = "Liked post";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(getActivity(), text, duration);
+                    toast.show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("Error network", t.toString());
+            }
+        });
+
     }
 }
