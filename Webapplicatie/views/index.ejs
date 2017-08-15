@@ -77,51 +77,15 @@
 
     <script type="text/ng-template" id="/home.html">
         <div class="page-header">
-            <h2>Restaurants</h2>
+            <h2>Overview</h2>
         </div>
-        <div ng-hide="ctrl.isRestaurantsEmpty()" class="table-responsive">
-            <table class="table table-striped">
-                <!-- Repeat for restaurants  -->
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Place
-                        </th>
-                        <th>
-                            Openingtime
-                        </th>
-                        <th>
-                            Closingtime
-                        </th>
-                        <th>Wheelchair access</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="restaurant in ctrl.restaurants | orderBy:'name'">
-                        <td><a href="#/restaurants/{{restaurant._id}}">{{restaurant.name}}</a></td>
-                        <td>{{restaurant.place}}</td>
-                        <td>{{restaurant.openingtime | date:'HH:mm'}}</td>
-                        <td>{{restaurant.closingtime | date:'HH:mm'}}</td>
-                        <td><input type="checkbox" ng-model="restaurant.wheelchairAccess" disabled="disabled" /></td>
-                        <td><a href="#/restaurants/{{restaurant._id}}/menus">Show menus</a></td>
-                        <td>
-                            <a class="glyphicon glyphicon-cog" href="#/restaurants/{{restaurant._id}}/edit"></a>
-                        </td>
-                        <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteRestaurant(restaurant)"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div>
+            <p>{{ctrl.getNumberOfBlogs()}} active blogs</p>
+            <p>{{ctrl.getNumberOfRecipes()}} active recipes</p>
+            <p>{{ctrl.getNumberOfRestaurants()}} active restaurants</p>
+            <p>{{ctrl.getNumberOfUsers()}} active users</p>
         </div>
-        <div ng-show="ctrl.isRestaurantsEmpty()">
-            <p>No restaurants available.</p>
-        </div>
-        <a href="#/newrestaurant"><span class="glyphicon glyphicon-plus"></span> Add new restaurant</a>
+
     </script>
 
     <script type="text/ng-template" id="/restaurants.html">

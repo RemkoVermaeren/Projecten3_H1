@@ -269,11 +269,10 @@
     router.post('/:user/challenges/', function (req, res, next) {
         var challenge = new Challenge(req.body);
         challenge.createdBy = req.user;
-        challenge.save(function (err, faq) {
+        challenge.save(function (err, challenge) {
             if (err) {
                 return next(err);
             }
-
         });
         User.findById(req.user._id, function (err, user) {
             if (err) {

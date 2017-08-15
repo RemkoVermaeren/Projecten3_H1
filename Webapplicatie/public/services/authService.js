@@ -18,6 +18,7 @@
             logOut: logOut,
             changePassword: changePassword,
             getAll: getAll,
+            getAllUsers: getAllUsers,
             deleteUser: deleteUser
         };
         return service;
@@ -28,6 +29,13 @@
 
             });
         }
+
+        function getAllUsers(){
+            return $http.get('/api/users/nonadmins').success(function(data) {
+                return data;
+            });
+        }
+
         function saveToken(token) {
             $window.localStorage['hogent-app-token'] = token;
         }
