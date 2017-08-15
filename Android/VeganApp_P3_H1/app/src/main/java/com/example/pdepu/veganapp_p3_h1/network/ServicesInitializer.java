@@ -18,7 +18,6 @@ public class ServicesInitializer {
 //        .baseUrl("http://192.168.1.58:3000/api/") //.0.227
         //.baseUrl("http:/192.168.0.146:3000/api/")
 
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).connectTimeout(30, TimeUnit.SECONDS)

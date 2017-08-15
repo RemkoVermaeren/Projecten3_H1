@@ -45,7 +45,7 @@ public class ChooseBlogFragment extends Fragment {
     @BindView(R.id.chooseBlogRecylerView)
     RecyclerView chooseBlogRecyclerView;
 
-    public static ChooseRestaurantFragment.ListFragmentOnClickListener listFragmentOnClickListener;
+    public static ChooseBlogFragment.ListFragmentOnClickListener listFragmentOnClickListener;
     private LinearLayoutManager layoutManager;
     private ChooseBlogAdapter adapter;
 
@@ -53,6 +53,7 @@ public class ChooseBlogFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
+       listFragmentOnClickListener = new ListFragmentOnClickListener(getContext());
         callBlogApi();
     }
 
@@ -85,7 +86,6 @@ public class ChooseBlogFragment extends Fragment {
                             return obj2.getDate().compareTo(obj1.getDate());
                         }
                     });
-
 
                     blogs.addAll(blogsResponse);
                     adapter.notifyDataSetChanged();
