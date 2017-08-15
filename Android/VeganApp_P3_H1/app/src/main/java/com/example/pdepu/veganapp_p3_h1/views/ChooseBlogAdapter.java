@@ -50,7 +50,7 @@ public class ChooseBlogAdapter extends RecyclerView.Adapter<ChooseBlogAdapter.Ch
             Picasso.with(context).load(blog.getPicture()).resize(120,150).into(image);
         }
 
-        title.setText(blog.getName());
+        title.setText(blog.getName() + " - ");
         //description.setText(blog.getDescription()); Todo nog in webapp steken.
         author.setText(blog.getAuthor());
     }

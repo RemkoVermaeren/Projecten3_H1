@@ -1,6 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +14,14 @@ import android.view.ViewGroup;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.Blog;
+import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.example.pdepu.veganapp_p3_h1.views.ChooseBlogAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,7 +73,17 @@ public class ChooseBlogFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Blog>> call, Response<List<Blog>> response) {
                 if(response.isSuccessful()){
-                    blogs.addAll(response.body());
+                    blogs.clear();
+
+                    ArrayList<Blog> blogsResponse = new ArrayList<Blog>(response.body());
+                    Collections.sort(blogsResponse, new Comparator<Blog>() {
+                        @Override
+                        public int compare(Blog obj1, Blog obj2) {
+                            return obj1.getDate().compareTo(obj2.getDate());
+                        }
+                    });
+
+                    blogs.addAll(blogsResponse);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -91,6 +106,12 @@ public class ChooseBlogFragment extends Fragment {
         public void onClick(View view) {
             Blog blogSelected = blogs.get(chooseBlogRecyclerView.getChildAdapterPosition(view));
 
+            if(getArguments() != null){
+                
+            }
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(blogSelected.getWebsite()));
+            startActivity(intent);
         }
     }
 }
