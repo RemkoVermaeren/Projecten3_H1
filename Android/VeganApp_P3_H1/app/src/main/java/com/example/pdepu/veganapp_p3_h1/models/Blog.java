@@ -8,30 +8,22 @@ import java.util.Date;
 
 public class Blog {
     private String _id;
-    private String title;
-    private Date publishDate;
+    private String name;
+    private Date date;
     private String website;
     private String description;
+    private String picture;
+    private String author;
 
-    public Blog(){
+    public Blog(String id, String name, Date date, String website, String description, String picture, String author){
 
-    }
-
-    public Blog(String id, String title, Date publishDate, String website, String description) {
         _id = id;
-        this.title = title;
-        this.publishDate = publishDate;
+        this.name = name;
+        this.date = date;
         this.website = website;
         this.description = description;
-    }
-
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
+        this.picture = picture;
+        this.author = author;
     }
 
     public String getDescription() {
@@ -42,20 +34,28 @@ public class Blog {
         this.description = description;
     }
 
-    public Date getPublishDate() {
-        return publishDate;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
-    public String getTitle() {
-        return title;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String get_id() {
@@ -64,5 +64,21 @@ public class Blog {
 
     protected void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

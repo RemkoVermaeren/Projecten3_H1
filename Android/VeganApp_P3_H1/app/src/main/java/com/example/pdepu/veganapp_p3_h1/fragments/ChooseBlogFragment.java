@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ public class ChooseBlogFragment extends Fragment {
     @BindView(R.id.chooseBlogRecylerView)
     RecyclerView chooseBlogRecyclerView;
 
+    public static ChooseRestaurantFragment.ListFragmentOnClickListener listFragmentOnClickListener;
     private LinearLayoutManager layoutManager;
     private ChooseBlogAdapter adapter;
 
@@ -67,7 +69,7 @@ public class ChooseBlogFragment extends Fragment {
             public void onResponse(Call<List<Blog>> call, Response<List<Blog>> response) {
                 if(response.isSuccessful()){
                     blogs.addAll(response.body());
-                    adapter.notify();
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -76,5 +78,19 @@ public class ChooseBlogFragment extends Fragment {
                 Log.i("failure", t.toString());
             }
         });
+    }
+
+    public class ListFragmentOnClickListener implements View.OnClickListener{
+        private final Context context;
+
+        public ListFragmentOnClickListener(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Blog blogSelected = blogs.get(chooseBlogRecyclerView.getChildAdapterPosition(view));
+
+        }
     }
 }

@@ -19,42 +19,60 @@
                 android:id="@+id/chooseBlogTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="30sp"
-                android:textColor="@color/colorTextCardView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:autoLink="web"
+                android:linksClickable="true"
                 android:shadowColor="@color/text_shadow"
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="2"
                 android:text="@string/placeholder"
-                android:autoLink="web"
-                android:linksClickable="true"/>
-
-            <TextView
-                android:id="@+id/chooseBlogDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="20sp"
                 android:textColor="@color/colorTextCardView"
-                android:shadowColor="@color/text_shadow"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                android:text="@string/placeholder"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/chooseBlogAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="20sp"
-                android:textColor="@color/colorTextCardView"
+                android:layout_alignParentRight="true"
                 android:shadowColor="@color/text_shadow"
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="2"
-                android:text="@string/placeholder"/>
+                android:text="@string/placeholder"
+                android:textColor="@color/colorTextCardView"
+                android:textSize="15sp"
+                android:layout_alignParentTop="true" />
+
+            <ImageView
+                android:id="@+id/chooseBlogImage"
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@string/placeholder"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:id="@+id/chooseBlogDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="@string/placeholder"
+                android:textColor="@color/colorTextCardView"
+                android:textSize="20sp"
+                android:layout_alignTop="@+id/chooseBlogImage"
+                android:layout_alignLeft="@+id/chooseBlogAuthor"
+                android:layout_alignStart="@+id/chooseBlogAuthor"
+                android:layout_marginTop="32dp" />
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
