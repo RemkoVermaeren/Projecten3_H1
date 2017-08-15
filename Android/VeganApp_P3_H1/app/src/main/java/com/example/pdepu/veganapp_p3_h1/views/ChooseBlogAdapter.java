@@ -42,7 +42,7 @@ public class ChooseBlogAdapter extends RecyclerView.Adapter<ChooseBlogAdapter.Ch
         Blog blog = blogs.get(position);
         TextView title = holder.title;
         TextView description = holder.description;
-        TextView author = holder.author;
+        //TextView author = holder.author;
         ImageView image = holder.image;
 
         Context context = holder.title.getContext();
@@ -50,9 +50,9 @@ public class ChooseBlogAdapter extends RecyclerView.Adapter<ChooseBlogAdapter.Ch
             Picasso.with(context).load(blog.getPicture()).resize(120,150).into(image);
         }
 
-        title.setText(blog.getName() + " - ");
+        title.setText(blog.getName() + " - " + blog.getAuthor());
         //description.setText(blog.getDescription()); Todo nog in webapp steken.
-        author.setText(blog.getAuthor());
+        //author.setText(blog.getAuthor());
     }
 
     @Override
@@ -68,8 +68,8 @@ public class ChooseBlogAdapter extends RecyclerView.Adapter<ChooseBlogAdapter.Ch
         @BindView(R.id.chooseBlogDescription)
         TextView description;
 
-        @BindView(R.id.chooseBlogAuthor)
-        TextView author;
+//        @BindView(R.id.chooseBlogAuthor)
+//        TextView author;
 
         @BindView(R.id.chooseBlogImage)
         ImageView image;

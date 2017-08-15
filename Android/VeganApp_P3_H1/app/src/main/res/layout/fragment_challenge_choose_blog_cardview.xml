@@ -15,37 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/chooseBlogTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:shadowColor="@color/text_shadow"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                android:text="@string/placeholder"
-                android:textColor="@color/colorTextCardView"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/chooseBlogAuthor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:shadowColor="@color/text_shadow"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                android:text="@string/placeholder"
-                android:textColor="@color/colorTextCardView"
-                android:textSize="15sp"
-                android:layout_alignParentTop="true" />
-
             <ImageView
                 android:id="@+id/chooseBlogImage"
                 android:layout_width="120dp"
@@ -59,6 +28,40 @@
                 android:layout_below="@+id/chooseBlogTitle" />
 
             <TextView
+                android:id="@+id/chooseBlogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="@dimen/leaderboard_margin"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="@string/placeholder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/chooseBlogAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="@string/placeholder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="15sp"
+                android:layout_alignParentTop="true" />
+
+
+
+            <TextView
                 android:id="@+id/chooseBlogDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +70,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="2"
                 android:text="@string/placeholder"
-                android:textColor="@color/colorTextCardView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
                 android:layout_toRightOf="@+id/chooseBlogImage"
                 android:layout_marginTop="32dp" />
