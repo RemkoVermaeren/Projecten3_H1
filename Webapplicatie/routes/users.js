@@ -268,6 +268,7 @@
 
     router.post('/:user/challenges/', function (req, res, next) {
         var challenge = new Challenge(req.body);
+        challenge.createdBy = req.user;
         challenge.save(function (err, faq) {
             if (err) {
                 return next(err);
