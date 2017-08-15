@@ -223,13 +223,32 @@
         });
     });
     //endregion
-
     router.get('/:user/challenges', function(req,res){
        User.findById(req.user._id).populate('challenges').exec(function(err,user){
         res.json(user.challenges);
        });
     });
-   router.post('/:user/challenges/', function (req, res, next) {
+
+    router.get('/:user/feed', function (req,res){
+       var query = User.where('_id').in(req.user.followingUsers).populate('challenges');
+        query.exec(function (err, users) {
+            if (err) {
+                return next(err);
+            }
+            if (!users) {
+                return next(new Error('can\'t find the users'));
+            }
+            var feed = [];
+            users.forEach(function(us){
+                us.challenges.forEach(function(chall){
+                    feed.push(chall);
+                })
+            });
+            res.json(feed);
+        });
+    });
+
+    router.post('/:user/challenges/', function (req, res, next) {
         var challenge = new Challenge(req.body);
         challenge.save(function (err, faq) {
             if (err) {
