@@ -13,13 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
 import com.example.pdepu.veganapp_p3_h1.models.Blog;
+import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.example.pdepu.veganapp_p3_h1.views.ChooseBlogAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -50,7 +53,7 @@ public class ChooseBlogFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
-        callApi();
+        callBlogApi();
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ChooseBlogFragment extends Fragment {
         return rootView;
     }
 
-    private void callApi() {
+    private void callBlogApi() {
         Call<List<Blog>> blogCall = service.getAllBlogs();
         blogCall.enqueue(new Callback<List<Blog>>() {
             @Override
@@ -79,9 +82,10 @@ public class ChooseBlogFragment extends Fragment {
                     Collections.sort(blogsResponse, new Comparator<Blog>() {
                         @Override
                         public int compare(Blog obj1, Blog obj2) {
-                            return obj1.getDate().compareTo(obj2.getDate());
+                            return obj2.getDate().compareTo(obj1.getDate());
                         }
                     });
+
 
                     blogs.addAll(blogsResponse);
                     adapter.notifyDataSetChanged();
@@ -106,12 +110,28 @@ public class ChooseBlogFragment extends Fragment {
         public void onClick(View view) {
             Blog blogSelected = blogs.get(chooseBlogRecyclerView.getChildAdapterPosition(view));
 
-            if(getArguments() != null){
-                
-            }
+            Challenge challenge = new Challenge("Blog", blogSelected.getName() , blogSelected.getPicture(), Calendar.getInstance().getTime(), 0, 10, true);
+            callApi(challenge);
 
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(blogSelected.getWebsite()));
             startActivity(intent);
+        }
+
+        private void callApi(Challenge challenge) {
+            MainActivity activity = (MainActivity)getActivity();
+            Call<User> challengeCall = service.postChallenge(activity.token.getUserid(), challenge);
+            challengeCall.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful()){
+                        Log.i("SUCCESS", "Blog challenge posted to user");
+                    }
+                }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.i("FAILURE", t.toString());
+                }
+            });
         }
     }
 }
