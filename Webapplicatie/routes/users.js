@@ -166,6 +166,24 @@
             return next();
         });
     });
+
+    router.param('challenge', function(req,res,next,id){
+        var query = Challenge.findById(id);
+
+        query.exec(function(err, challenge) {
+            if (err) {
+                return next(err);
+            }
+            if (!challenge) {
+                return next(new Error('can\'t find challenge'));
+            }
+
+            req.challenge = challenge;
+            return next();
+        });
+    });
+
+
     router.param('userfollow', function(req, res, next, id) {
         var query = User.findById(id);
 
@@ -254,10 +272,8 @@
             if (err) {
                 return next(err);
             }
-            //res.json(faq);
-            //next();
+
         });
-        console.log(challenge);
         User.findById(req.user._id, function (err, user) {
             if (err) {
                 res.send(err);
@@ -270,6 +286,28 @@
                     res.send(err);
                 }
                 res.json(user);
+            });
+        });
+    });
+    router.put('/:user/challenges/:challenge/like', function(req, res, next) {
+        Challenge.findById(req.challenge._id, function(err, challenge){
+            challenge.amountOfLikes += 1;
+            challenge.likedBy.addToSet(req.user);
+            challenge.save(function(err,challenge){
+                if (err) { return next(err); }
+
+                res.json(challenge);
+            });
+        });
+    });
+    router.put('/:user/challenges/:challenge/dislike', function(req, res, next) {
+        Challenge.findById(req.challenge._id, function(err, challenge){
+            challenge.amountOfLikes -= 1;
+            challenge.likedBy.pull(req.user._id);
+            challenge.save(function(err,challenge){
+                if (err) { return next(err); }
+
+                res.json(challenge);
             });
         });
     });

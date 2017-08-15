@@ -5,12 +5,17 @@ var ChallengeSchema = new mongoose.Schema({
     description: String,
     picture: String,
     date: { type: Date, default: Date.now},
-    amountOfLikes: Number,
+    amountOfLikes: {type: Number, default: 0},
     veganScore: Number,
-    isCompleted: Boolean
+    isCompleted: Boolean,
+    createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    likedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 });
 
 mongoose.model('Challenge', ChallengeSchema);
-
-
-// Todo : Methode voor likes + 1 en likes - 1
