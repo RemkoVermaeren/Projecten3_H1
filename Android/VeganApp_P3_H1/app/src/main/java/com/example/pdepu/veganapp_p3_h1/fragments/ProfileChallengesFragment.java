@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -68,7 +69,7 @@ public class ProfileChallengesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_profile_challenges, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile_challenge, container, false);
         ButterKnife.bind(this, rootView);
 
 
@@ -76,6 +77,11 @@ public class ProfileChallengesFragment extends Fragment {
         adapter = new ProfileChallengeAdapter(challenges);
 
         challengeRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(challengeRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        challengeRecyclerView.addItemDecoration(dividerItemDecoration);
+
         challengeRecyclerView.setAdapter(adapter);
         challengeRecyclerView.setHasFixedSize(true);
 

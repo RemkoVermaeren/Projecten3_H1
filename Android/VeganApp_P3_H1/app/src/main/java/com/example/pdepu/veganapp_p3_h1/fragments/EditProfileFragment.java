@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
@@ -53,6 +54,9 @@ public class EditProfileFragment extends Fragment {
     private Service service;
     private Token token;
     private User user;
+
+    @BindView(R.id.addPictureLayout)
+    RelativeLayout addPictureLayout;
 
     @BindView(R.id.imageViewUserEdit)
     ImageView imageViewUserEdit;
@@ -167,7 +171,7 @@ public class EditProfileFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.imageViewUserEdit)
+    @OnClick(R.id.addPictureLayout)
     public void onClick() {
         pickImage();
 

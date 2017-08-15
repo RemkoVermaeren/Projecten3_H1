@@ -2,6 +2,7 @@ package com.example.pdepu.veganapp_p3_h1.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,6 +57,10 @@ public class LeaderboardFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         leaderboardRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(leaderboardRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        leaderboardRecyclerView.addItemDecoration(dividerItemDecoration);
 
         adapter = new LeaderboardAdapter(users);
         leaderboardRecyclerView.setAdapter(adapter);

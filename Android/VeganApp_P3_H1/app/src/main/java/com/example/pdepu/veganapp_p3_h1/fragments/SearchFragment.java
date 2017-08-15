@@ -3,6 +3,7 @@ package com.example.pdepu.veganapp_p3_h1.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class SearchFragment extends Fragment {
 
     private SearchAdapter adapter;
     private FragmentSearchBinding binding;
+    private LinearLayoutManager layoutManager;
 
     private User user;
     private Token token;
@@ -72,7 +74,13 @@ public class SearchFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         ButterKnife.bind(this, binding.getRoot());
         adapter = new SearchAdapter(this.getContext(), FullNameComparator, new User(), (MainActivity) getActivity());
-        binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        layoutManager = new LinearLayoutManager(this.getContext());
+        binding.searchRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.searchRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        binding.searchRecyclerView.addItemDecoration(dividerItemDecoration);
+
         binding.searchRecyclerView.setAdapter(adapter);
         binding.searchRecyclerView.setHasFixedSize(true);
 

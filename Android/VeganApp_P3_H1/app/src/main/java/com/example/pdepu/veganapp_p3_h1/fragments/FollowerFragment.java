@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class FollowerFragment extends Fragment {
 
     private FollowersAdapter adapter;
     private FragmentFollowersBinding binding;
+    private LinearLayoutManager layoutManager;
 
     private User user;
     private Token token;
@@ -78,8 +80,15 @@ public class FollowerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers, container, false);
         ButterKnife.bind(this, binding.getRoot());
+        layoutManager = new LinearLayoutManager(this.getContext());
         adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user, ((MainActivity) getActivity()));
-        binding.followersRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+
+        binding.followersRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.followersRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        binding.followersRecyclerView.addItemDecoration(dividerItemDecoration);
+
         binding.followersRecyclerView.setAdapter(adapter);
         binding.followersRecyclerView.setHasFixedSize(true);
 
