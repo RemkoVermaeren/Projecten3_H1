@@ -190,7 +190,7 @@ public class PublishRestaurantFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                challenge = new Challenge("RecipeChallenge", restaurantName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(restaurantPoints), true);
+                challenge = new Challenge("Restaurant", restaurantName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(restaurantPoints), true);
                 callApi();
             } else {
 

@@ -13,7 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/make_food"
+        android:drawableLeft="@drawable/ic_kitchen"
+        android:drawableStart="@drawable/ic_kitchen"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/button_margin"
         />
 
     <Button
@@ -21,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dinner"
+        android:drawableLeft="@drawable/ic_restaurant"
+        android:drawableStart="@drawable/ic_restaurant"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/button_margin"
         />
 
     <Button
@@ -29,7 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/blogs"
+        android:drawableLeft="@drawable/ic_book"
+        android:drawableStart="@drawable/ic_book"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/button_margin"
         />
 
 

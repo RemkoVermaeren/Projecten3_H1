@@ -193,7 +193,7 @@ public class PublishRecipeFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                challenge = new Challenge("RecipeChallenge", recipeName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(recipePoints), true);
+                challenge = new Challenge("Recipe", recipeName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(recipePoints), true);
                 callApi();
             } else {
 

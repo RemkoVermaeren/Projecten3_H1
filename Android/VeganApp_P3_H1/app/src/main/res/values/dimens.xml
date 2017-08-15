@@ -8,5 +8,6 @@
     <dimen name="margin_clickabletext">40dp</dimen>
     <dimen name="margin_textToImageView">22dp</dimen>
     <dimen name="leaderboard_margin">8dp</dimen>
+    <dimen name="button_margin">4dp</dimen>
     <dimen name="margin_editText">12dp</dimen>
 </resources>
