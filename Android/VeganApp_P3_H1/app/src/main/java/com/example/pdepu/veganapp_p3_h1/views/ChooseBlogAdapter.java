@@ -1,7 +1,8 @@
 package com.example.pdepu.veganapp_p3_h1.views;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,10 @@ public class ChooseBlogAdapter extends RecyclerView.Adapter<ChooseBlogAdapter.Ch
         TextView author = holder.author;
         ImageView image = holder.image;
 
-        Context context = holder.title.getContext();
         if(blog.getPicture() != null){
-            Picasso.with(context).load(blog.getPicture()).fit().into(image);
+            Picasso.with(image.getContext()).load(UriHandler.resizeUrl(blog.getPicture(),
+                    String.valueOf(((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 130 , Resources.getSystem().getDisplayMetrics()))),
+                    String.valueOf(((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 185, Resources.getSystem().getDisplayMetrics()))))).fit().into(image);
         }
 
         title.setText(blog.getName());

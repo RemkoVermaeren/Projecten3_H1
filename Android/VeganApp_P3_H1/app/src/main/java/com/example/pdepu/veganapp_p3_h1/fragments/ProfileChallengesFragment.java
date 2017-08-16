@@ -60,7 +60,7 @@ public class ProfileChallengesFragment extends Fragment {
         }else{
             SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
             if(prefs.getString("tokenStringPreferences",null) !=  null) {
-                token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
+                token = new Gson().fromJson(prefs.getString("tokenStringPreferences", null), Token.class);
                 callApi();
             }
         }

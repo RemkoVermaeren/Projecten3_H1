@@ -65,11 +65,16 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         Context context = holder.imageViewUserCardView.getContext();
         number.setText(String.valueOf(position + 1));
         if (user.getImage() != null && !user.getImage().isEmpty())
-            Picasso.with(context).load(user.getImage()).resize(60, 60).into(image);
+        {
+            Picasso.with(context).load(UriHandler.resizeUrl(user.getImage(), "60", "60")).into(image);
+        }
+
         username.setText(user.getName() + " " + user.getSurName());
         veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");
 
     }
+
+
 
 
     @Override

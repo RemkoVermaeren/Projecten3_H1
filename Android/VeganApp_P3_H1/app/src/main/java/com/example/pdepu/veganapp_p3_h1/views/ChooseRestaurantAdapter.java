@@ -1,7 +1,9 @@
 package com.example.pdepu.veganapp_p3_h1.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,14 +34,12 @@ public class ChooseRestaurantAdapter extends RecyclerView.Adapter<ChooseRestaura
 
     public static class ChooseRestaurantViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.chooseRestaurantImage)
+        @BindView(R.id.chooseImage)
         ImageView chooseRestaurantImage;
 
-        @BindView(R.id.chooseRestaurantName)
+        @BindView(R.id.chooseName)
         TextView chooseRestaurantName;
 
-//        @BindView(R.id.chooseRestaurantVeganPoints)
-//        TextView chooseRestaurantVeganPoints;
 
         public ChooseRestaurantViewHolder(View itemView) {
             super(itemView);
@@ -49,7 +49,7 @@ public class ChooseRestaurantAdapter extends RecyclerView.Adapter<ChooseRestaura
 
     @Override
     public ChooseRestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_challenge_choose_restaurant_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_challenge_choose_cardview, parent, false);
         view.setOnClickListener(ChooseRestaurantFragment.listFragmentOnClickListener);
         return new ChooseRestaurantViewHolder(view);
     }
@@ -59,12 +59,12 @@ public class ChooseRestaurantAdapter extends RecyclerView.Adapter<ChooseRestaura
         Restaurant restaurant = restaurants.get(position);
         ImageView image = holder.chooseRestaurantImage;
         TextView recipeName = holder.chooseRestaurantName;
-        //TextView veganScore = holder.chooseRestaurantVeganPoints;
         Context context = holder.chooseRestaurantImage.getContext();
         if (restaurant.getPicture() != null && !restaurant.getPicture().isEmpty())
-            Picasso.with(context).load(restaurant.getPicture()).resize(200, 200).into(image);
+            Picasso.with(image.getContext()).load(UriHandler.resizeUrl(restaurant.getPicture(),
+                    String.valueOf(Resources.getSystem().getDisplayMetrics().widthPixels),
+                    String.valueOf(((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 185, Resources.getSystem().getDisplayMetrics()))))).fit().into(image);
         recipeName.setText(restaurant.getName());
-        // veganScore.setText(String.valueOf(restaurant.getVeganPoints()) + " points");
 
     }
 

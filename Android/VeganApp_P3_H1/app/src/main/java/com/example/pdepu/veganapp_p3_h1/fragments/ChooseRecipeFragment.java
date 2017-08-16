@@ -36,7 +36,7 @@ public class ChooseRecipeFragment extends Fragment {
     private Service service;
     private ArrayList<Recipe> recipes = new ArrayList<>();
 
-    @BindView(R.id.chooseRecipeRecylerView)
+    @BindView(R.id.chooseRecylerView)
     RecyclerView chooseRecipeRecyclerView;
 
 
@@ -58,7 +58,7 @@ public class ChooseRecipeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_challenge_choose_recipe, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_challenge_choose, container, false);
         ButterKnife.bind(this,rootView);
 
         layoutManager = new LinearLayoutManager(getActivity());

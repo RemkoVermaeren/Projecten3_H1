@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -171,7 +172,7 @@ public class EditProfileFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.addPictureLayout)
+    @OnClick({R.id.addPictureLayout, R.id.imageViewUserEditButton})
     public void onClick() {
         pickImage();
 
@@ -274,7 +275,9 @@ public class EditProfileFragment extends Fragment {
 
     private void updateView(User user) {
         if (user.getImage() != null && !user.getImage().isEmpty())
-            Picasso.with(imageViewUserEdit.getContext()).load(user.getImage()).fit().into(imageViewUserEdit);
+            Picasso.with(imageViewUserEdit.getContext()).load(UriHandler.resizeUrl(user.getImage(),
+                    String.valueOf(getResources().getDisplayMetrics().widthPixels),
+                    String.valueOf(((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics()))))).into(imageViewUserEdit);
         textViewNameEdit.setText(user.getName());
         textViewSurnameEdit.setText(user.getSurName());
         textViewEmailEdit.setText(user.getUsername());

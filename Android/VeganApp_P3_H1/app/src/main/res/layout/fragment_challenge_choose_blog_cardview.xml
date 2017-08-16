@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="185dp"
         app:cardElevation="3dp"
         app:cardUseCompatPadding="true">
 
@@ -38,8 +38,8 @@
                 android:linksClickable="true"
                 android:text="@string/placeholder"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#555555"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp" />
 
             <TextView

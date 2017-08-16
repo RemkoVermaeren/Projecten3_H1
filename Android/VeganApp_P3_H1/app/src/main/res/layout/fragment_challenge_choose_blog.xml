@@ -8,20 +8,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_blog"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:layout_marginBottom="@dimen/leaderboard_margin"
-        android:textStyle="bold"
-        />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/choose_blog"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:textSize="30sp"-->
+        <!--android:layout_marginBottom="@dimen/leaderboard_margin"-->
+        <!--android:textStyle="bold"-->
+        <!--/>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chooseBlogRecylerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

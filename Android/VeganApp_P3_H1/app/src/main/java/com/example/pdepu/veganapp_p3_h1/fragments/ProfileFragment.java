@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.pdepu.veganapp_p3_h1.models.Token;
 import com.example.pdepu.veganapp_p3_h1.models.User;
 import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
+import com.example.pdepu.veganapp_p3_h1.views.UriHandler;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -62,7 +64,7 @@ public class ProfileFragment extends Fragment {
         } else {
             SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
             if (prefs.getString("tokenStringPreferences", null) != null) {
-                token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
+                token = new Gson().fromJson(prefs.getString("tokenStringPreferences", null), Token.class);
                 callApi();
             }
         }
@@ -109,7 +111,9 @@ public class ProfileFragment extends Fragment {
 
     private void updateView(User user) {
         if (user.getImage() != null && !user.getImage().isEmpty())
-            Picasso.with(imageViewUserProfile.getContext()).load(user.getImage()).fit().into(imageViewUserProfile);
+            Picasso.with(imageViewUserProfile.getContext()).load(UriHandler.resizeUrl(user.getImage(),
+                    String.valueOf(getResources().getDisplayMetrics().widthPixels),
+                    String.valueOf(((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics()))))).into(imageViewUserProfile);
         textViewUsernameProfile.setText(user.getFullName());
         textViewFollowerAmountProfile.setText(String.valueOf(user.getFollowingUsers().length));
         textViewVeganPointsProfile.setText(String.valueOf(user.getTotalVeganScore()));

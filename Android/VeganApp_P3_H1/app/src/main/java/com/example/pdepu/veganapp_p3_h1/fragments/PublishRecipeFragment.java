@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
@@ -59,8 +60,8 @@ public class PublishRecipeFragment extends Fragment {
     @BindView(R.id.publishRecipeButton)
     Button publishRecipeButton;
 
-    @BindView(R.id.uploadRecipeImageButton)
-    Button uploadRecipeImageButton;
+    @BindView(R.id.addPictureLayoutPublish)
+    RelativeLayout addPictureLayoutPublish;
 
     private UploadImageTask uploadImageTask;
     private Map response;
@@ -92,7 +93,7 @@ public class PublishRecipeFragment extends Fragment {
         return rootView;
     }
 
-    @OnClick(R.id.uploadRecipeImageButton)
+    @OnClick({R.id.addPictureLayoutPublish, R.id.recipeImageButton})
     public void onClick() {
         pickImage();
     }

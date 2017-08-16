@@ -40,7 +40,7 @@
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_toEndOf="@id/positionCardView"
                 android:layout_toRightOf="@id/positionCardView"
-                android:src="@android:drawable/sym_def_app_icon"
+                android:src="@drawable/avatar_placeholder_small"
                 app:civ_border_color="@color/text_shadow"
                 app:civ_border_width="2dp" />
 

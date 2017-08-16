@@ -8,19 +8,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_restaurant"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/choose_recipe"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:textSize="30sp"-->
+        <!--android:textStyle="bold"-->
+        <!--/>-->
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/chooseRestaurantRecylerView"
+        android:id="@+id/chooseRecylerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
     </android.support.v7.widget.RecyclerView>
 

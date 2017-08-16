@@ -1,7 +1,9 @@
 package com.example.pdepu.veganapp_p3_h1.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +35,12 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
 
     public static class ChooseRecipeViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.chooseRecipeImage)
+        @BindView(R.id.chooseImage)
         ImageView chooseRecipeImage;
 
-        @BindView(R.id.chooseRecipeName)
+        @BindView(R.id.chooseName)
         TextView chooseRecipeName;
 
-//        @BindView(R.id.chooseRecipeVeganPoints)
-//        TextView chooseRecipeVeganPoints;
 
         public ChooseRecipeViewHolder(View itemView) {
             super(itemView);
@@ -50,7 +50,7 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
 
     @Override
     public ChooseRecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_challenge_choose_recipe_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_challenge_choose_cardview, parent, false);
         view.setOnClickListener(ChooseRecipeFragment.listFragmentOnClickListener);
         return new ChooseRecipeViewHolder(view);
     }
@@ -62,11 +62,13 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<ChooseRecipeAdapte
         TextView recipeName = holder.chooseRecipeName;
         Context context = holder.chooseRecipeImage.getContext();
         if (recipe.getPicture() != null && !recipe.getPicture().isEmpty())
-            Picasso.with(context).load(recipe.getPicture()).resize(200, 200).into(image);
+            Picasso.with(image.getContext()).load(UriHandler.resizeUrl(recipe.getPicture(),
+                    String.valueOf(Resources.getSystem().getDisplayMetrics().widthPixels),
+                    String.valueOf(((int) TypedValue.applyDimension(TypedValue.DENSITY_DEFAULT, 185, Resources.getSystem().getDisplayMetrics()))))).fit().into(image);
         recipeName.setText(recipe.getName());
-        //veganScore.setText(String.valueOf(recipe.getVeganPoints()) + " points");
 
     }
+
 
 
     @Override

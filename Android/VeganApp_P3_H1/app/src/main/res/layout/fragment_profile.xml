@@ -34,15 +34,16 @@
                     android:scaleType="fitXY"
                     android:src="@android:drawable/sym_def_app_icon" />
 
+
                 <TextView
                     android:id="@+id/usernameProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:shadowColor="@color/text_shadow"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
-                    android:shadowRadius="2"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="3"
                     android:text="@string/placeholder"
                     android:textColor="@color/colorTextCardView"
                     android:textSize="30sp" />

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
@@ -58,8 +59,8 @@ public class PublishRestaurantFragment extends Fragment {
     @BindView(R.id.publishRestaurantButton)
     Button publishRestaurantButton;
 
-    @BindView(R.id.uploadRestaurantImageButton)
-    Button uploadRestaurantImageButton;
+    @BindView(R.id.addPictureLayoutPublish)
+    RelativeLayout addPictureLayoutPublish;
 
     private UploadImageTask uploadImageTask;
     private Map response;
@@ -90,7 +91,7 @@ public class PublishRestaurantFragment extends Fragment {
         return rootView;
     }
 
-    @OnClick(R.id.uploadRestaurantImageButton)
+    @OnClick({R.id.addPictureLayoutPublish, R.id.restaurantImageButton})
     public void onClick() {
         pickImage();
     }

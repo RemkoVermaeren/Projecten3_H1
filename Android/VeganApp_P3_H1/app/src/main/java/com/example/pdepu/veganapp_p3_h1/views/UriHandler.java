@@ -124,4 +124,9 @@ public class UriHandler {
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
+
+    public static String resizeUrl(String url, String width, String height){
+        String [] parts = url.split("upload");
+        return (parts[0] + "upload/w_" + width + ",h_" + height+ ",c_scale" + parts[1]);
+    }
 }
