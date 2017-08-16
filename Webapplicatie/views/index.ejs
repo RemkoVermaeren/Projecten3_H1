@@ -5,12 +5,27 @@
     <title>HoGentApp </title>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"
+          type="text/css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+
+
     <script src="/javascripts/hoGentApp.module.js"></script>
     <script src="/javascripts/angularApp.js"></script>
     <script src="/javascripts/directives/ng-file-model.js"></script>
@@ -29,563 +44,611 @@
     <script src="/services/faqService.js"></script>
     <script src="/services/recipeService.js"></script>
     <script src="/services/blogService.js"></script>
-
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').hover(function () {
+                $(this).tooltip('show')
+            });
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').click(function () {
+                $(this).tooltip('hide')
+            });
+        });
+    </script>
     <style>
-        .glyphicon-trash {
+        i {
             cursor: pointer;
         }
     </style>
 </head>
 
 <body ng-app="hoGentApp">
-    <nav class="navbar navbar-default navbar-static-top" ng-controller="NavController as ctrl">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                    aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-                <a class="navbar-brand" href="#/home">HoGentApp</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" ng-controller="NavController as ctrl">
+    <div class="container">
+        <a class="navbar-brand" href="#/home">HoGent - EVA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                <a ng-show="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/home">Home</a>
+                <a ng-hide="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/login">Log In</a>
+                <a ng-show="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/blogs">Blogs</a>
+                <a ng-show="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/restaurants">Restaurants</a>
+                <a ng-show="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/recipes">Recipes</a>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                <p ng-show="ctrl.isLoggedIn()" class="navbar-text navbar-right">
-                    Signed in as {{ctrl.currentUser()}}
-                </p>
-                <ul class="nav navbar-nav navbar-left">
-                    <li ng-show="ctrl.isLoggedIn()"><a href="#" ng-click="ctrl.logOut()">Log Out</a></li>
-                    <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
-                    <li ng-show="ctrl.isLoggedIn()"><a href="#/blogs">Blogs</a></li>
-                    <li ng-show="ctrl.isLoggedIn()"><a href="#/restaurants">Restaurants</a></li>
-                    <li ng-show="ctrl.isLoggedIn()"><a href="#/recipes">Recipes</a></li>
-                </ul>
+            <span ng-show="ctrl.isLoggedIn()" class="navbar-text">
+      Signed in as {{ctrl.currentUser()}} |
+    </span>
+            <div class="navbar-nav">
+                <a ng-show="ctrl.isLoggedIn()" class="nav-item nav-link" href="#" ng-click="ctrl.logOut()">Log
+                    Out</a>
             </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-    <div class="row">
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-            <ui-view></ui-view>
         </div>
     </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <ui-view class="col"></ui-view>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <hr>
+        <p class="text-center text-muted ">Made by Remko, Pol, Kas &amp Maarten</p>
+    </div>
+</footer>
 
-    <script type="text/ng-template" id="/home.html">
-        <div class="page-header">
-            <h2>Overview</h2>
-        </div>
-        <div>
-            <p>{{ctrl.getNumberOfBlogs()}} active blogs</p>
-            <p>{{ctrl.getNumberOfRecipes()}} active recipes</p>
-            <p>{{ctrl.getNumberOfRestaurants()}} active restaurants</p>
-            <p>{{ctrl.getNumberOfUsers()}} active users</p>
-        </div>
 
-    </script>
+<script type="text/ng-template" id="/home.html">
+    <h1>Overview</h1>
+    <hr>
+    <p class="text-center">Currently active on EVA vegan</p>
+    <div class="text-center">
+        <h3>Blogs</h3>
+        <a href="#/blogs" data-toggle="tooltip" data-placement="bottom" title="Go to overview of blogs"><p>
+                {{ctrl.getNumberOfBlogs()}}</p></a>
+    </div>
+    <div class="text-center">
+        <h3>Recipes</h3>
+        <a href="#/recipes" data-toggle="tooltip" data-placement="bottom" title="Go to overview of recipes"><p>
+                {{ctrl.getNumberOfRecipes()}}</p></a>
+    </div>
+    <div class="text-center">
+        <h3>Restaurants</h3>
+        <a href="#/restaurants" data-toggle="tooltip" data-placement="bottom" title="Go to overview of restaurants"><p>
+                {{ctrl.getNumberOfRestaurants()}}</p></a>
+    </div>
+    <div class="text-center">
+        <h3>Users</h3>
+        <p>{{ctrl.getNumberOfUsers()}}</p>
+    </div>
 
-    <script type="text/ng-template" id="/restaurants.html">
-        <div class="page-header">
-            <h2>Restaurants</h2>
-        </div>
-        <div ng-hide="ctrl.isRestaurantsEmpty()" class="table-responsive">
-            <table class="table table-striped">
-                <!-- Repeat for restaurants  -->
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
 
-                        <th>
-                            Rating
-                        </th>
-                        <th>
-                            Vegan Points
-                        </th>
-                        <th>Wheelchair access</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="restaurant in ctrl.restaurants | orderBy:'name'">
-                        <td><a href="#/restaurants/{{restaurant._id}}">{{restaurant.name}}</a></td>
-                        <td>{{restaurant.rating}}</td>
-                        <td>{{restaurant.veganPoints}}</td>
-                        <td><input type="checkbox" ng-model="restaurant.wheelchairAccess" disabled="disabled" /></td>
-                        <td>
-                            <a class="glyphicon glyphicon-cog" href="#/restaurants/{{restaurant._id}}/edit"></a>
-                        </td>
-                        <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteRestaurant(restaurant)"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div ng-show="ctrl.isRestaurantsEmpty()">
-            <p>No restaurants available.</p>
-        </div>
-        <a href="#/newrestaurant"><span class="glyphicon glyphicon-plus"></span> Add new restaurant</a>
-    </script>
-    <script type="text/ng-template" id="/restaurant.html">
-        <div class="page-header" ng-init="ctrl.getRestaurant()">
-            <h2>{{ctrl.restaurant.name}}</h2>
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-map-marker"></span> <b>Address</b> : {{ctrl.restaurant.address}}
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-time"></span> <b>Rating</b> : {{ctrl.restaurant.rating}}
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-time"></span> <b>Extra information</b> : {{ctrl.restaurant.extraInformation}}
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-info-sign"></span> <b>Telephone</b> : {{ctrl.restaurant.telephoneNumber}}
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-sort"></span> <b>Wheelchair access</b> : {{ctrl.restaurant.wheelchairAccess
-            ? 'Yes' : 'No'}}
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-stats"></span> <b>Website</b> : {{ctrl.restaurant.website}}
-        </div>
-        <div>
-            <span class="glyphicon glyphicon-home"></span> <b>Vegan Points</b> : {{ctrl.restaurant.veganPoints}}
-        </div>
-    </script>
-    <script type="text/ng-template" id="/newrestaurant.html">
-        <div class="page-header">
-            <h2>Add new restaurant</h2>
-        </div>
-        <form ng-submit="ctrl.addRestaurant()" style="margin-top:30px;">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Ex. Het kuikentje" ng-model="ctrl.restaurant.name" required/>
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" class="form-control" placeholder="Ex. Stationplein 1, 9000 Gent" ng-model="ctrl.restaurant.address" required/>
-            </div>
-            <div class="form-group">
-                <label>Rating</label>
-                <input type="number" class="form-control" ng-model="ctrl.restaurant.rating" required></input>
-            </div>
-            <div class="form-group">
-                <label>Website</label>
-                <input type="text" class="form-control" ng-model="ctrl.restaurant.website" required></input>
-            </div>
-            <div class="form-group">
-                <label>Extra Information</label>
-                <input type="text" class="form-control" ng-model="ctrl.restaurant.extraInformation" required></input>
-            </div>
-            <div class="form-group">
-                <label>Wheelchair access</label>
-                <input type="checkbox" class="form-control" ng-model="ctrl.restaurant.wheelchairAccess"></input>
-            </div>
-            <div class="form-group">
-                <label>Vegan Points</label>
-                <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.restaurant.veganPoints" required/>
-            </div>
-            <div class="form-group">
-                <label>Telephone</label>
-                <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber" required/>
-            </div>
-            <div class="form-group">
-                <label>Afbeelding</label>
-                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
-                                          ngf-resize="{width: 100, height: 100} required">
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </script>
-    <script type="text/ng-template" id="/modifyrestaurant.html">
-        <div class="page-header">
-            <h2>Modify restaurant</h2>
-        </div>
+</script>
 
-        <form ng-submit="ctrl.modifyRestaurant()" ng-init="ctrl.getRestaurant()" style="margin-top:30px;">
+<script type="text/ng-template" id="/restaurants.html">
+    <h1>Restaurants</h1>
+    <hr>
+    <div class="table-responsive" ng-hide="ctrl.isRestaurantsEmpty()">
+        <table class="table table-hover">
+            <!-- Repeat for restaurants  -->
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
 
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Ex. Het kuikentje" ng-model="ctrl.restaurant.name" required/>
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" class="form-control" placeholder="Ex. Stationplein 1, 9000 Gent" ng-model="ctrl.restaurant.address" required/>
-            </div>
-            <div class="form-group">
-                <label>Rating</label>
-                <input type="number" class="form-control" ng-model="ctrl.restaurant.rating" required></input>
-            </div>
-            <div class="form-group">
-                <label>Website</label>
-                <input type="text" class="form-control" ng-model="ctrl.restaurant.website" required></input>
-            </div>
-            <div class="form-group">
-                <label>Extra Information</label>
-                <input type="text" class="form-control" ng-model="ctrl.restaurant.extraInformation" required></input>
-            </div>
-            <div class="form-group">
-                <label>Wheelchair access</label>
-                <input type="checkbox" class="form-control" ng-model="ctrl.restaurant.wheelchairAccess"></input>
-            </div>
-            <div class="form-group">
-                <label>Vegan Points</label>
-                <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.restaurant.veganPoints" required/>
-            </div>
-            <div class="form-group">
-                <label>Telephone</label>
-                <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber" required/>
-            </div>
-            <!-- TODO in CSS schrijven -->
-            <div class="form-group">
-                <label>Afbeelding</label>
-                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="20MB" ngf-min-height="100"
-                                        ngf-resize="{width: 100, height: 100} required">
-             </div>
-            <div ng-show="!(ctrl.restaurant.picture.length == 0 || !ctrl.restaurant.picture)" style="margin-bottom: 10px">
-                <img  src="{{ctrl.restaurant.picture}}" alt="{{ctrl.restaurant.name}}" height="200" width="200">
-            </div>
-            <button type="submit" class="btn btn-success">Update</button>
-        </form>
-    </script>
+                <th>
+                    Rating
+                </th>
+                <th>
+                    Vegan Points
+                </th>
+                <th>Wheelchair access</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="restaurant in ctrl.restaurants | orderBy:'name'">
+                <td><a href="#/restaurants/{{restaurant._id}}">{{restaurant.name}}</a></td>
+                <td>{{restaurant.rating}}</td>
+                <td>{{restaurant.veganPoints}}</td>
+                <td><input type="checkbox" ng-model="restaurant.wheelchairAccess" disabled="disabled"/></td>
+                <td>
+                    <a href="#/restaurants/{{restaurant._id}}/edit"><i class="material-icons">settings</i></a>
+                </td>
+                <td><i ng-click="ctrl.deleteRestaurant(restaurant)" class="material-icons">delete</i></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="ctrl.isRestaurantsEmpty()">
+        <p>No restaurants available.</p>
+    </div>
+    <a href="#/newrestaurant"><span class="glyphicon glyphicon-plus"></span> Add new restaurant</a>
+</script>
+<script type="text/ng-template" id="/restaurant.html">
+    <h1 ng-init="ctrl.getRestaurant()">{{ctrl.restaurant.name}}</h1>
+    <hr>
+    <div>
+        <span class="glyphicon glyphicon-map-marker"></span> <b>Address</b> : {{ctrl.restaurant.address}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-time"></span> <b>Rating</b> : {{ctrl.restaurant.rating}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-time"></span> <b>Extra information</b> : {{ctrl.restaurant.extraInformation}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-info-sign"></span> <b>Telephone</b> : {{ctrl.restaurant.telephoneNumber}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-sort"></span> <b>Wheelchair access</b> : {{ctrl.restaurant.wheelchairAccess
+        ? 'Yes' : 'No'}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-stats"></span> <b>Website</b> : {{ctrl.restaurant.website}}
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-home"></span> <b>Vegan Points</b> : {{ctrl.restaurant.veganPoints}}
+    </div>
+</script>
+<script type="text/ng-template" id="/newrestaurant.html">
+    <h1>Add new restaurant</h1>
+    <hr>
+    <form ng-submit="ctrl.addRestaurant()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Het kuikentje" ng-model="ctrl.restaurant.name"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-control" placeholder="Ex. Stationplein 1, 9000 Gent"
+                   ng-model="ctrl.restaurant.address" required/>
+        </div>
+        <div class="form-group">
+            <label>Rating</label>
+            <input type="number" class="form-control" ng-model="ctrl.restaurant.rating" required></input>
+        </div>
+        <div class="form-group">
+            <label>Website</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.website" required></input>
+        </div>
+        <div class="form-group">
+            <label>Extra Information</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.extraInformation" required></input>
+        </div>
+        <div class="form-group">
+            <label>Wheelchair access</label>
+            <input type="checkbox" class="form-control" ng-model="ctrl.restaurant.wheelchairAccess"></input>
+        </div>
+        <div class="form-group">
+            <label>Vegan Points</label>
+            <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.restaurant.veganPoints"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Telephone</label>
+            <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Afbeelding</label>
+            <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
+                   ngf-min-height="100"
+                   ngf-resize="{width: 100, height: 100} required">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</script>
+<script type="text/ng-template" id="/modifyrestaurant.html">
+    <h1>Modify restaurant</h1>
+    <hr>
+    <form ng-submit="ctrl.modifyRestaurant()" ng-init="ctrl.getRestaurant()" style="margin-top:30px;">
 
-    <script type="text/ng-template" id="/login.html">
-        <div class="wrapper">
-            <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
-            <form ng-submit="ctrl.logIn()" class="form-signin">
-                <h2 class="form-signin-heading text-center">Login</h2>
-                <input type="email" class="form-control form-login" name="username" placeholder="Email Address" required autofocus ng-model="ctrl.user.username"
-                />
-                <input type="password" class="form-control form-login" name="password" placeholder="Password" required ng-model="ctrl.user.password"
-                />
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            </form>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Het kuikentje" ng-model="ctrl.restaurant.name"
+                   required/>
         </div>
-    </script>
-    <script type="text/ng-template" id="/register.html">
-        <div class="wrapper">
-            <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
-            <form ng-submit="ctrl.register()" class="form-signin">
-                <h2 class="form-signin-heading text-center">Register new user</h2>
-                <input type="email" class="form-control form-login" name="username" placeholder="Email Address" required="" ng-model="ctrl.user.username"
-                />
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-            </form>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-control" placeholder="Ex. Stationplein 1, 9000 Gent"
+                   ng-model="ctrl.restaurant.address" required/>
         </div>
-    </script>
-    <script type="text/ng-template" id="/changepassword.html">
-        <div class="wrapper">
-            <form ng-submit="ctrl.changePassword()" class="form-signin">
-                <h2 class="form-signin-heading text-center">Change password</h2>
-                <input type="password" class="form-control form-login" name="password" placeholder="New password" required="" ng-model="ctrl.user.password"
-                />
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Update password</button>
-            </form>
+        <div class="form-group">
+            <label>Rating</label>
+            <input type="number" class="form-control" ng-model="ctrl.restaurant.rating" required></input>
         </div>
-    </script>
-    <script type="text/ng-template" id="/users.html">
-        <div class="page-header">
-            <h2>Users</h2>
+        <div class="form-group">
+            <label>Website</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.website" required></input>
         </div>
+        <div class="form-group">
+            <label>Extra Information</label>
+            <input type="text" class="form-control" ng-model="ctrl.restaurant.extraInformation" required></input>
+        </div>
+        <div class="form-group">
+            <label>Wheelchair access</label>
+            <input type="checkbox" class="form-control" ng-model="ctrl.restaurant.wheelchairAccess"></input>
+        </div>
+        <div class="form-group">
+            <label>Vegan Points</label>
+            <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.restaurant.veganPoints"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Telephone</label>
+            <input type="text" class="form-control" placeholder="Ex. 400" ng-model="ctrl.restaurant.telephoneNumber"
+                   required/>
+        </div>
+        <!-- TODO in CSS schrijven -->
+        <div class="form-group">
+            <label>Afbeelding</label>
+            <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="20MB"
+                   ngf-min-height="100"
+                   ngf-resize="{width: 100, height: 100} required">
+        </div>
+        <div ng-show="!(ctrl.restaurant.picture.length == 0 || !ctrl.restaurant.picture)" style="margin-bottom: 10px">
+            <img src="{{ctrl.restaurant.picture}}" alt="{{ctrl.restaurant.name}}" height="200" width="200">
+        </div>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</script>
+
+<script type="text/ng-template" id="/login.html">
+    <div class="wrapper">
         <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Username
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="user in ctrl.users">
-                        <td>{{user.username}}</td>
-                        <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteUser(user)"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </script>
-
-    <script type="text/ng-template" id="/recipes.html">
-        <div class="page-header">
-            <h2>Recipes</h2>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Points
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="recipe in ctrl.recipes">
-                        <td>{{recipe.name}}</td>
-                        <td>{{recipe.veganPoints}}</td>
-                        <td>
-                            <a class="glyphicon glyphicon-cog" href="#/recipes/{{recipe._id}}"></a>
-                        </td>
-                        <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteRecipe(recipe)"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <a href="#/newrecipe"><span class="glyphicon glyphicon-plus"></span> Add new recipe</a>
-    </script>
-    <script type="text/ng-template" id="/modifyrecipe.html">
-        <div class="page-header">
-            <h2>Modify Recipe</h2>
-        </div>
-        <form ng-submit="ctrl.modifyRecipe()" ng-init="ctrl.getRecipe()" style="margin-top:30px;">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Ex. Lasagne" ng-model="ctrl.recipe.name" required/>
-            </div>
-            <div class="form-group">
-                <label>Vegan Points</label>
-                <input type="text" class="form-control" placeholder="Ex. 50" ng-model="ctrl.recipe.veganPoints" required/>
-            </div>
-            <div class="form-group">
-                <label>Calories</label>
-                <input type="text" class="form-control" placeholder="Ex. 100" ng-model="ctrl.recipe.calories" required/>
-            </div>
-            <div class="form-group">
-                <label>Time</label>
-                <input type="number" class="form-control" placeholder="100" ng-model="ctrl.recipe.time" required/>
-            </div>
-            <div class="form-group">
-                <label>Image</label>
-                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
-                       ngf-resize="{width: 100, height: 100} required">
-            </div>
-            <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
-                <img  src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <input type="text" class="form-control" placeholder="Ex. Dinner" ng-model="ctrl.recipe.type" required/>
-            </div>
-            <div class="form-group">
-                <label>Difficulty</label>
-                <input type="text" class="form-control" placeholder="Ex. Beginner" ng-model="ctrl.recipe.difficulty" required/>
-            </div>
-            <h4>Instructions</h4>
-            <ul list-style-type="none">
-                <div ng-repeat="instruction in ctrl.recipe.instructions track by $index" class="form-group">
-                    <li> <input type="text" class="form-control" placeholder="Ex. Add meat" ng-model="ctrl.recipe.instructions[$index]" required/><a href ng-click="ctrl.removeInstruction($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
-                </div>
-            </ul>
-            <button ng-click="ctrl.addInstruction()">Add instruction</button>
-            <h4>Allergies</h4>
-            <ul>
-                <div ng-repeat="allergie in ctrl.recipe.allergies track by $index" class="form-group">
-                    <li><input type="text" class="form-control" placeholder="Ex. nuts" ng-model="ctrl.recipe.allergies[$index]" required/><a href ng-click="ctrl.removeAllergie($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
-                </div>
-            </ul>
-            <button ng-click="ctrl.addAllergie()">Add allergie</button>
-            <h4>Ingredients</h4>
-            <ul>
-                <div ng-repeat="f in ctrl.recipe.food track by $index" class="form-group">
-                    <li><input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[$index]" required/><a href ng-click="ctrl.removeFood($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
-                </div>
-            </ul>
-            <button ng-click="ctrl.addFood()">Add ingredient</button>
-            <button type="submit" class="btn btn-success">Update</button>
+        <form ng-submit="ctrl.logIn()" class="form-signin">
+            <h2 class="form-signin-heading text-center">Login</h2>
+            <input type="email" class="form-control form-login" name="username" placeholder="Email Address" required
+                   autofocus ng-model="ctrl.user.username"
+            />
+            <input type="password" class="form-control form-login" name="password" placeholder="Password" required
+                   ng-model="ctrl.user.password"
+            />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         </form>
-    </script>
-    <script type="text/ng-template" id="/newrecipe.html">
-        <div class="page-header">
-            <h2>Add new recipe</h2>
+    </div>
+</script>
+<script type="text/ng-template" id="/register.html">
+    <div class="wrapper">
+        <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
+        <form ng-submit="ctrl.register()" class="form-signin">
+            <h2 class="form-signin-heading text-center">Register new user</h2>
+            <input type="email" class="form-control form-login" name="username" placeholder="Email Address" required=""
+                   ng-model="ctrl.user.username"
+            />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="/changepassword.html">
+    <div class="wrapper">
+        <form ng-submit="ctrl.changePassword()" class="form-signin">
+            <h2 class="form-signin-heading text-center">Change password</h2>
+            <input type="password" class="form-control form-login" name="password" placeholder="New password"
+                   required="" ng-model="ctrl.user.password"
+            />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Update password</button>
+        </form>
+    </div>
+</script>
+
+<script type="text/ng-template" id="/users.html">
+    <h1>Users</h1>
+    <hr>
+    <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in ctrl.users">
+                <td>{{user.username}}</td>
+                <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteUser(user)"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/ng-template" id="/recipes.html">
+    <h1>Recipes</h1>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Points
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="recipe in ctrl.recipes">
+                <td>{{recipe.name}}</td>
+                <td>{{recipe.veganPoints}}</td>
+                <td>
+                    <a href="#/recipes/{{recipe._id}}"><i class="material-icons">settings</i></a>
+                </td>
+                <td><i class="material-icons" ng-click="ctrl.deleteRecipe(recipe)">delete</i></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="#/newrecipe"><span class="glyphicon glyphicon-plus"></span> Add new recipe</a>
+</script>
+<script type="text/ng-template" id="/modifyrecipe.html">
+    <h1>Modify Recipe</h1>
+    <hr>
+    <form ng-submit="ctrl.modifyRecipe()" ng-init="ctrl.getRecipe()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Lasagne" ng-model="ctrl.recipe.name" required/>
         </div>
-        <form ng-submit="ctrl.addRecipe()" style="margin-top:30px;">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Ex. Lasagne" ng-model="ctrl.recipe.name" required/>
-            </div>
-            <div class="form-group">
-                <label>Vegan Points</label>
-                <input type="text" class="form-control" placeholder="Ex. 50" ng-model="ctrl.recipe.veganPoints" required/>
-            </div>
-            <div class="form-group">
-                <label>Calories</label>
-                <input type="text" class="form-control" placeholder="Ex. 100" ng-model="ctrl.recipe.calories" required/>
-            </div>
-            <div class="form-group">
-                <label>Time</label>
-                <input type="number" class="form-control" placeholder="100" ng-model="ctrl.recipe.time" required/>
-            </div>
-            <div class="form-group">
-                <label>Image</label>
-                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
-                       ngf-resize="{width: 100, height: 100} required">
-            </div>
-            <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
-                <img  src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <input type="text" class="form-control" placeholder="Ex. Dinner" ng-model="ctrl.recipe.type" required/>
-            </div>
-            <div class="form-group">
-                <label>Difficulty</label>
-                <input type="text" class="form-control" placeholder="Ex. Beginner" ng-model="ctrl.recipe.difficulty" required/>
-            </div>
-            <h4>Instructions</h4>
-            <ul>
+        <div class="form-group">
+            <label>Vegan Points</label>
+            <input type="text" class="form-control" placeholder="Ex. 50" ng-model="ctrl.recipe.veganPoints" required/>
+        </div>
+        <div class="form-group">
+            <label>Calories</label>
+            <input type="text" class="form-control" placeholder="Ex. 100" ng-model="ctrl.recipe.calories" required/>
+        </div>
+        <div class="form-group">
+            <label>Time</label>
+            <input type="number" class="form-control" placeholder="100" ng-model="ctrl.recipe.time" required/>
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
+                   ngf-min-height="100"
+                   ngf-resize="{width: 100, height: 100} required">
+        </div>
+        <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
+            <img src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <input type="text" class="form-control" placeholder="Ex. Dinner" ng-model="ctrl.recipe.type" required/>
+        </div>
+        <div class="form-group">
+            <label>Difficulty</label>
+            <input type="text" class="form-control" placeholder="Ex. Beginner" ng-model="ctrl.recipe.difficulty"
+                   required/>
+        </div>
+        <h4>Instructions</h4>
+        <ul list-style-type="none">
             <div ng-repeat="instruction in ctrl.recipe.instructions track by $index" class="form-group">
-                <li><input type="text" class="form-control" placeholder="Ex. Add meat" ng-model="ctrl.recipe.instructions[$index]" required/><a href ng-click="ctrl.removeInstruction($index)"> <span class="glyphicon glyphicon-remove"></span></a>
+                <li><input type="text" class="form-control" placeholder="Ex. Add meat"
+                           ng-model="ctrl.recipe.instructions[$index]" required/><a href
+                                                                                    ng-click="ctrl.removeInstruction($index)">
+                        <span class="glyphicon glyphicon-remove"></span></a></li>
+            </div>
+        </ul>
+        <button ng-click="ctrl.addInstruction()">Add instruction</button>
+        <h4>Allergies</h4>
+        <ul>
+            <div ng-repeat="allergie in ctrl.recipe.allergies track by $index" class="form-group">
+                <li><input type="text" class="form-control" placeholder="Ex. nuts"
+                           ng-model="ctrl.recipe.allergies[$index]" required/><a href
+                                                                                 ng-click="ctrl.removeAllergie($index)">
+                        <span class="glyphicon glyphicon-remove"></span></a></li>
+            </div>
+        </ul>
+        <button ng-click="ctrl.addAllergie()">Add allergie</button>
+        <h4>Ingredients</h4>
+        <ul>
+            <div ng-repeat="f in ctrl.recipe.food track by $index" class="form-group">
+                <li><input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[$index]"
+                           required/><a href ng-click="ctrl.removeFood($index)"> <span
+                                class="glyphicon glyphicon-remove"></span></a></li>
+            </div>
+        </ul>
+        <button ng-click="ctrl.addFood()">Add ingredient</button>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</script>
+<script type="text/ng-template" id="/newrecipe.html">
+    <h1>Add new recipe</h1>
+    <hr>
+    <form ng-submit="ctrl.addRecipe()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Lasagne" ng-model="ctrl.recipe.name" required/>
+        </div>
+        <div class="form-group">
+            <label>Vegan Points</label>
+            <input type="text" class="form-control" placeholder="Ex. 50" ng-model="ctrl.recipe.veganPoints" required/>
+        </div>
+        <div class="form-group">
+            <label>Calories</label>
+            <input type="text" class="form-control" placeholder="Ex. 100" ng-model="ctrl.recipe.calories" required/>
+        </div>
+        <div class="form-group">
+            <label>Time</label>
+            <input type="number" class="form-control" placeholder="100" ng-model="ctrl.recipe.time" required/>
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
+                   ngf-min-height="100"
+                   ngf-resize="{width: 100, height: 100} required">
+        </div>
+        <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
+            <img src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <input type="text" class="form-control" placeholder="Ex. Dinner" ng-model="ctrl.recipe.type" required/>
+        </div>
+        <div class="form-group">
+            <label>Difficulty</label>
+            <input type="text" class="form-control" placeholder="Ex. Beginner" ng-model="ctrl.recipe.difficulty"
+                   required/>
+        </div>
+        <h4>Instructions</h4>
+        <ul>
+            <div ng-repeat="instruction in ctrl.recipe.instructions track by $index" class="form-group">
+                <li><input type="text" class="form-control" placeholder="Ex. Add meat"
+                           ng-model="ctrl.recipe.instructions[$index]" required/><a href
+                                                                                    ng-click="ctrl.removeInstruction($index)">
+                        <span class="glyphicon glyphicon-remove"></span></a>
                 </li>
             </div>
-            </ul>
-            <button ng-click="ctrl.addInstruction()">Add instruction</button>
-            <h4>Allergies</h4>
-            <ul>
+        </ul>
+        <button ng-click="ctrl.addInstruction()">Add instruction</button>
+        <h4>Allergies</h4>
+        <ul>
             <div ng-repeat="allergie in ctrl.recipe.allergies track by $index" class="form-group">
-               <li><input type="text" class="form-control" placeholder="Ex. nuts" ng-model="ctrl.recipe.allergies[$index]" required/><a href ng-click="ctrl.removeAllergie($index)"> <span class="glyphicon glyphicon-remove"></span></a></li>
+                <li><input type="text" class="form-control" placeholder="Ex. nuts"
+                           ng-model="ctrl.recipe.allergies[$index]" required/><a href
+                                                                                 ng-click="ctrl.removeAllergie($index)">
+                        <span class="glyphicon glyphicon-remove"></span></a></li>
             </div>
-            </ul>
-            <button ng-click="ctrl.addAllergie()">Add allergie</button>
-            <h4>Ingredients</h4>
-            <ul>
+        </ul>
+        <button ng-click="ctrl.addAllergie()">Add allergie</button>
+        <h4>Ingredients</h4>
+        <ul>
             <div ng-repeat="f in ctrl.recipe.food track by $index" class="form-group">
-               <li><input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[$index]" required/><a href ng-click="ctrl.removeFood($index)"> <span class="glyphicon glyphicon-remove"></span></a>
-               </li>
+                <li><input type="text" class="form-control" placeholder="Ex. meat" ng-model="ctrl.recipe.food[$index]"
+                           required/><a href ng-click="ctrl.removeFood($index)"> <span
+                                class="glyphicon glyphicon-remove"></span></a>
+                </li>
             </div>
-            </ul>
+        </ul>
 
-            <button ng-click="ctrl.addFood()">Add ingredient</button>
+        <button ng-click="ctrl.addFood()">Add ingredient</button>
 
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </script>
-
-
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</script>
 
 
-
-
-
-
-
-    <script type="text/ng-template" id="/blogs.html">
-        <div class="page-header">
-            <h2>Blogs</h2>
+<script type="text/ng-template" id="/blogs.html">
+    <h1>Blogs</h1>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Points
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="blog in ctrl.blogs">
+                <td>{{blog.name}}</td>
+                <td>{{blog.veganPoints}}</td>
+                <td>
+                    <a href="#/blogs/{{blog._id}}"><i class="material-icons">settings</i></a>
+                </td>
+                <td><i class="material-icons" ng-click="ctrl.deleteBlog(blog)">delete</i></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="#/newblog"><span class="glyphicon glyphicon-plus"></span> Add new blog</a>
+</script>
+<script type="text/ng-template" id="/modifyblog.html">
+    <h1>Modify Blog</h1>
+    <hr>
+    <form ng-submit="ctrl.modifyBlog()" ng-init="ctrl.getBlog()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Eat vegan in 7 steps" ng-model="ctrl.blog.name"
+                   required/>
         </div>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Points
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="blog in ctrl.blogs">
-                    <td>{{blog.name}}</td>
-                    <td>{{blog.veganPoints}}</td>
-                    <td>
-                        <a class="glyphicon glyphicon-cog" href="#/blogs/{{blog._id}}"></a>
-                    </td>
-                    <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteBlog(blog)"></span></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="form-group">
+            <label>Vegan Points</label>
+            <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.blog.veganPoints" required/>
         </div>
-        <a href="#/newblog"><span class="glyphicon glyphicon-plus"></span> Add new blog</a>
-    </script>
-    <script type="text/ng-template" id="/modifyblog.html">
-        <div class="page-header">
-            <h2>Modify Blog</h2>
+        <div class="form-group">
+            <label>Author</label>
+            <input type="text" class="form-control" placeholder="James Dean" ng-model="ctrl.blog.author" required/>
         </div>
-        <form ng-submit="ctrl.modifyBlog()" ng-init="ctrl.getBlog()" style="margin-top:30px;">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Ex. Eat vegan in 7 steps" ng-model="ctrl.blog.name" required/>
-            </div>
-            <div class="form-group">
-                <label>Vegan Points</label>
-                <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.blog.veganPoints" required/>
-            </div>
-            <div class="form-group">
-                <label>Author</label>
-                <input type="text" class="form-control" placeholder="James Dean" ng-model="ctrl.blog.author" required/>
-            </div>
-            <div class="form-group">
-                <label>Website</label>
-                <input type="text" class="form-control" placeholder="wwww.google.com" ng-model="ctrl.blog.website" required/>
-            </div>
-            <div class="form-group">
-                <label>Date</label>
-                <input type="date" class="form-control" ng-model="ctrl.blog.date" required/>
-            </div>
-            <div class="form-group">
-                <label>Image</label>
-                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
-                       ngf-resize="{width: 100, height: 100} required">
-            </div>
-            <div ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)" style="margin-bottom: 10px">
-                <img  src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
-            </div>
-            <button type="submit" class="btn btn-success">Update</button>
-        </form>
-    </script>
-    <script type="text/ng-template" id="/newblog.html">
-        <div class="page-header">
-            <h2>Add new blog</h2>
+        <div class="form-group">
+            <label>Website</label>
+            <input type="text" class="form-control" placeholder="wwww.google.com" ng-model="ctrl.blog.website"
+                   required/>
         </div>
-        <form ng-submit="ctrl.addBlog()" style="margin-top:30px;">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Ex. Eat vegan in 7 steps" ng-model="ctrl.blog.name" required/>
-            </div>
-            <div class="form-group">
-                <label>Vegan Points</label>
-                <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.blog.veganPoints" required/>
-            </div>
-            <div class="form-group">
-                <label>Author</label>
-                <input type="text" class="form-control" placeholder="James Dean" ng-model="ctrl.blog.author" required/>
-            </div>
-            <div class="form-group">
-                <label>Website</label>
-                <input type="text" class="form-control" placeholder="wwww.google.com" ng-model="ctrl.blog.website" required/>
-            </div>
-            <div class="form-group">
-                <label>Date</label>
-                <input type="date" class="form-control" ng-model="ctrl.blog.date" required/>
-            </div>
-            <div class="form-group">
-                <label>Image</label>
-                <input type="file"  name="image" ng-file-model="ctrl.image"  accept="image/*" ngf-max-size="50MB" ngf-min-height="100"
-                       ngf-resize="{width: 100, height: 100} required">
-            </div>
-            <div ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)" style="margin-bottom: 10px">
-                <img  src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
-            </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" ng-model="ctrl.blog.date" required/>
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
+                   ngf-min-height="100"
+                   ngf-resize="{width: 100, height: 100} required">
+        </div>
+        <div ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)" style="margin-bottom: 10px">
+            <img src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
+        </div>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</script>
+<script type="text/ng-template" id="/newblog.html">
+    <h1>Add new blog</h1>
+    <hr>
+    <form ng-submit="ctrl.addBlog()" style="margin-top:30px;">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Ex. Eat vegan in 7 steps" ng-model="ctrl.blog.name"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Vegan Points</label>
+            <input type="number" class="form-control" placeholder="Ex. 50" ng-model="ctrl.blog.veganPoints" required/>
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <input type="text" class="form-control" placeholder="James Dean" ng-model="ctrl.blog.author" required/>
+        </div>
+        <div class="form-group">
+            <label>Website</label>
+            <input type="text" class="form-control" placeholder="wwww.google.com" ng-model="ctrl.blog.website"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" ng-model="ctrl.blog.date" required/>
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
+                   ngf-min-height="100"
+                   ngf-resize="{width: 100, height: 100} required">
+        </div>
+        <div ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)" style="margin-bottom: 10px">
+            <img src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
+        </div>
 
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </script>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</script>
 </body>
 
 </html>
