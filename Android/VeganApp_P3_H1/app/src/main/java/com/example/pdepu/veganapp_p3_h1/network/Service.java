@@ -84,8 +84,8 @@ public interface Service {
 
     //region HANDLE FEED
     @FormUrlEncoded
-    @POST("...")
-    Call<User> likeChallenge(@Path("user") String userId, @Path("challenge") String challengeName, @Field("token") String token);
+    @PUT("users/{user}/challenges/{challenge}/like")
+    Call<User> likeChallenge(@Path("user") String userId, @Path("challenge") String challengeId);
     //endregion
 
 

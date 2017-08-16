@@ -19,6 +19,7 @@ import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.example.pdepu.veganapp_p3_h1.views.FeedAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,6 +44,8 @@ public class FeedFragment extends Fragment {
 
     protected LinearLayoutManager layoutManager;
     private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Challenge> challenges = new ArrayList<>();
+    private ArrayList<Challenge> hulpChallenges = new ArrayList<>();
     private ArrayList<FeedItem> feedItems = new ArrayList<>();
 
     private FeedAdapter adapter;
@@ -54,14 +57,7 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         callApi();
-
-        // Collections.sort(feedItems, new Comparator<FeedItem>() {
-        //     @Override
-        //     public int compare(FeedItem obj1, FeedItem obj2) {
-        //         return obj1.getChallenge().getDate().compareTo(obj2.getChallenge().getDate());
-        //     }
-        // });
-
+        //callChallenges();
     }
 
     @Override
@@ -73,10 +69,10 @@ public class FeedFragment extends Fragment {
             @Override
             public void onRefresh(){
                 callApi();
-
-                //test refresh
-                User test = new User("testUser", "testName", "Marieke", new Date(), true, "password");
-                feedItems.add(new FeedItem(test, new Challenge("Become a vegan", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
+                callChallenges();
+                ////test refresh
+                //User test = new User("testUser", "testName", "Marieke", new Date(), true, "password");
+                //feedItems.add(new FeedItem(test, new Challenge("Become a vegan", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
 
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -86,9 +82,6 @@ public class FeedFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         feedRecyclerView.setLayoutManager(layoutManager);
-
-        //User test = new User("testUser", "testName", "testSurname", new Date(), true, "password");
-        //feedItems.add(new FeedItem(test, new Challenge("testChallengeTrue", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
 
         adapter = new FeedAdapter(feedItems, FeedFragment.this);
         feedRecyclerView.setAdapter(adapter);
@@ -115,22 +108,6 @@ public class FeedFragment extends Fragment {
                     users.addAll(userResponse);
                     adapter.notifyDataSetChanged();
 
-//                    for (User u : users){
-//                        for (Challenge c : u.getChallenges()){
-//                            if (c.isCompleted()){
-//                                FeedItem item = new FeedItem(u, c);
-//                                feedItems.add(item);
-//                            }
-//                        }
-//                    }
-
-                    Collections.sort(feedItems, new Comparator<FeedItem>() {
-                        @Override
-                        public int compare(FeedItem obj1, FeedItem obj2) {
-                            return obj1.getChallenge().getDate().compareTo(obj2.getChallenge().getDate());
-                        }
-                    });
-
                     //Challenges in db
                    //adapter.clear();
                    //adapter.addAll(feedItems);
@@ -147,8 +124,61 @@ public class FeedFragment extends Fragment {
         });
     }
 
+    private void callChallenges() {
+        for (User u : users) {
+            Call<List<Challenge>> challengeCall = service.getChallengesUser(u.get_id());
+            challengeCall.enqueue(new Callback<List<Challenge>>() {
+                @Override
+                public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
+                    if (response.isSuccessful()) {
+                        ArrayList<Challenge> challengeResponse = new ArrayList<Challenge>(response.body());
+                        Collections.sort(challengeResponse, new Comparator<Challenge>() {
+                            @Override
+                            public int compare(Challenge obj1, Challenge obj2) {
+                                return Integer.valueOf(obj1.getVeganScore()).compareTo(obj2.getVeganScore());
+                            }
+                        });
+
+                        hulpChallenges.clear();
+                        hulpChallenges.addAll(challengeResponse);
+
+                        //challenges.clear();
+                        challenges.addAll(challengeResponse);
+                        //adapter.notifyDataSetChanged();
+
+                        // Collections.sort(feedItems, new Comparator<FeedItem>() {
+                        //   @Override
+                        //  public int compare(FeedItem obj1, FeedItem obj2) {
+                        //      return obj1.getChallenge().getDate().compareTo(obj2.getChallenge().getDate());
+                        //     }
+                        // });
+
+                        //Challenges in db
+                        //adapter.clear();
+                        //adapter.addAll(feedItems);
+                        //swipeRefreshLayout.setRefreshing(false);
+
+                    }
+                    Log.i("users", response.body().toString());
+                }
+
+                @Override
+                public void onFailure(Call<List<Challenge>> call, Throwable t) {
+                    Log.i("failure", t.toString());
+                }
+            });
+            for (Challenge c : hulpChallenges){
+                if (c.isCompleted()){
+                    FeedItem item = new FeedItem(u, c);
+                    feedItems.add(item);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     public void onClickLike(final View view, FeedItem item) {
-        Call<User> usersCall = service.likeChallenge(item.getUser().get_id(), item.getChallenge().getName(), item.getUser().getToken().getToken());
+        Call<User> usersCall = service.likeChallenge(item.getUser().get_id(), item.getChallenge().get_id());
         usersCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call call, Response response) {
