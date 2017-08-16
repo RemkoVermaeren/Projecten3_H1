@@ -168,7 +168,7 @@
     });
 
     router.param('challenge', function(req,res,next,id){
-        var query = Challenge.findById(id);
+        var query = Challenge.findById(id).populate('createdBy');
 
         query.exec(function(err, challenge) {
             if (err) {
@@ -248,7 +248,7 @@
     });
 
     router.get('/:user/feed', function (req,res){
-       var query = User.where('_id').in(req.user.followingUsers).populate('challenges');
+       var query = User.where('_id').in(req.user.followingUsers).populate({path:'challenges',model: 'Challenge',populate:{path:'createdBy',model:'User', select:'fullName -_id'}});
         query.exec(function (err, users) {
             if (err) {
                 return next(err);
