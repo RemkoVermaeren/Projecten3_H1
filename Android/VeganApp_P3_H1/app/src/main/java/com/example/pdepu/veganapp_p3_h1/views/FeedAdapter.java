@@ -6,22 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.fragments.FeedFragment;
-import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.FeedItem;
-import com.example.pdepu.veganapp_p3_h1.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by maartenvanmeersche on 9/08/17.
@@ -37,6 +33,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
 
     public static class FeedViewHolder extends RecyclerView.ViewHolder{
+
+        @BindView(R.id.feedImage)
+        ImageView feedImage;
 
         @BindView(R.id.feedCardView)
         TextView feedCardView;
@@ -59,11 +58,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     @Override
     public void onBindViewHolder(FeedViewHolder holder, int position){
         final FeedItem f = feedItems.get(position);
+        ImageView image = holder.feedImage;
         TextView feed = holder.feedCardView;
         Button like = holder.btnLike;
         final Context context = holder.feedCardView.getContext();
         feed.setText(f.toString());
 
+        if (f.getChallenge().getPicture() != null && !f.getChallenge().getPicture().isEmpty())
+            Picasso.with(image.getContext()).load(UriHandler.resizeUrl(f.getChallenge().getPicture(), "150", "150")).fit().into(image);
         like.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

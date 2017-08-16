@@ -113,7 +113,10 @@ public class ChooseBlogFragment extends Fragment {
             Challenge challenge = new Challenge("Blog", blogSelected.getName() , blogSelected.getPicture(), Calendar.getInstance().getTime(), 0, 10, true);
             callApi(challenge);
 
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(blogSelected.getWebsite()));
+            String url = blogSelected.getWebsite();
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://" + url;
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         }
 

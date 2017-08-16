@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pdepu.veganapp_p3_h1.R;
+import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
 import com.example.pdepu.veganapp_p3_h1.models.Challenge;
 import com.example.pdepu.veganapp_p3_h1.models.FeedItem;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -19,11 +20,9 @@ import com.example.pdepu.veganapp_p3_h1.network.Service;
 import com.example.pdepu.veganapp_p3_h1.network.ServicesInitializer;
 import com.example.pdepu.veganapp_p3_h1.views.FeedAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,9 +42,8 @@ public class FeedFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     protected LinearLayoutManager layoutManager;
-    private ArrayList<User> users = new ArrayList<>();
+    private User user;
     private ArrayList<Challenge> challenges = new ArrayList<>();
-    private ArrayList<Challenge> hulpChallenges = new ArrayList<>();
     private ArrayList<FeedItem> feedItems = new ArrayList<>();
 
     private FeedAdapter adapter;
@@ -53,22 +51,25 @@ public class FeedFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         callApi();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_feed,container,false);
-        ButterKnife.bind(this,rootView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
+        ButterKnife.bind(this, rootView);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(){
+            public void onRefresh() {
+                challenges.clear();
+                feedItems.clear();
+                adapter.notifyDataSetChanged();
                 callApi();
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(true);
             }
         });
 
@@ -84,83 +85,87 @@ public class FeedFragment extends Fragment {
 
     }
 
-    private void callApi(){
-        Call<List<User>> usersCall = service.getAllUsers();
-        usersCall.enqueue(new Callback<List<User>>() {
+    private void callApi() {
+        MainActivity activity = (MainActivity)getActivity();
+        Call<User> usersCall = service.getUserById(activity.token.getUserid());
+        usersCall.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response != null){
-                    ArrayList<User> userResponse = new ArrayList<User>(response.body());
-                    Collections.sort(userResponse, new Comparator<User>() {
-                        @Override
-                        public int compare(User obj1, User obj2) {
-                            return Integer.valueOf(obj1.getTotalVeganScore()).compareTo(obj2.getTotalVeganScore());
-                        }
-                    });
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response != null) {
+                    user = response.body();
+//                    Collections.sort(user.getChallenges(), new Comparator<Challenge>() {
+//                        @Override
+//                        public int compare(User obj1, User obj2) {
+//                            return Integer.valueOf(obj1.getTotalVeganScore()).compareTo(obj2.getTotalVeganScore());
+//                        }
+//                    });
 
-                    users.clear();
-                    users.addAll(userResponse);
-                    adapter.notifyDataSetChanged();
-
-                    callChallenges();
-                    //Challenges in db
-                   //adapter.clear();
-                   //adapter.addAll(feedItems);
-                   //swipeRefreshLayout.setRefreshing(false);
+                    getUserChallenges();
 
                 }
                 Log.i("users", response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.i("failure", t.toString());
             }
         });
     }
 
-    private void callChallenges() {
-        for (User u : users) {
-            Call<List<Challenge>> challengeCall = service.getChallengesUser(u.get_id());
-            challengeCall.enqueue(new Callback<List<Challenge>>() {
-                @Override
-                public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
-                    if (response.isSuccessful()) {
-                        ArrayList<Challenge> challengeResponse = new ArrayList<Challenge>(response.body());
-                        Collections.sort(challengeResponse, new Comparator<Challenge>() {
-                            @Override
-                            public int compare(Challenge obj1, Challenge obj2) {
-                                return Integer.valueOf(obj1.getVeganScore()).compareTo(obj2.getVeganScore());
-                            }
-                        });
+    private void getUserChallenges() {
+        Call<List<Challenge>> challengeCall = service.getChallengesUser(user.get_id());
+        challengeCall.enqueue(new Callback<List<Challenge>>() {
+            @Override
+            public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
+                if (response.isSuccessful()) {
+                    challenges.addAll(response.body());
+                    callChallenges();
 
-                        hulpChallenges.clear();
-                        hulpChallenges.addAll(challengeResponse);
-
-                        challenges.addAll(challengeResponse);
-                        adapter.notifyDataSetChanged();
-
-                        //Challenges in db
-                        //adapter.clear();
-                        //adapter.addAll(feedItems);
-                        //swipeRefreshLayout.setRefreshing(false);
-
-                    }
-                    Log.i("users", response.body().toString());
-                }
-
-                @Override
-                public void onFailure(Call<List<Challenge>> call, Throwable t) {
-                    Log.i("failure", t.toString());
-                }
-            });
-            for (Challenge c : hulpChallenges){
-                if (c.isCompleted()){
-                    FeedItem item = new FeedItem(u, c);
-                    feedItems.add(item);
                 }
             }
-        }
+
+            @Override
+            public void onFailure(Call<List<Challenge>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void callChallenges() {
+        MainActivity activity = (MainActivity)getActivity();
+        Call<List<Challenge>> challengeCall = service.getFeed(activity.token.getUserid());
+        challengeCall.enqueue(new Callback<List<Challenge>>() {
+            @Override
+            public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Challenge> challengeResponse = new ArrayList<Challenge>(response.body());
+                    Collections.sort(challengeResponse, new Comparator<Challenge>() {
+                        @Override
+                        public int compare(Challenge obj1, Challenge obj2) {
+                            return Integer.valueOf(obj1.getVeganScore()).compareTo(obj2.getVeganScore());
+                        }
+                    });
+                    challenges.addAll(challengeResponse);
+                    for (Challenge c : challenges) {
+                        if (c.isCompleted()) {
+                            FeedItem item = new FeedItem(user, c);
+                            feedItems.add(item);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+
+                }
+                Log.i("users", response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<List<Challenge>> call, Throwable t) {
+                Log.i("failure", t.toString());
+            }
+        });
+
     }
 
     public void onClickLike(final View view, FeedItem item) {

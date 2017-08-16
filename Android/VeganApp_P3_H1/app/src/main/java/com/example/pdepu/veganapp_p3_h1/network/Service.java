@@ -51,6 +51,9 @@ public interface Service {
 
     @GET("users/{user}/challenges")
     Call<List<Challenge>> getChallengesUser(@Path("user") String userId);
+
+    @GET("users/{user}/feed")
+    Call<List<Challenge>> getFeed(@Path("user") String userId);
     //endregion
 
     //region HANDLE USERS
