@@ -67,7 +67,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         like.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                fragment.onClickLike(view, f); //Crash Routing has to be changed
+                fragment.onClickLike(view, f);
                 //CharSequence text = "Liked post";
                 //int duration = Toast.LENGTH_SHORT;
                 //Toast toast = Toast.makeText(context, text, duration);

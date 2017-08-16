@@ -57,7 +57,6 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         callApi();
-        //callChallenges();
     }
 
     @Override
@@ -69,11 +68,6 @@ public class FeedFragment extends Fragment {
             @Override
             public void onRefresh(){
                 callApi();
-                callChallenges();
-                ////test refresh
-                //User test = new User("testUser", "testName", "Marieke", new Date(), true, "password");
-                //feedItems.add(new FeedItem(test, new Challenge("Become a vegan", "description", "http://placehold.it/120x120&text=image1", new Date(), 1, 3, true)));
-
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -95,7 +89,7 @@ public class FeedFragment extends Fragment {
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response.isSuccessful()){
+                if(response != null){
                     ArrayList<User> userResponse = new ArrayList<User>(response.body());
                     Collections.sort(userResponse, new Comparator<User>() {
                         @Override
@@ -108,6 +102,7 @@ public class FeedFragment extends Fragment {
                     users.addAll(userResponse);
                     adapter.notifyDataSetChanged();
 
+                    callChallenges();
                     //Challenges in db
                    //adapter.clear();
                    //adapter.addAll(feedItems);
@@ -142,16 +137,8 @@ public class FeedFragment extends Fragment {
                         hulpChallenges.clear();
                         hulpChallenges.addAll(challengeResponse);
 
-                        //challenges.clear();
                         challenges.addAll(challengeResponse);
-                        //adapter.notifyDataSetChanged();
-
-                        // Collections.sort(feedItems, new Comparator<FeedItem>() {
-                        //   @Override
-                        //  public int compare(FeedItem obj1, FeedItem obj2) {
-                        //      return obj1.getChallenge().getDate().compareTo(obj2.getChallenge().getDate());
-                        //     }
-                        // });
+                        adapter.notifyDataSetChanged();
 
                         //Challenges in db
                         //adapter.clear();
@@ -174,7 +161,6 @@ public class FeedFragment extends Fragment {
                 }
             }
         }
-        adapter.notifyDataSetChanged();
     }
 
     public void onClickLike(final View view, FeedItem item) {
@@ -183,7 +169,6 @@ public class FeedFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
-                    //lock like or different color ?
                     CharSequence text = "Liked post";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(getActivity(), text, duration);
