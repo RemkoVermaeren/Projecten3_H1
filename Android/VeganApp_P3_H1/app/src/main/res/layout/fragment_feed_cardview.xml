@@ -53,6 +53,18 @@
                 android:layout_marginBottom="@dimen/leaderboard_margin"
                 android:background="@drawable/ic_thumbs_up" />
 
+            <TextView
+                android:id="@+id/likes"
+                android:layout_toLeftOf="@id/btnLike"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/leaderboard_margin"
+                android:layout_marginRight="@dimen/leaderboard_margin"
+                android:layout_marginBottom="@dimen/leaderboard_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_toStartOf="@id/btnLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
 
         </RelativeLayout>
 

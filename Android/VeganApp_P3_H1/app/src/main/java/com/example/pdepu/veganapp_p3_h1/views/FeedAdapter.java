@@ -43,6 +43,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         @BindView(R.id.btnLike)
         Button btnLike;
 
+        @BindView(R.id.likes)
+        TextView likes;
+
         public FeedViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -60,16 +63,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         final FeedItem f = feedItems.get(position);
         ImageView image = holder.feedImage;
         TextView feed = holder.feedCardView;
+        final TextView likes = holder.likes;
         Button like = holder.btnLike;
         final Context context = holder.feedCardView.getContext();
         feed.setText(f.toString());
 
+        if(f.getChallenge().getAmountOfLikes() > 0 )
+            likes.setText(String.valueOf(f.getChallenge().getAmountOfLikes()));
         if (f.getChallenge().getPicture() != null && !f.getChallenge().getPicture().isEmpty())
             Picasso.with(image.getContext()).load(UriHandler.resizeUrl(f.getChallenge().getPicture(), "150", "150")).fit().into(image);
         like.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                fragment.onClickLike(view, f);
+                fragment.onClickLike(likes, f);
                 //CharSequence text = "Liked post";
                 //int duration = Toast.LENGTH_SHORT;
                 //Toast toast = Toast.makeText(context, text, duration);

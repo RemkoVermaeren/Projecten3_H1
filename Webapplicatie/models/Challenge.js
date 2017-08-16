@@ -8,10 +8,7 @@ var ChallengeSchema = new mongoose.Schema({
     amountOfLikes: {type: Number, default: 0},
     veganScore: Number,
     isCompleted: Boolean,
-    createdBy: {
-    type: String,
-        ref: 'User'
-    },
+    createdBy: String,
     likedBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

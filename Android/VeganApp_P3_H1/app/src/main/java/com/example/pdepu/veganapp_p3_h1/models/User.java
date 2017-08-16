@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 import java.util.Arrays;
 import java.util.Date;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 /**
  * Created by pdepu on 1/08/2017.
  */
@@ -176,6 +178,8 @@ public class User extends BaseObservable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+
 
 
     public boolean IsFollower(String user){

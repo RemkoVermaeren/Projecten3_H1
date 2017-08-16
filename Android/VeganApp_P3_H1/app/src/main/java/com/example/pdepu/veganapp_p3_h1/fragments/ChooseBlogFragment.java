@@ -110,7 +110,8 @@ public class ChooseBlogFragment extends Fragment {
         public void onClick(View view) {
             Blog blogSelected = blogs.get(chooseBlogRecyclerView.getChildAdapterPosition(view));
 
-            Challenge challenge = new Challenge("Blog", blogSelected.getName() , blogSelected.getPicture(), Calendar.getInstance().getTime(), 0, 10, true);
+            MainActivity activity = (MainActivity)getActivity();
+            Challenge challenge = new Challenge("Blog", blogSelected.getName() , blogSelected.getPicture(), Calendar.getInstance().getTime(), 0, 10, true, activity.user.getFullName());
             callApi(challenge);
 
             String url = blogSelected.getWebsite();

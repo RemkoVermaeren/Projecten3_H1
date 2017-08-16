@@ -15,6 +15,8 @@ public class Challenge {
     private int amountOfLikes;
     private int veganScore;
     private boolean isCompleted;
+    private String[] likedBy;
+    private String createdBy;
 
     public Challenge(){
 
@@ -31,7 +33,8 @@ public class Challenge {
         this.isCompleted = isCompleted;
     }
 
-    public Challenge(String name, String description, String picture, Date date, int amountOfLikes, int veganScore, boolean isCompleted) {
+    public Challenge(String _id, String name, String description, String picture, Date date, int amountOfLikes, int veganScore, boolean isCompleted, String createdBy, String[] likedBy) {
+        this._id = _id;
         this.name = name;
         this.description = description;
         this.picture = picture;
@@ -39,6 +42,19 @@ public class Challenge {
         this.amountOfLikes = amountOfLikes;
         this.veganScore = veganScore;
         this.isCompleted = isCompleted;
+        this.createdBy = createdBy;
+        this.likedBy = likedBy;
+    }
+
+    public Challenge(String name, String description, String picture, Date date, int amountOfLikes, int veganScore, boolean isCompleted, String createdBy) {
+        this.name = name;
+        this.description = description;
+        this.picture = picture;
+        this.date = date;
+        this.amountOfLikes = amountOfLikes;
+        this.veganScore = veganScore;
+        this.isCompleted = isCompleted;
+        this.createdBy = createdBy;
     }
 
     public String get_id() {
@@ -104,4 +120,24 @@ public class Challenge {
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String[] getLikedBy() {
+        return likedBy;
+    }
+
+    public void setLikedBy(String[] likedBy) {
+        this.likedBy = likedBy;
+    }
+
+
+
+
 }

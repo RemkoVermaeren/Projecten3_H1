@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pdepu.veganapp_p3_h1.R;
@@ -93,17 +94,9 @@ public class FeedFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response != null) {
                     user = response.body();
-//                    Collections.sort(user.getChallenges(), new Comparator<Challenge>() {
-//                        @Override
-//                        public int compare(User obj1, User obj2) {
-//                            return Integer.valueOf(obj1.getTotalVeganScore()).compareTo(obj2.getTotalVeganScore());
-//                        }
-//                    });
-
                     getUserChallenges();
-
+                    Log.i("users", response.body().toString());
                 }
-                Log.i("users", response.body().toString());
             }
 
             @Override
@@ -118,11 +111,14 @@ public class FeedFragment extends Fragment {
         challengeCall.enqueue(new Callback<List<Challenge>>() {
             @Override
             public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
-                if (response.isSuccessful()) {
-                    challenges.addAll(response.body());
-                    callChallenges();
+                //if (response.isSuccessful()) {
+//                    ArrayList<Challenge> responseBody = new ArrayList<>(response.body());
+//                    for (Challenge c : responseBody)
+//                        c.setCreatedBy(user);
+                challenges.addAll(response.body());
+                callChallenges();
 
-                }
+                //  }
             }
 
             @Override
@@ -140,16 +136,17 @@ public class FeedFragment extends Fragment {
             public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Challenge> challengeResponse = new ArrayList<Challenge>(response.body());
-                    Collections.sort(challengeResponse, new Comparator<Challenge>() {
+                    challenges.addAll(challengeResponse);
+                    Collections.sort(challenges, new Comparator<Challenge>() {
                         @Override
                         public int compare(Challenge obj1, Challenge obj2) {
-                            return Integer.valueOf(obj1.getVeganScore()).compareTo(obj2.getVeganScore());
+                            return obj2.getDate().compareTo(obj2.getDate());
                         }
                     });
-                    challenges.addAll(challengeResponse);
+
                     for (Challenge c : challenges) {
                         if (c.isCompleted()) {
-                            FeedItem item = new FeedItem(user, c);
+                            FeedItem item = new FeedItem(c.getCreatedBy(), c);
                             feedItems.add(item);
                         }
                     }
@@ -157,7 +154,6 @@ public class FeedFragment extends Fragment {
                     swipeRefreshLayout.setRefreshing(false);
 
                 }
-                Log.i("users", response.body().toString());
             }
 
             @Override
@@ -169,11 +165,13 @@ public class FeedFragment extends Fragment {
     }
 
     public void onClickLike(final View view, FeedItem item) {
-        Call<User> usersCall = service.likeChallenge(item.getUser().get_id(), item.getChallenge().get_id());
-        usersCall.enqueue(new Callback<User>() {
+        Call<Challenge> usersCall = service.likeChallenge(user.get_id(), item.getChallenge().get_id());
+        usersCall.enqueue(new Callback<Challenge>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<Challenge> call, Response <Challenge> response) {
                 if (response.isSuccessful()) {
+                    TextView likes = (TextView) view.findViewById(R.id.likes);
+                    likes.setText(String.valueOf(response.body().getAmountOfLikes()));
                     CharSequence text = "Liked post";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(getActivity(), text, duration);
@@ -183,7 +181,7 @@ public class FeedFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Challenge> call, Throwable t) {
                 Log.e("Error network", t.toString());
             }
         });

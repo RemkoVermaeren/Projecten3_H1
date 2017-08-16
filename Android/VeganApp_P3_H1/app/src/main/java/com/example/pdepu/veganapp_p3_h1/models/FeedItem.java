@@ -5,14 +5,14 @@ package com.example.pdepu.veganapp_p3_h1.models;
  */
 
 public class FeedItem {
-    private User user;
+    private String user;
     private Challenge challenge;
 
     public FeedItem(){
 
     }
 
-    public FeedItem(User user, Challenge challenge){
+    public FeedItem(String user, Challenge challenge){
         this.user = user;
         this.challenge = challenge;
     }
@@ -21,7 +21,7 @@ public class FeedItem {
         return this.challenge;
     }
 
-    public User getUser(){
+    public String getUser(){
         return this.user;
     }
 
@@ -29,12 +29,20 @@ public class FeedItem {
         this.challenge = challenge;
     }
 
-    private void setUser(User user){
+    private void setUser(String user){
         this.user = user;
     }
 
     @Override
     public String toString(){
-        return user.getSurName() + " completed the challenge: " + challenge.getName();
+        if (challenge.getName().toLowerCase().contains("recipe"))
+            return user + " completed the challenge: " + challenge.getName() + " and made: " + challenge.getDescription();
+        else if (challenge.getName().contains("restaurant"))
+            return user + " completed the challenge: " + challenge.getName() + " and went to: " + challenge.getDescription();
+        else
+            return user + " completed the challenge: " + challenge.getName() + " and read: " + challenge.getDescription();
+
     }
+
+
 }
