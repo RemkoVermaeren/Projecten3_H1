@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
@@ -40,6 +41,9 @@ public class ProfileChallengesFragment extends Fragment {
     private Token token;
     private User user;
 
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
 
     @BindView(R.id.challengeRecyclerView)
     RecyclerView challengeRecyclerView;
@@ -61,9 +65,9 @@ public class ProfileChallengesFragment extends Fragment {
         if (getArguments() != null) {
             token = new Gson().fromJson(getArguments().getString("tokenString"), Token.class);
             callApi();
-        }else{
+        } else {
             SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
-            if(prefs.getString("tokenStringPreferences",null) !=  null) {
+            if (prefs.getString("tokenStringPreferences", null) != null) {
                 token = new Gson().fromJson(prefs.getString("tokenStringPreferences", null), Token.class);
                 callApi();
             }
@@ -76,6 +80,9 @@ public class ProfileChallengesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_profile_challenge, container, false);
         ButterKnife.bind(this, rootView);
 
+
+        progress.setVisibility(View.VISIBLE);
+        challengeRecyclerView.setVisibility(View.GONE);
 
         layoutManager = new LinearLayoutManager(getContext());
         adapter = new ProfileChallengeAdapter(challenges);
@@ -109,11 +116,18 @@ public class ProfileChallengesFragment extends Fragment {
                         }
                     });
 
+                }else {
+                    progress.setVisibility(View.GONE);
+                    challengeRecyclerView.setVisibility(View.VISIBLE);
                 }
+
+
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                challengeRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });
@@ -129,18 +143,24 @@ public class ProfileChallengesFragment extends Fragment {
                 if (response.isSuccessful()) {
                     challenges.addAll(response.body());
                     adapter.notifyDataSetChanged();
-                    if(challenges.size() <= 0)
-                    {
+                    if (challenges.size() <= 0) {
                         challengeRecyclerView.setVisibility(View.GONE);
                         emptyTextView.setVisibility(View.VISIBLE);
-                    }
+                    }else
+                        challengeRecyclerView.setVisibility(View.VISIBLE);
+                    progress.setVisibility(View.GONE);
 
+                } else {
+                    progress.setVisibility(View.GONE);
+                    challengeRecyclerView.setVisibility(View.VISIBLE);
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<Challenge>> call, Throwable t) {
-
+                progress.setVisibility(View.GONE);
+                challengeRecyclerView.setVisibility(View.VISIBLE);
             }
         });
     }

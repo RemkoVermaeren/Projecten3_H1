@@ -74,6 +74,10 @@ public class SearchFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         ButterKnife.bind(this, binding.getRoot());
         adapter = new SearchAdapter(this.getContext(), FullNameComparator, new User(), (MainActivity) getActivity());
+
+        binding.progress.setVisibility(View.VISIBLE);
+        binding.searchRecyclerView.setVisibility(View.GONE);
+
         layoutManager = new LinearLayoutManager(this.getContext());
         binding.searchRecyclerView.setLayoutManager(layoutManager);
 
@@ -142,12 +146,17 @@ public class SearchFragment extends Fragment {
                     adapter.setUserOriginal(user);
                     adapter.add(users);
 
+
                 }
+                binding.progress.setVisibility(View.GONE);
+                binding.searchRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("users", response.body().toString());
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
+                binding.progress.setVisibility(View.GONE);
+                binding.searchRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });

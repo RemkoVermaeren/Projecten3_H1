@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.User;
@@ -36,6 +38,12 @@ public class LeaderboardFragment extends Fragment {
     @BindView(R.id.leaderboardRecyclerView)
     RecyclerView leaderboardRecyclerView;
 
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+    @BindView(R.id.leaderboardLayout)
+    LinearLayout leaderboardLayout;
+
     protected LinearLayoutManager layoutManager;
     private ArrayList<User> users = new ArrayList<>();
 
@@ -44,16 +52,19 @@ public class LeaderboardFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
         callApi();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_leaderboard,container,false);
-        ButterKnife.bind(this,rootView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        ButterKnife.bind(this, rootView);
+
+        progress.setVisibility(View.VISIBLE);
+        leaderboardLayout.setVisibility(View.GONE);
 
         layoutManager = new LinearLayoutManager(getActivity());
         leaderboardRecyclerView.setLayoutManager(layoutManager);
@@ -70,12 +81,12 @@ public class LeaderboardFragment extends Fragment {
 
     }
 
-    private void callApi(){
+    private void callApi() {
         Call<List<User>> usersCall = service.getAllUsers();
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ArrayList<User> userResponse = new ArrayList<User>(response.body());
                     Collections.sort(userResponse, new Comparator<User>() {
                         @Override
@@ -87,13 +98,22 @@ public class LeaderboardFragment extends Fragment {
                     users.clear();
                     users.addAll(userResponse);
                     adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
+                    leaderboardLayout.setVisibility(View.VISIBLE);
 
+
+                } else {
+                    progress.setVisibility(View.GONE);
+                    leaderboardLayout.setVisibility(View.VISIBLE);
                 }
+
                 Log.i("users", response.body().toString());
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                leaderboardLayout.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });

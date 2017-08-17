@@ -58,7 +58,7 @@ public interface Service {
 
     //region HANDLE USERS
     @FormUrlEncoded
-    @POST("users/login")
+    @POST("users/app/login")
     Call<Token> loginUser(@Field("username") String username, @Field("password") String password);
 
     @POST("users/register")

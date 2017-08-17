@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
@@ -71,6 +73,12 @@ public class EditProfileFragment extends Fragment {
     @BindView(R.id.emailEdit)
     TextView textViewEmailEdit;
 
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+    @BindView(R.id.editScrollView)
+    ScrollView editScrollView;
+
 
     private static final int PICK_IMAGE = 0;
 
@@ -100,6 +108,8 @@ public class EditProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         ButterKnife.bind(this, rootView);
+        progress.setVisibility(View.VISIBLE);
+        editScrollView.setVisibility(View.GONE);
         return rootView;
 
     }
@@ -212,7 +222,13 @@ public class EditProfileFragment extends Fragment {
                     user = response.body();
                     user.setToken(token);
                     updateView(user);
+                    progress.setVisibility(View.GONE);
+                    editScrollView.setVisibility(View.VISIBLE);
+                } else {
+                    progress.setVisibility(View.GONE);
+                    editScrollView.setVisibility(View.VISIBLE);
                 }
+
             }
 
             @Override
@@ -232,6 +248,8 @@ public class EditProfileFragment extends Fragment {
                     startProfileFragment();
                     Log.i("Success", "Save succeeded");
                 } else if (response.errorBody() != null && !response.errorBody().toString().isEmpty()) {
+                    progress.setVisibility(View.GONE);
+                    editScrollView.setVisibility(View.VISIBLE);
                     JSONObject message = null;
                     try {
                         message = new JSONObject(response.errorBody().string());
@@ -249,12 +267,13 @@ public class EditProfileFragment extends Fragment {
                     }
 
 
-
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                editScrollView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });
@@ -262,6 +281,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void startProfileFragment() {
+        progress.setVisibility(View.GONE);
         ProfileTabFragment fragment = new ProfileTabFragment();
         Bundle extras = new Bundle();
         extras.putString("tokenString", new Gson().toJson(token));
@@ -304,6 +324,14 @@ public class EditProfileFragment extends Fragment {
             config.put("api_secret", "RhDl-TvAXIiaPkeBWOHY8OcCwr8");
             final Cloudinary cloudinary = new Cloudinary(config);
             try {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setVisibility(View.VISIBLE);
+                        editScrollView.setVisibility(View.GONE);
+                    }
+                });
+
                 response = cloudinary.uploader().upload(file.getAbsolutePath(), ObjectUtils.emptyMap());
                 if (response != null) {
                     imageUrl = response.get("url").toString();
@@ -322,15 +350,30 @@ public class EditProfileFragment extends Fragment {
                 user.setImage(imageUrl);
                 postUser();
             } else {
-                View focusView = textViewNameEdit;
-                textViewNameEdit.setError(getString(R.string.error_network));
-                focusView.requestFocus();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setVisibility(View.GONE);
+                        editScrollView.setVisibility(View.VISIBLE);
+                        View focusView = textViewNameEdit;
+                        textViewNameEdit.setError(getString(R.string.error_network));
+                        focusView.requestFocus();
+                    }
+                });
+
 
             }
         }
 
         @Override
         protected void onCancelled() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progress.setVisibility(View.GONE);
+                    editScrollView.setVisibility(View.VISIBLE);
+                }
+            });
             uploadImageTask = null;
         }
 

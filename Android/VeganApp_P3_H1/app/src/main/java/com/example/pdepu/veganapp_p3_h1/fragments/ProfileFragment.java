@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
@@ -36,6 +38,12 @@ public class ProfileFragment extends Fragment {
     private Service service;
     private Token token;
     private User user;
+
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+    @BindView(R.id.profileLayout)
+    ScrollView profileLayout;
 
 
     @BindView(R.id.imageViewUserProfile)
@@ -76,6 +84,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, rootView);
+        progress.setVisibility(View.VISIBLE);
+        profileLayout.setVisibility(View.GONE);
         return rootView;
 
     }
@@ -97,12 +107,20 @@ public class ProfileFragment extends Fragment {
                         }
 
                     });
+                    progress.setVisibility(View.GONE);
+                    profileLayout.setVisibility(View.VISIBLE);
 
+                } else {
+                    progress.setVisibility(View.GONE);
+                    profileLayout.setVisibility(View.VISIBLE);
                 }
+
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                profileLayout.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });
@@ -113,7 +131,7 @@ public class ProfileFragment extends Fragment {
         if (user.getImage() != null && !user.getImage().isEmpty())
             Picasso.with(imageViewUserProfile.getContext()).load(UriHandler.resizeUrl(user.getImage(),
                     String.valueOf(getResources().getDisplayMetrics().widthPixels),
-                    String.valueOf(((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics()))))).into(imageViewUserProfile);
+                    String.valueOf(((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics()))))).into(imageViewUserProfile);
         textViewUsernameProfile.setText(user.getFullName());
         textViewFollowerAmountProfile.setText(String.valueOf(user.getFollowingUsers().length));
         textViewVeganPointsProfile.setText(String.valueOf(user.getTotalVeganScore()));

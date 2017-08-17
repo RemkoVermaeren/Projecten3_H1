@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -62,6 +64,13 @@ public class PublishRestaurantFragment extends Fragment {
 
     @BindView(R.id.addPictureLayoutPublish)
     RelativeLayout addPictureLayoutPublish;
+
+    @BindView(R.id.publishLayout)
+    LinearLayout publishLayout;
+
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
 
 
     private UploadImageTask uploadImageTask;
@@ -152,18 +161,22 @@ public class PublishRestaurantFragment extends Fragment {
                 if (response.isSuccessful()) {
                     startFeedFragment();
                     Log.i("SUCCESS", "challenge posted to user");
+                    progress.setVisibility(View.GONE);
                 }
+                progress.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progress.setVisibility(View.GONE);
                 Log.i("FAILURE", t.toString());
             }
         });
     }
 
     private void startFeedFragment() {
+        progress.setVisibility(View.GONE);
         FeedFragment fragment = new FeedFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
@@ -185,6 +198,13 @@ public class PublishRestaurantFragment extends Fragment {
             config.put("api_secret", "RhDl-TvAXIiaPkeBWOHY8OcCwr8");
             final Cloudinary cloudinary = new Cloudinary(config);
             try {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setVisibility(View.VISIBLE);
+                        publishLayout.setVisibility(View.GONE);
+                    }
+                });
                 response = cloudinary.uploader().upload(file.getAbsolutePath(), ObjectUtils.emptyMap());
                 if (response != null) {
                     imageUrl = response.get("url").toString();
@@ -204,13 +224,25 @@ public class PublishRestaurantFragment extends Fragment {
                 challenge = new Challenge("Restaurant", restaurantName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(restaurantPoints), true, activity.user.getFullName());
                 callApi();
             } else {
-
-
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setVisibility(View.GONE);
+                        publishLayout.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         }
 
         @Override
         protected void onCancelled() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progress.setVisibility(View.GONE);
+                    publishLayout.setVisibility(View.VISIBLE);
+                }
+            });
             uploadImageTask = null;
         }
 

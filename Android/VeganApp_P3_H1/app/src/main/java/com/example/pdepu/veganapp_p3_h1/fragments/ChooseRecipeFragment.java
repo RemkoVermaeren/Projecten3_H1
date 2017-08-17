@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.Recipe;
@@ -39,6 +40,10 @@ public class ChooseRecipeFragment extends Fragment {
     @BindView(R.id.chooseRecylerView)
     RecyclerView chooseRecipeRecyclerView;
 
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+
 
     public static ListFragmentOnClickListener listFragmentOnClickListener;
     private LinearLayoutManager layoutManager;
@@ -60,6 +65,9 @@ public class ChooseRecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_challenge_choose, container, false);
         ButterKnife.bind(this,rootView);
+
+        progress.setVisibility(View.VISIBLE);
+        chooseRecipeRecyclerView.setVisibility(View.GONE);
 
         layoutManager = new LinearLayoutManager(getActivity());
         adapter = new ChooseRecipeAdapter(recipes);
@@ -109,11 +117,18 @@ public class ChooseRecipeFragment extends Fragment {
                     else
                         recipes.addAll(recipeResponse);
                     adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
+                    chooseRecipeRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    progress.setVisibility(View.GONE);
+                    chooseRecipeRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                chooseRecipeRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });

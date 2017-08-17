@@ -8,66 +8,85 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
 
-
-    <TextView
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/goto_restaurant"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        />
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/restaurantNamePublish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/placeholder"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-    <TextView
-        android:id="@+id/restaurantPointsPublish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/placeholder"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-    <RelativeLayout
-        android:id="@+id/addPictureLayoutPublish"
+    <LinearLayout
+        android:id="@+id/publishLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-        <ImageView
-            android:id="@+id/restaurantImage"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:contentDescription="@string/placeholder"
-            android:scaleType="fitXY"
-            android:src="@drawable/placeholder_small" />
-
-        <ImageButton
-            android:id="@+id/restaurantImageButton"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_add_a_photo"
-            android:contentDescription="@string/placeholder"
-            android:layout_centerInParent="true"
+            android:text="@string/goto_restaurant"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/restaurantNamePublish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
+        <TextView
+            android:id="@+id/restaurantPointsPublish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/placeholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <RelativeLayout
+            android:id="@+id/addPictureLayoutPublish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/restaurantImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:contentDescription="@string/placeholder"
+                android:scaleType="fitXY"
+                android:src="@drawable/placeholder_small" />
 
-    <Button
-        android:id="@+id/publishRestaurantButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/publish"/>
+            <ImageButton
+                android:id="@+id/restaurantImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_add_a_photo"
+                android:contentDescription="@string/placeholder"
+                android:layout_centerInParent="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/publishRestaurantButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/publish"/>
+
+    </LinearLayout>
+
+
+
 
 
 </LinearLayout>

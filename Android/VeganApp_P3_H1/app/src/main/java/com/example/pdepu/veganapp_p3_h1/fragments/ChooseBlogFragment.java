@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.activities.MainActivity;
@@ -45,15 +46,19 @@ public class ChooseBlogFragment extends Fragment {
     @BindView(R.id.chooseBlogRecylerView)
     RecyclerView chooseBlogRecyclerView;
 
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+
     public static ChooseBlogFragment.ListFragmentOnClickListener listFragmentOnClickListener;
     private LinearLayoutManager layoutManager;
     private ChooseBlogAdapter adapter;
 
-   @Override
-    public void onCreate(Bundle savedInstanceState){
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = new ServicesInitializer().initializeService();
-       listFragmentOnClickListener = new ListFragmentOnClickListener(getContext());
+        listFragmentOnClickListener = new ListFragmentOnClickListener(getContext());
         callBlogApi();
     }
 
@@ -62,9 +67,12 @@ public class ChooseBlogFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_challenge_choose_blog, container, false);
         ButterKnife.bind(this, rootView);
 
+        progress.setVisibility(View.VISIBLE);
+        chooseBlogRecyclerView.setVisibility(View.GONE);
+
         layoutManager = new LinearLayoutManager(getActivity());
         adapter = new ChooseBlogAdapter(blogs);
-        
+
         chooseBlogRecyclerView.setLayoutManager(layoutManager);
         chooseBlogRecyclerView.setAdapter(adapter);
 
@@ -76,7 +84,7 @@ public class ChooseBlogFragment extends Fragment {
         blogCall.enqueue(new Callback<List<Blog>>() {
             @Override
             public void onResponse(Call<List<Blog>> call, Response<List<Blog>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     blogs.clear();
 
                     ArrayList<Blog> blogsResponse = new ArrayList<Blog>(response.body());
@@ -89,17 +97,24 @@ public class ChooseBlogFragment extends Fragment {
 
                     blogs.addAll(blogsResponse);
                     adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
+                    chooseBlogRecyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    progress.setVisibility(View.GONE);
+                    chooseBlogRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Blog>> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                chooseBlogRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });
     }
 
-    public class ListFragmentOnClickListener implements View.OnClickListener{
+    public class ListFragmentOnClickListener implements View.OnClickListener {
         private final Context context;
 
         public ListFragmentOnClickListener(Context context) {
@@ -110,8 +125,8 @@ public class ChooseBlogFragment extends Fragment {
         public void onClick(View view) {
             Blog blogSelected = blogs.get(chooseBlogRecyclerView.getChildAdapterPosition(view));
 
-            MainActivity activity = (MainActivity)getActivity();
-            Challenge challenge = new Challenge("Blog", blogSelected.getName() , blogSelected.getPicture(), Calendar.getInstance().getTime(), 0, 10, true, activity.user.getFullName());
+            MainActivity activity = (MainActivity) getActivity();
+            Challenge challenge = new Challenge("Blog", blogSelected.getName(), blogSelected.getPicture(), Calendar.getInstance().getTime(), 0, 10, true, activity.user.getFullName());
             callApi(challenge);
 
             String url = blogSelected.getWebsite();
@@ -122,15 +137,16 @@ public class ChooseBlogFragment extends Fragment {
         }
 
         private void callApi(Challenge challenge) {
-            MainActivity activity = (MainActivity)getActivity();
+            MainActivity activity = (MainActivity) getActivity();
             Call<User> challengeCall = service.postChallenge(activity.token.getUserid(), challenge);
             challengeCall.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
-                    if (response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Log.i("SUCCESS", "Blog challenge posted to user");
                     }
                 }
+
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
                     Log.i("FAILURE", t.toString());

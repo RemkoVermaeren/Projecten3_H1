@@ -80,6 +80,10 @@ public class FollowerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers, container, false);
         ButterKnife.bind(this, binding.getRoot());
+
+        binding.progress.setVisibility(View.VISIBLE);
+        binding.followersRecyclerView.setVisibility(View.GONE);
+
         layoutManager = new LinearLayoutManager(this.getContext());
         adapter = new FollowersAdapter(this.getContext(), FullNameComparator, user, ((MainActivity) getActivity()));
 
@@ -106,11 +110,16 @@ public class FollowerFragment extends Fragment {
                     user.setToken(token);
                     adapter.setUserOriginal(user);
                     getUserFollowers();
+                } else {
+                    binding.progress.setVisibility(View.GONE);
+                    binding.followersRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                binding.progress.setVisibility(View.GONE);
+                binding.followersRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });
@@ -131,22 +140,31 @@ public class FollowerFragment extends Fragment {
                             users.clear();
                             users.addAll(userResponse);
                             adapter.add(users);
-                            if(users.size() <= 0)
-                            {
+                            if (users.size() <= 0) {
                                 binding.followersRecyclerView.setVisibility(View.GONE);
                                 binding.empty.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.followersRecyclerView.setVisibility(View.VISIBLE);
                             }
+
 
                         }
                     });
+                    binding.progress.setVisibility(View.GONE);
 
 
+                } else {
+                    binding.progress.setVisibility(View.GONE);
+                    binding.followersRecyclerView.setVisibility(View.VISIBLE);
                 }
+
                 Log.i("users", response.body().toString());
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
+                binding.progress.setVisibility(View.GONE);
+                binding.followersRecyclerView.setVisibility(View.VISIBLE);
                 Log.i("failure", t.toString());
             }
         });

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.Restaurant;
@@ -38,6 +39,10 @@ public class ChooseRestaurantFragment extends Fragment {
     @BindView(R.id.chooseRecylerView)
     RecyclerView chooseRestaurantRecylerView;
 
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+
 
     public static ListFragmentOnClickListener listFragmentOnClickListener;
     private LinearLayoutManager layoutManager;
@@ -59,6 +64,9 @@ public class ChooseRestaurantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_challenge_choose, container, false);
         ButterKnife.bind(this, rootView);
+
+        progress.setVisibility(View.VISIBLE);
+        chooseRestaurantRecylerView.setVisibility(View.GONE);
 
         layoutManager = new LinearLayoutManager(getActivity());
         adapter = new ChooseRestaurantAdapter(restaurants);
@@ -112,6 +120,11 @@ public class ChooseRestaurantFragment extends Fragment {
                     else
                         restaurants.addAll(restaurantsResponse);
                     adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
+                    chooseRestaurantRecylerView.setVisibility(View.VISIBLE);
+                }else{
+                    progress.setVisibility(View.GONE);
+                    chooseRestaurantRecylerView.setVisibility(View.VISIBLE);
                 }
             }
 
