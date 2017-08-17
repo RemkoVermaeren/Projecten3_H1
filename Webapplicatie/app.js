@@ -16,22 +16,22 @@ require('./models/Blogs');
 require('./config/passport');
 
 // connect MongoDB online
-// mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
-//   useMongoClient: true
-// }, function (err, db) {
-//   if (!err) {
-//     console.log('Connected to /stuckyToys!');
-//   } else {
-//     console.dir(err); //failed to connect
-//   }
-// });
+ mongoose.connect('mongodb://easyveganuser:easyvegan@ds129333.mlab.com:29333/easyvegan', {
+   useMongoClient: true
+ }, function (err, db) {
+   if (!err) {
+     console.log('Connected to /stuckyToys!');
+   } else {
+     console.dir(err); //failed to connect
+   }
+ });
 
 
 
 //Local mongodb
-mongoose.connect('mongodb://localhost/easyvegan',{
+/*mongoose.connect('mongodb://localhost/easyvegan',{
     useMongoClient: true
-});
+});*/
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
