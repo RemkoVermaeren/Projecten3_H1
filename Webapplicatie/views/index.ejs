@@ -2,9 +2,8 @@
 <html>
 
 <head>
-    <title>HoGentApp </title>
+    <title>HoGent - EVA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-
 
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
@@ -33,15 +32,11 @@
     <script src="/controllers/MainController.js"></script>
     <script src="/controllers/AuthController.js"></script>
     <script src="/controllers/NavController.js"></script>
-    <script src="/controllers/MenuController.js"></script>
-    <script src="/controllers/FaqController.js"></script>
     <script src="/controllers/RecipeController.js"></script>
     <script src="/controllers/RestaurantController.js"></script>
     <script src="/controllers/BlogController.js"></script>
     <script src="/services/authService.js"></script>
     <script src="/services/restaurantService.js"></script>
-    <script src="/services/menuService.js"></script>
-    <script src="/services/faqService.js"></script>
     <script src="/services/recipeService.js"></script>
     <script src="/services/blogService.js"></script>
     <script>
@@ -278,12 +273,12 @@
             <label>Picture</label>
             <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="20MB"
                    ngf-min-height="100"
-                   ngf-resize="{width: 100, height: 100}" class="form-control-file" required>
+                   ngf-resize="{width: 100, height: 100}" class="form-control-file">
         </div>
         <div ng-show="!(ctrl.restaurant.picture.length == 0 || !ctrl.restaurant.picture)" style="margin-bottom: 10px">
             <img src="{{ctrl.restaurant.picture}}" alt="{{ctrl.restaurant.name}}" height="200" width="200">
         </div>
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </script>
 <script type="text/ng-template" id="/newrestaurant.html">
@@ -425,7 +420,7 @@
             <label>Picture</label>
             <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
                    ngf-min-height="100"
-                   ngf-resize="{width: 100, height: 100}" class="form-control-file" required>
+                   ngf-resize="{width: 100, height: 100}" class="form-control-file">
         </div>
         <div ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)" style="margin-bottom: 10px">
             <img src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
@@ -468,7 +463,7 @@
         <div style="margin-bottom: 10px">
             <a href ng-click="ctrl.addFood()">Add ingredient</a>
         </div>
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </script>
 <script type="text/ng-template" id="/newrecipe.html">
@@ -669,12 +664,12 @@
             <label>Picture</label>
             <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
                    ngf-min-height="100"
-                   ngf-resize="{width: 100, height: 100}" class="form-control-file" required>
+                   ngf-resize="{width: 100, height: 100}" class="form-control-file">
         </div>
         <div ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)" style="margin-bottom: 10px">
             <img src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
         </div>
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </script>
 <script type="text/ng-template" id="/newblog.html">

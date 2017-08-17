@@ -25,32 +25,6 @@
             templateUrl: '/restaurants.html',
             controller: 'RestaurantController',
             controllerAs: 'ctrl'
-        }).state('faqs', {
-            url: '/faqs',
-            templateUrl: '/faqs.html',
-            controller: 'FaqController',
-            controllerAs : 'ctrl'
-            }
-        ).state('newfaq', {
-            url: '/newfaq',
-            templateUrl: '/newfaq.html',
-            controller: 'FaqController',
-            controllerAs: 'ctrl',
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (!auth.isLoggedIn()) {
-                    $state.go('login');
-                }
-            }]
-        }).state('modifyfaq', {
-            url: '/faqs/{id}',
-            templateUrl: '/modifyfaq.html',
-            controller: 'FaqController',
-            controllerAs: 'ctrl',
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (!auth.isLoggedIn()) {
-                    $state.go('login');
-                }
-            }]
         }).state('recipes', {
                 url: '/recipes',
                 templateUrl: '/recipes.html',
@@ -81,18 +55,23 @@
                 url: '/blogs',
                 templateUrl: '/blogs.html',
                 controller: 'BlogController',
-                controllerAs : 'ctrl'
+                controllerAs : 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
             }
         ).state('newblog', {
             url: '/newblog',
             templateUrl: '/newblog.html',
             controller: 'BlogController',
-            controllerAs: 'ctrl'
-            /*onEnter: ['$state', 'auth', function($state, auth) {
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {
                     $state.go('login');
                 }
-            }]*/
+            }]
         }).state('modifyblog', {
             url: '/blogs/{id}/edit',
             templateUrl: '/modifyblog.html',
@@ -118,27 +97,7 @@
             templateUrl: '/register.html',
             controller: 'AuthController',
             controllerAs: 'ctrl'
-            // onEnter: ['$state', 'auth', function($state, auth) {
-            //     if (!auth.isLoggedIn()) {
-            //         $state.go('login');
-            //     }
-            // }]
-        })/*.state('restaurants', {
-            url: '/restaurants/{id}/menus',
-            templateUrl: '/restaurants.html',
-            controller: 'MenuController',
-            controllerAs: 'ctrl',
-            resolve: {
-                menus: ['$stateParams', 'menuService', function($stateParams, menuService) {
-                    return menuService.getAll($stateParams.id);
-                }]
-            },
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (!auth.isLoggedIn()) {
-                    $state.go('login');
-                }
-            }]
-        })*/.state('newrestaurant', {
+        }).state('newrestaurant', {
             url: '/newrestaurant',
             templateUrl: '/newrestaurant.html',
             controller: 'RestaurantController',

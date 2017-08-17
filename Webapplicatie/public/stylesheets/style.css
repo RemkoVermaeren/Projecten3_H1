@@ -11,6 +11,15 @@ h1 {
 }
 html {
     font-size: 13px;
+    color : #2f3030 !important;
+}
+.btn-primary {
+    background-color : #a4af2f !important;
+    border-color : #a4af2f !important;
+
+}
+input:focus {
+    border-color: #a4af2f !important;
 }
 .bg-white{
     background: white;
@@ -20,6 +29,13 @@ html {
 }
 i {
     cursor: pointer;
+}
+hr {
+    border-color : #a4af2f !important;
+}
+
+a {
+    color : #a4af2f !important;
 }
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
