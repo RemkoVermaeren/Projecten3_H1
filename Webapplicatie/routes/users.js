@@ -62,6 +62,8 @@
                 return next(err);
             }
             if (user) {
+                if(!user.isAdmin)
+                    return res.status(401).json({message : "Not an admin"});
                 return res.json({
                     token: user.generateJWT(),
                     userid : user._id
@@ -110,7 +112,6 @@
     router.get('/:user', function(req, res, next) {
         res.json(req.user);
     });
-
 
     router.put('/:user', function (req, res) {
         User.findById(req.user._id, function (err, user) {

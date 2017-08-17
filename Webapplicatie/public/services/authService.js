@@ -11,6 +11,7 @@
         var service = {
             saveToken: saveToken,
             getToken: getToken,
+            getUser: getUser,
             isLoggedIn: isLoggedIn,
             currentUser: currentUser,
             register: register,
@@ -29,7 +30,12 @@
 
             });
         }
+        function getUser(id) {
+            return $http.get('/api/users/{id}').success(function(data) {
+                return data;
 
+            });
+        }
         function getAllUsers(){
             return $http.get('/api/users/nonadmins').success(function(data) {
                 return data;
@@ -60,7 +66,6 @@
             }
         }
         function register(user) {
-          $log.log("Service: " + user.username);
             return $http.post('/api/users/register', user, {
                 headers: {
                     Authorization: 'Bearer ' + getToken()
@@ -73,11 +78,6 @@
                     Authorization: 'Bearer ' + getToken()
                 }
             }).success(function(data) {
-               /* var payload = angular.fromJson($window.atob(data.token.split('.')[1]));
-                $log.log(payload);
-                if(!payload.isAdmin){
-                    return "not an admin";
-                }*/
                 saveToken(data.token);
             }).error(function(err){
               return err;

@@ -22,15 +22,11 @@
       activate();
 
       function activate() {
-          return getAll().then(function() {
-              $log.log("Users were retrieved");
-          });
+          return getAll();
       }
       function register(){
         vm.user.password = vm.user.username;
-        $log.log(vm.user);
         auth.register(vm.user).error(function(error){
-          $log.log("ERROR " + error);
           vm.error = error;
           vm.message = error.message;
         }).then(function(){
@@ -39,20 +35,18 @@
       }
       function changePassword(){
         return auth.changePassword({password: vm.user.password}).error(function(error){
-          $log.log("ERROR " + error);
           vm.error = error;
         }).then(function(){
           $state.go('home');
         });
       }
       function logIn(){
-        auth.logIn(vm.user).error(function(error){
+        auth.logIn(vm.user)
+        .error(function(error){
           vm.error = error;
-          $log.log(error);
           vm.message = error.message;
         }).then(function(){
-          $log.log(vm.user);
-          $state.go('home');
+            $state.go('home');
         });
       }
       function isLoggedIn(){
