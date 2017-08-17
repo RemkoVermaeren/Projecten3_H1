@@ -25,7 +25,7 @@ public class ServicesInitializer {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.58:3000/api/")
+                .baseUrl("http://easyveganapp.herokuapp.com/api/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
