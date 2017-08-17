@@ -20,7 +20,7 @@ require('./config/passport');
    useMongoClient: true
  }, function (err, db) {
    if (!err) {
-     console.log('Connected to /stuckyToys!');
+     console.log('Connected!');
    } else {
      console.dir(err); //failed to connect
    }
