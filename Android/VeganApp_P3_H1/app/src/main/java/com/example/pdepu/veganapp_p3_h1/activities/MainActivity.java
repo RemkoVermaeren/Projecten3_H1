@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity
         if (user.getImage() != null && !user.getImage().isEmpty())
             Picasso.with(imageViewUser.getContext()).load(user.getImage()).fit().into(imageViewUser);
         textViewUsername.setText(user.getName() + " " + user.getSurName());
-        textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " followers");
+        textViewFollowerAmount.setText(String.valueOf(user.getFollowingUsers().length) + " following");
     }
 
     private void setSharedPreferences(){

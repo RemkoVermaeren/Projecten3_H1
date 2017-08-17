@@ -109,6 +109,8 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
         CircleImageView image = holder.imageViewUserCardViewSearch;
         if (user.getImage() != null && !user.getImage().isEmpty())
             Picasso.with(image.getContext()).load(UriHandler.resizeUrl(user.getImage(), "60", "60")).into(image);
+        else
+            image.setImageResource(R.drawable.avatar_placeholder_small);
         holder.bind(user, new Handlers(userOriginal,user, activity),userOriginal);
 
     }

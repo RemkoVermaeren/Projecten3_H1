@@ -24,6 +24,9 @@
     <string name="open_google_maps">Show on map</string>
     <string name="go_to_website">Go to website</string>
     <string name="details">Details</string>
+    <string name="no_challenges">No challenges completed yet</string>
+    <string name="no_followers">You don\'t follow anyone yet</string>
+    <string name="number_placeholder">99</string>
 
     <string name="claim_your_points">Claim your points</string>
     <string name="placeholder">placeholder</string>

@@ -41,6 +41,8 @@ public class FeedFragment extends Fragment {
     RecyclerView feedRecyclerView;
     @BindView(R.id.swipeToRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.empty)
+    TextView empty;
 
     protected LinearLayoutManager layoutManager;
     private User user;
@@ -74,7 +76,10 @@ public class FeedFragment extends Fragment {
             }
         });
 
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.bg_login);
 
         layoutManager = new LinearLayoutManager(getActivity());
         feedRecyclerView.setLayoutManager(layoutManager);
@@ -111,14 +116,10 @@ public class FeedFragment extends Fragment {
         challengeCall.enqueue(new Callback<List<Challenge>>() {
             @Override
             public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
-                //if (response.isSuccessful()) {
-//                    ArrayList<Challenge> responseBody = new ArrayList<>(response.body());
-//                    for (Challenge c : responseBody)
-//                        c.setCreatedBy(user);
-                challenges.addAll(response.body());
-                callChallenges();
-
-                //  }
+                if (response.isSuccessful()) {
+                    challenges.addAll(response.body());
+                    callChallenges();
+                }
             }
 
             @Override
@@ -149,6 +150,11 @@ public class FeedFragment extends Fragment {
                             FeedItem item = new FeedItem(c.getCreatedBy(), c);
                             feedItems.add(item);
                         }
+                    }
+
+                    if(feedItems.size() <= 0 ){
+                        feedRecyclerView.setVisibility(View.GONE);
+                        empty.setVisibility(View.VISIBLE);
                     }
                     adapter.notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
@@ -187,4 +193,5 @@ public class FeedFragment extends Fragment {
         });
 
     }
+
 }

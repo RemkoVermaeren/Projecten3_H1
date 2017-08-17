@@ -91,7 +91,7 @@
                 android:id="@+id/email_register_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dip"
+                android:layout_marginTop="20dp"
                 android:background="@color/btn_login_bg"
                 android:text="@string/login"
                 android:textColor="@color/btn_register" />
@@ -100,7 +100,7 @@
                 android:id="@+id/already_registered"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dip"
+                android:layout_marginTop="40dp"
                 android:background="@null"
                 android:text="@string/already_registered"
                 android:textAllCaps="false"

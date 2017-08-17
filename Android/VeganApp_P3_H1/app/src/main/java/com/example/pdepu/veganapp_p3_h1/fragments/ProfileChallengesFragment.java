@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.pdepu.veganapp_p3_h1.R;
 import com.example.pdepu.veganapp_p3_h1.models.Challenge;
@@ -42,6 +43,9 @@ public class ProfileChallengesFragment extends Fragment {
 
     @BindView(R.id.challengeRecyclerView)
     RecyclerView challengeRecyclerView;
+
+    @BindView(R.id.empty)
+    TextView emptyTextView;
 
 
     private ArrayList<Challenge> challenges = new ArrayList<>();
@@ -118,13 +122,18 @@ public class ProfileChallengesFragment extends Fragment {
 
 
     private void getUserChallenges() {
-        Call<List<Challenge>> challengeCall = service.getChallengesUser(user.get_id());
+        final Call<List<Challenge>> challengeCall = service.getChallengesUser(user.get_id());
         challengeCall.enqueue(new Callback<List<Challenge>>() {
             @Override
             public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
                 if (response.isSuccessful()) {
                     challenges.addAll(response.body());
                     adapter.notifyDataSetChanged();
+                    if(challenges.size() <= 0)
+                    {
+                        challengeRecyclerView.setVisibility(View.GONE);
+                        emptyTextView.setVisibility(View.VISIBLE);
+                    }
 
                 }
             }

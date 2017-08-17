@@ -67,7 +67,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         if (user.getImage() != null && !user.getImage().isEmpty())
         {
             Picasso.with(context).load(UriHandler.resizeUrl(user.getImage(), "60", "60")).into(image);
-        }
+        }else
+            image.setImageResource(R.drawable.avatar_placeholder_small);
 
         username.setText(user.getName() + " " + user.getSurName());
         veganScore.setText(String.valueOf(user.getTotalVeganScore()) + " points");

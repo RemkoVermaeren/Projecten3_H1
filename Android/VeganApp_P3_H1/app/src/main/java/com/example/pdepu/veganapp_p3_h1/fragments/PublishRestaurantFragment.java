@@ -1,5 +1,6 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ public class PublishRestaurantFragment extends Fragment {
     @BindView(R.id.addPictureLayoutPublish)
     RelativeLayout addPictureLayoutPublish;
 
+
     private UploadImageTask uploadImageTask;
     private Map response;
     private Challenge challenge;
@@ -101,6 +103,14 @@ public class PublishRestaurantFragment extends Fragment {
     public void onClickPublish() {
         if (file != null && uri != null)
             uploadImage();
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Image is required")
+                    .setTitle("Required");
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
     }
 
     private void pickImage() {
@@ -134,12 +144,12 @@ public class PublishRestaurantFragment extends Fragment {
     }
 
     private void callApi() {
-        MainActivity activity = (MainActivity)getActivity();
+        MainActivity activity = (MainActivity) getActivity();
         Call<User> challengeCall = service.postChallenge(activity.token.getUserid(), challenge);
         challengeCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     startFeedFragment();
                     Log.i("SUCCESS", "challenge posted to user");
                 }
@@ -153,9 +163,9 @@ public class PublishRestaurantFragment extends Fragment {
         });
     }
 
-    private void startFeedFragment(){
+    private void startFeedFragment() {
         FeedFragment fragment = new FeedFragment();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 
     public class UploadImageTask extends AsyncTask<Void, Void, Boolean> {
@@ -176,11 +186,10 @@ public class PublishRestaurantFragment extends Fragment {
             final Cloudinary cloudinary = new Cloudinary(config);
             try {
                 response = cloudinary.uploader().upload(file.getAbsolutePath(), ObjectUtils.emptyMap());
-                if (response != null){
+                if (response != null) {
                     imageUrl = response.get("url").toString();
                     return true;
-                }
-                else
+                } else
                     return false;
             } catch (Exception e) {
                 return false;
@@ -191,7 +200,7 @@ public class PublishRestaurantFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                MainActivity activity = (MainActivity)getActivity();
+                MainActivity activity = (MainActivity) getActivity();
                 challenge = new Challenge("Restaurant", restaurantName, imageUrl, Calendar.getInstance().getTime(), 0, Integer.parseInt(restaurantPoints), true, activity.user.getFullName());
                 callApi();
             } else {

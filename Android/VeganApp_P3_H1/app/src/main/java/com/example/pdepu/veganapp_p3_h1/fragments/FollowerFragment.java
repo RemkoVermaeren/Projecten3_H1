@@ -92,7 +92,6 @@ public class FollowerFragment extends Fragment {
         binding.followersRecyclerView.setAdapter(adapter);
         binding.followersRecyclerView.setHasFixedSize(true);
 
-
         return binding.getRoot();
 
     }
@@ -132,6 +131,12 @@ public class FollowerFragment extends Fragment {
                             users.clear();
                             users.addAll(userResponse);
                             adapter.add(users);
+                            if(users.size() <= 0)
+                            {
+                                binding.followersRecyclerView.setVisibility(View.GONE);
+                                binding.empty.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     });
 

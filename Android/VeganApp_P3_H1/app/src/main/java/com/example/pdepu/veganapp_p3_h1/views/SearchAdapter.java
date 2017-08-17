@@ -75,7 +75,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         this.activity = activity;
     }
 
-    public static class SearchViewHolder extends RecyclerView.ViewHolder{
+    public static class SearchViewHolder extends RecyclerView.ViewHolder {
 
         private final FragmentSearchCardviewBinding binding;
 
@@ -83,13 +83,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         CircleImageView imageViewUserCardViewSearch;
 
 
-        public SearchViewHolder(FragmentSearchCardviewBinding binding){
+        public SearchViewHolder(FragmentSearchCardviewBinding binding) {
             super(binding.getRoot());
-            ButterKnife.bind(this,binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(User user, Handlers handlers, User original){
+        public void bind(User user, Handlers handlers, User original) {
             this.binding.setHandler(handlers);
             this.binding.setModel(user);
             this.binding.setOriginal(original);
@@ -99,27 +99,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     @Override
-    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        final FragmentSearchCardviewBinding binding = FragmentSearchCardviewBinding.inflate(inflater,parent,false);
+    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final FragmentSearchCardviewBinding binding = FragmentSearchCardviewBinding.inflate(inflater, parent, false);
         return new SearchViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(SearchViewHolder holder, int position){
+    public void onBindViewHolder(SearchViewHolder holder, int position) {
         final User user = userSortedList.get(position);
         CircleImageView image = holder.imageViewUserCardViewSearch;
         if (user.getImage() != null && !user.getImage().isEmpty())
             Picasso.with(image.getContext()).load(UriHandler.resizeUrl(user.getImage(), "60", "60")).into(image);
-        holder.bind(user, new Handlers(userOriginal,user, activity),userOriginal);
+        else
+            image.setImageResource(R.drawable.avatar_placeholder_small);
+        holder.bind(user, new Handlers(userOriginal, user, activity), userOriginal);
 
     }
 
 
-
-
-
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return userSortedList.size();
     }
 
@@ -155,11 +154,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         userSortedList.endBatchedUpdates();
     }
 
-    public void setUserOriginal(User user){
+    public void setUserOriginal(User user) {
         this.userOriginal = user;
     }
-
-
 
 
 }
