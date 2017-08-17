@@ -562,7 +562,7 @@
         <div class="col">
             <h2 class="text-center">Ingredients</h2>
             <div ng-show="ctrl.recipe.food.length > 0">
-                <div ng-repeat="f in ctrl.recipe.food">
+                <div ng-repeat="f in ctrl.recipe.food track by $index">
                     <p class="text-center">{{f}}</p>
                 </div>
             </div>
@@ -573,7 +573,7 @@
         <div class="col">
             <h2 class="text-center">Instructions</h2>
             <div ng-show="ctrl.recipe.instructions.length > 0">
-                <div ng-repeat="f in ctrl.recipe.instructions">
+                <div ng-repeat="f in ctrl.recipe.instructions track by $index">
                     <p class="text-center">{{f}}</p>
                 </div>
             </div>
@@ -584,7 +584,7 @@
         <div class="col">
             <h2 class="text-center">Allergies</h2>
             <div ng-show="ctrl.recipe.allergies.length > 0">
-                <div ng-repeat="f in ctrl.recipe.allergies">
+                <div ng-repeat="f in ctrl.recipe.allergies track by $index">
                     <p class="text-center">{{f}}</p>
                 </div>
             </div>
