@@ -17,6 +17,7 @@
         vm.modifyRestaurant = modifyRestaurant;
         vm.deleteRestaurant = deleteRestaurant;
         vm.isRestaurantsEmpty = isRestaurantsEmpty;
+        vm.getRatingStars = getRatingStars;
         activate();
 
         function activate() {
@@ -89,6 +90,9 @@
                 vm.restaurant.website && vm.restaurant.website !== '' &&
                 vm.restaurant.extraInformation && vm.restaurant.extraInformation !== ''
             );
+        }
+        function getRatingStars(amount){
+            return new Array(amount);
         }
     }
 })();

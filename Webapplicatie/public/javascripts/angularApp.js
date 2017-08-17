@@ -68,7 +68,7 @@
                 }
             }]
         }).state('modifyrecipe', {
-            url: '/recipes/{id}',
+            url: '/recipes/{id}/edit',
             templateUrl: '/modifyrecipe.html',
             controller: 'RecipeController',
             controllerAs: 'ctrl',
@@ -94,7 +94,7 @@
                 }
             }]*/
         }).state('modifyblog', {
-            url: '/blogs/{id}',
+            url: '/blogs/{id}/edit',
             templateUrl: '/modifyblog.html',
             controller: 'BlogController',
             controllerAs: 'ctrl',
@@ -207,6 +207,26 @@
             url: '/restaurants/{id}',
             templateUrl: '/restaurant.html',
             controller: 'RestaurantController',
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
+        }).state('recipe', {
+            url: '/recipes/{id}',
+            templateUrl: '/recipe.html',
+            controller: 'RecipeController',
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
+        }).state('blog', {
+            url: '/blogs/{id}',
+            templateUrl: '/blog.html',
+            controller: 'BlogController',
             controllerAs: 'ctrl',
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {

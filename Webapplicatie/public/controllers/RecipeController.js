@@ -25,6 +25,7 @@
         vm.addRecipe = addRecipe;
         vm.modifyRecipe = modifyRecipe;
         vm.deleteRecipe = deleteRecipe;
+        vm.isRecipesEmpty = isRecipesEmpty;
         activate();
 
 
@@ -117,7 +118,10 @@
                 vm.recipe.type && vm.recipe.type !== '' &&
                 vm.recipe.food &&
                 vm.recipe.instructions &&
-                vm.recipe.allergies)
+                vm.recipe.allergies);
             }
+        function isRecipesEmpty() {
+            return vm.recipes.length === 0;
+        }
     }
 })();
