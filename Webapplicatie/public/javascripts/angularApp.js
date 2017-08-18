@@ -10,11 +10,7 @@
             templateUrl: '/home.html',
             controller: 'MainController',
             controllerAs: 'ctrl',
-            resolve: {
-                restaurantPromise: ['restaurantService', function(restaurantService) {
-                    return restaurantService.getAll();
-                }]
-            },
+
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {
                     $state.go('login');
@@ -29,7 +25,12 @@
                 url: '/recipes',
                 templateUrl: '/recipes.html',
                 controller: 'RecipeController',
-                controllerAs : 'ctrl'
+                controllerAs : 'ctrl',
+            onEnter: ['$state', 'auth', function($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
             }
         ).state('newrecipe', {
             url: '/newrecipe',
@@ -107,30 +108,10 @@
                     $state.go('login');
                 }
             }]
-        }).state('newmenu', {
-            url: '/{id}/newmenu',
-            templateUrl: '/newmenu.html',
-            controller: 'MenuController',
-            controllerAs: 'ctrl',
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (!auth.isLoggedIn()) {
-                    $state.go('login');
-                }
-            }]
         }).state('modifyrestaurant', {
             url: '/restaurants/{id}/edit',
             templateUrl: '/modifyrestaurant.html',
             controller: 'RestaurantController',
-            controllerAs: 'ctrl',
-            onEnter: ['$state', 'auth', function($state, auth) {
-                if (!auth.isLoggedIn()) {
-                    $state.go('login');
-                }
-            }]
-        }).state('modifymenu', {
-            url: '/menus/{id}',
-            templateUrl: '/modifymenu.html',
-            controller: 'MenuController',
             controllerAs: 'ctrl',
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {
@@ -152,11 +133,6 @@
             templateUrl: '/users.html',
             controller: 'AuthController',
             controllerAs: 'ctrl',
-            resolve: {
-                users: ['auth', function(auth) {
-                    return auth.getAll();
-                }]
-              },
             onEnter: ['$state', 'auth', function($state, auth) {
                 if (!auth.isLoggedIn()) {
                     $state.go('login');

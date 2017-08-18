@@ -15,25 +15,18 @@
         vm.recipes = [];
         vm.users = [];
         vm.getRestaurants = getRestaurants;
-        vm.getNumberOfRestaurants = getNumberOfRestaurants;
         vm.getUsers = getUsers;
-        vm.getNumberOfUsers = getNumberOfUsers;
         vm.getBlogs = getBlogs;
-        vm.getNumberOfBlogs = getNumberOfBlogs;
         vm.getRecipes = getRecipes;
-        vm.getNumberOfRecipes = getNumberOfRecipes;
 
         activate();
 
 
         function activate() {
-            return getRestaurants().then(function() {
-                getRecipes().then(function(){
-                    getBlogs().then(function(){
-                        getUsers();
-                    });
-                });
-            });
+            getRestaurants();
+            getRecipes();
+            getUsers();
+            getBlogs();
         }
         function getRestaurants() {
             return restaurantService.getAll()
@@ -64,18 +57,6 @@
                     vm.users = data.data;
                     return vm.users;
                 });
-        }
-        function getNumberOfRestaurants() {
-            return vm.restaurants.length;
-        }
-        function getNumberOfRecipes() {
-            return vm.recipes.length;
-        }
-        function getNumberOfBlogs() {
-            return vm.blogs.length;
-        }
-        function getNumberOfUsers() {
-            return vm.users.length;
         }
     }
 
