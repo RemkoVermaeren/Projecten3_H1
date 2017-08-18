@@ -23,6 +23,9 @@
 
 
         function activate() {
+          return load();
+        }
+        function load(){
             getRestaurants();
             getRecipes();
             getUsers();
