@@ -17,6 +17,7 @@ public class ServicesInitializer {
 
 //        .baseUrl("http://192.168.1.58:3000/api/") //.0.227
         //.baseUrl("http:/192.168.0.146:3000/api/")
+        //.baseUrl("http://easyveganapp.herokuapp.com/api/")
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

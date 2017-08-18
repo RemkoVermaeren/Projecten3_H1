@@ -109,6 +109,12 @@ public class SearchFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        binding.progress.setVisibility(View.GONE);
+        binding.searchRecyclerView.setVisibility(View.VISIBLE);
+
+    }
+
 
     private static List<User> filter(List<User> users, String query) {
         final String lowerCaseQuery = query.toLowerCase();
@@ -145,23 +151,20 @@ public class SearchFragment extends Fragment {
                     }
                     adapter.setUserOriginal(user);
                     adapter.add(users);
+                    loadingDone();
 
-
-                }
-                binding.progress.setVisibility(View.GONE);
-                binding.searchRecyclerView.setVisibility(View.VISIBLE);
+                } else
+                    loadingDone();
                 Log.i("users", response.body().toString());
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                binding.progress.setVisibility(View.GONE);
-                binding.searchRecyclerView.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });
     }
-
 
 
 }

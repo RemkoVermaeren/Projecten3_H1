@@ -33,8 +33,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.pdepu.veganapp_p3_h1.R.id.swipeToRefresh;
-
 /**
  * Created by maartenvanmeersche on 9/08/17.
  */
@@ -42,7 +40,7 @@ import static com.example.pdepu.veganapp_p3_h1.R.id.swipeToRefresh;
 public class FeedFragment extends Fragment {
     @BindView(R.id.feedRecyclerView)
     RecyclerView feedRecyclerView;
-    @BindView(swipeToRefresh)
+    @BindView(R.id.swipeToRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.empty)
     TextView empty;
@@ -97,6 +95,13 @@ public class FeedFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        swipeRefreshLayout.setRefreshing(false);
+        progress.setVisibility(View.GONE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+    }
+
     private void callApi() {
         MainActivity activity = (MainActivity) getActivity();
         Call<User> usersCall = service.getUserById(activity.token.getUserid());
@@ -107,16 +112,14 @@ public class FeedFragment extends Fragment {
                     user = response.body();
                     getUserChallenges();
                     Log.i("users", response.body().toString());
-                }else {
-                    progress.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                } else {
+                    loadingDone();
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });
@@ -130,16 +133,14 @@ public class FeedFragment extends Fragment {
                 if (response.isSuccessful()) {
                     challenges.addAll(response.body());
                     callChallenges();
-                }else {
-                    progress.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                } else {
+                    loadingDone();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Challenge>> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                loadingDone();
 
             }
         });
@@ -171,22 +172,20 @@ public class FeedFragment extends Fragment {
                     if (feedItems.size() <= 0) {
                         feedRecyclerView.setVisibility(View.GONE);
                         empty.setVisibility(View.VISIBLE);
-                    }
+                    } else
+                        empty.setVisibility(View.GONE);
+
                     adapter.notifyDataSetChanged();
-                    progress.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setRefreshing(false);
+                    loadingDone();
 
                 } else {
-                    progress.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Challenge>> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });

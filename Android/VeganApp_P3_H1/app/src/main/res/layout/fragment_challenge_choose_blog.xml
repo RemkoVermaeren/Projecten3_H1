@@ -17,11 +17,35 @@
         android:visibility="gone"
         android:layout_marginBottom="8dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/chooseBlogRecylerView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chooseBlogRecylerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_blogs"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
+
+
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 </LinearLayout>

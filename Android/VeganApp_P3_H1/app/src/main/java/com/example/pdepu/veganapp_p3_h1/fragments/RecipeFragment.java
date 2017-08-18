@@ -59,6 +59,9 @@ public class RecipeFragment extends Fragment {
     @BindView(R.id.recipeDetails)
     TextView recipeDetails;
 
+    @BindView(R.id.recipeAllergies)
+    TextView recipeAllergies;
+
     @BindView(R.id.claimYourPointsButton)
     Button claimYourPointsButton;
 
@@ -129,6 +132,17 @@ public class RecipeFragment extends Fragment {
         return builder.toString();
     }
 
+    private String getAllergies(Recipe recipe){
+        if(recipe.getAllergies().length <= 0)
+            return "No allergies";
+        else{
+            StringBuilder builder = new StringBuilder();
+            for(String allergie : recipe.getAllergies())
+                builder.append(allergie + "\n");
+            return builder.toString();
+        }
+    }
+
     private String getTime(Recipe recipe){
         String timeString = "";
 
@@ -169,6 +183,7 @@ public class RecipeFragment extends Fragment {
         recipeTime.setText(getTime(recipe));
         recipePoints.setText(String.valueOf(recipe.getVeganPoints()));
         recipeDetails.setText(getDetails(recipe));
+        recipeAllergies.setText(getAllergies(recipe));
         recipeIngredientsTextView.setText(getIngredients(recipe));
         recipeInstructionsTextView.setText(getInstructions(recipe));
     }

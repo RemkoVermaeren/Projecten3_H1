@@ -114,6 +114,12 @@ public class EditProfileFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        progress.setVisibility(View.GONE);
+        editScrollView.setVisibility(View.VISIBLE);
+
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -222,11 +228,9 @@ public class EditProfileFragment extends Fragment {
                     user = response.body();
                     user.setToken(token);
                     updateView(user);
-                    progress.setVisibility(View.GONE);
-                    editScrollView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 } else {
-                    progress.setVisibility(View.GONE);
-                    editScrollView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
 
             }
@@ -248,8 +252,7 @@ public class EditProfileFragment extends Fragment {
                     startProfileFragment();
                     Log.i("Success", "Save succeeded");
                 } else if (response.errorBody() != null && !response.errorBody().toString().isEmpty()) {
-                    progress.setVisibility(View.GONE);
-                    editScrollView.setVisibility(View.VISIBLE);
+                    loadingDone();
                     JSONObject message = null;
                     try {
                         message = new JSONObject(response.errorBody().string());
@@ -272,8 +275,7 @@ public class EditProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                editScrollView.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });
@@ -353,8 +355,7 @@ public class EditProfileFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progress.setVisibility(View.GONE);
-                        editScrollView.setVisibility(View.VISIBLE);
+                        loadingDone();
                         View focusView = textViewNameEdit;
                         textViewNameEdit.setError(getString(R.string.error_network));
                         focusView.requestFocus();
@@ -370,8 +371,7 @@ public class EditProfileFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    progress.setVisibility(View.GONE);
-                    editScrollView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
             });
             uploadImageTask = null;

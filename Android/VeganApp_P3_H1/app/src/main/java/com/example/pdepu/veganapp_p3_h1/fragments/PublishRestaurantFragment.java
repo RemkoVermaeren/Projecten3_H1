@@ -1,7 +1,9 @@
 package com.example.pdepu.veganapp_p3_h1.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -175,7 +177,14 @@ public class PublishRestaurantFragment extends Fragment {
         });
     }
 
+    private void clearSharedPreferences() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("prefs", Activity.MODE_PRIVATE);
+        prefs.edit().remove("chooseRestaurantsPreferences").apply();
+
+    }
+
     private void startFeedFragment() {
+        clearSharedPreferences();
         progress.setVisibility(View.GONE);
         FeedFragment fragment = new FeedFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();

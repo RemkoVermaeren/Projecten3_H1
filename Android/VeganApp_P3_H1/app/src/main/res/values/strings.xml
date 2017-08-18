@@ -19,6 +19,7 @@
     <string name="choose_blog">Blogs and articles</string>
     <string name="dinner">Go out for dinner</string>
     <string name="blogs">Read blogs and articles</string>
+    <string name="allergies">Allergies</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
     <string name="open_google_maps">Show on map</string>
@@ -26,6 +27,11 @@
     <string name="details">Details</string>
     <string name="no_challenges">No challenges completed yet</string>
     <string name="no_followers">You don\'t follow anyone yet</string>
+    <string name="no_blogs">No blogs to choose from</string>
+    <string name="no_recipes">No recipes to choose from</string>
+    <string name="no_restaurants">No restaurants to choose from</string>
+
+
     <string name="number_placeholder">99</string>
 
     <string name="claim_your_points">Claim your points</string>

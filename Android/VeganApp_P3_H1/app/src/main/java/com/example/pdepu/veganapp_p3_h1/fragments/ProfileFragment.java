@@ -90,6 +90,12 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        progress.setVisibility(View.GONE);
+        profileLayout.setVisibility(View.VISIBLE);
+
+    }
+
 
     private void callApi() {
         Call<User> userCall = service.getUserById(token.getUserid());
@@ -107,20 +113,17 @@ public class ProfileFragment extends Fragment {
                         }
 
                     });
-                    progress.setVisibility(View.GONE);
-                    profileLayout.setVisibility(View.VISIBLE);
+                    loadingDone();
 
                 } else {
-                    progress.setVisibility(View.GONE);
-                    profileLayout.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                profileLayout.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });

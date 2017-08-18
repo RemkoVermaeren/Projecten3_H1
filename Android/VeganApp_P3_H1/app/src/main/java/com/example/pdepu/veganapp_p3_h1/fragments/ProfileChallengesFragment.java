@@ -100,6 +100,12 @@ public class ProfileChallengesFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        progress.setVisibility(View.GONE);
+        challengeRecyclerView.setVisibility(View.VISIBLE);
+
+    }
+
 
     private void callApi() {
         Call<User> userCall = service.getUserById(token.getUserid());
@@ -117,8 +123,7 @@ public class ProfileChallengesFragment extends Fragment {
                     });
 
                 }else {
-                    progress.setVisibility(View.GONE);
-                    challengeRecyclerView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
 
 
@@ -126,8 +131,7 @@ public class ProfileChallengesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                challengeRecyclerView.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });
@@ -151,16 +155,14 @@ public class ProfileChallengesFragment extends Fragment {
                     progress.setVisibility(View.GONE);
 
                 } else {
-                    progress.setVisibility(View.GONE);
-                    challengeRecyclerView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
 
             }
 
             @Override
             public void onFailure(Call<List<Challenge>> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                challengeRecyclerView.setVisibility(View.VISIBLE);
+                loadingDone();
             }
         });
     }

@@ -100,6 +100,12 @@ public class FollowerFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        binding.progress.setVisibility(View.GONE);
+        binding.followersRecyclerView.setVisibility(View.VISIBLE);
+
+    }
+
     private void callApi() {
         Call<User> userCall = service.getUserById(token.getUserid());
         userCall.enqueue(new Callback<User>() {
@@ -111,15 +117,13 @@ public class FollowerFragment extends Fragment {
                     adapter.setUserOriginal(user);
                     getUserFollowers();
                 } else {
-                    binding.progress.setVisibility(View.GONE);
-                    binding.followersRecyclerView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                binding.progress.setVisibility(View.GONE);
-                binding.followersRecyclerView.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });
@@ -154,8 +158,7 @@ public class FollowerFragment extends Fragment {
 
 
                 } else {
-                    binding.progress.setVisibility(View.GONE);
-                    binding.followersRecyclerView.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
 
                 Log.i("users", response.body().toString());
@@ -163,8 +166,7 @@ public class FollowerFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                binding.progress.setVisibility(View.GONE);
-                binding.followersRecyclerView.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });

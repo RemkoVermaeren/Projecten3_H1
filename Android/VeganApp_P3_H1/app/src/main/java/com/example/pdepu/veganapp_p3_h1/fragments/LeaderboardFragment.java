@@ -81,6 +81,12 @@ public class LeaderboardFragment extends Fragment {
 
     }
 
+    private void loadingDone() {
+        progress.setVisibility(View.GONE);
+        leaderboardLayout.setVisibility(View.VISIBLE);
+
+    }
+
     private void callApi() {
         Call<List<User>> usersCall = service.getAllUsers();
         usersCall.enqueue(new Callback<List<User>>() {
@@ -98,13 +104,11 @@ public class LeaderboardFragment extends Fragment {
                     users.clear();
                     users.addAll(userResponse);
                     adapter.notifyDataSetChanged();
-                    progress.setVisibility(View.GONE);
-                    leaderboardLayout.setVisibility(View.VISIBLE);
+                    loadingDone();
 
 
                 } else {
-                    progress.setVisibility(View.GONE);
-                    leaderboardLayout.setVisibility(View.VISIBLE);
+                    loadingDone();
                 }
 
                 Log.i("users", response.body().toString());
@@ -112,8 +116,7 @@ public class LeaderboardFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-                leaderboardLayout.setVisibility(View.VISIBLE);
+                loadingDone();
                 Log.i("failure", t.toString());
             }
         });
