@@ -1,0 +1,34 @@
+<h1>Recipes</h1>
+<hr>
+<div class="table-responsive" ng-hide="ctrl.isRecipesEmpty()">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Points
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="recipe in ctrl.recipes">
+            <td><a href="#/recipes/{{recipe._id}}">{{recipe.name}}</a></td>
+            <td>{{recipe.veganPoints}}</td>
+            <td>
+                <a href="#/recipes/{{recipe._id}}/edit"><i class="material-icons md-18">settings</i></a>
+            </td>
+            <td><i class="material-icons md-18" ng-click="ctrl.deleteRecipe(recipe)">delete</i></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-show="ctrl.isRecipesEmpty()">
+    <p class="text-center">No recipes available.</p>
+</div>
+<div class="text-center">
+    <a href="#/newrecipe" class="align-top"><i class="material-icons md-18">add</i>Add new recipe</a>
+</div>

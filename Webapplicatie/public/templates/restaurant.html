@@ -1,0 +1,22 @@
+<h1 class="text-center" ng-init="ctrl.getRestaurant()">{{ctrl.restaurant.name}}</h1>
+<hr>
+<div class="text-center" ng-show="!(ctrl.restaurant.picture.length == 0 || !ctrl.restaurant.picture)">
+    <img class="img-responsive" src="{{ctrl.restaurant.picture}}" alt="{{ctrl.restaurant.name}}" height="200" width="200">
+</div>
+<dl class="row text-center">
+    <dt class="col-6">Vegan points</dt>
+    <dd class="col-6">{{ctrl.restaurant.veganPoints}}</dd>
+    <dt class="col-6">Address</dt>
+    <dd class="col-6">{{ctrl.restaurant.address}}</dd>
+    <dt class="col-6">Website</dt>
+    <dd class="col-6"><a href="{{ctrl.restaurant.website}}" target="_blank">{{ctrl.restaurant.website}}</a></dd>
+    <dt class="col-6">Accessibility</dt>
+    <dd class="col-6">{{ctrl.restaurant.wheelchairAccess ? "yes" : "No"}}</dd>
+    <dt class="col-6">Rating</dt>
+    <dd class="col-6"><i ng-repeat="i in ctrl.getRatingStars(ctrl.restaurant.rating) track by $index" class="material-icons md-18">star</i><i ng-repeat="j in ctrl.getRatingStars(10 -ctrl.restaurant.rating) track by $index" class="material-icons md-18">star_border</i></dd>
+    <dt class="col-6">Telephone</dt>
+    <dd class="col-6">{{ctrl.restaurant.telephoneNumber}}</dd>
+    <dt ng-hide="ctrl.restaurant.extraInformation.length === 0" class="col-6">Extra information</dt>
+    <dd ng-hide="ctrl.restaurant.extraInformation.length === 0" class="col-6">{{ctrl.restaurant.extraInformation}}</dd>
+</dl>
+<a href="#/restaurants"><p class="text-center">Back to overview</p></a>

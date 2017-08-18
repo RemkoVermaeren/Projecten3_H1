@@ -1,0 +1,54 @@
+<h1 class="text-center" ng-init="ctrl.getRecipe()">{{ctrl.recipe.name}}</h1>
+<hr>
+<div class="text-center" ng-show="!(ctrl.recipe.picture.length == 0 || !ctrl.recipe.picture)">
+    <img class="img-responsive" src="{{ctrl.recipe.picture}}" alt="{{ctrl.recipe.name}}" height="200" width="200">
+</div>
+<dl class="row text-center">
+    <dt class="col-6">Vegan points</dt>
+    <dd class="col-6">{{ctrl.recipe.veganPoints}}</dd>
+    <dt class="col-6">Type</dt>
+    <dd class="col-6">{{ctrl.recipe.type}}</dd>
+    <dt class="col-6">Time (minutes)</dt>
+    <dd class="col-6">{{ctrl.recipe.time}}</dd>
+    <dt class="col-6">Difficulty</dt>
+    <dd class="col-6">{{ctrl.recipe.difficulty}}</dd>
+    <dt class="col-6">Calories</dt>
+    <dd class="col-6">{{ctrl.recipe.calories}}</dd>
+</dl>
+<hr>
+<div class="row">
+    <div class="col">
+        <h2 class="text-center">Ingredients</h2>
+        <div ng-show="ctrl.recipe.food.length > 0">
+            <div ng-repeat="f in ctrl.recipe.food track by $index">
+                <p class="text-center">{{f}}</p>
+            </div>
+        </div>
+        <div ng-show="ctrl.recipe.food.length === 0">
+            <p class="text-center">No ingredients</p>
+        </div>
+    </div>
+    <div class="col">
+        <h2 class="text-center">Instructions</h2>
+        <div ng-show="ctrl.recipe.instructions.length > 0">
+            <div ng-repeat="f in ctrl.recipe.instructions track by $index">
+                <p class="text-center">{{f}}</p>
+            </div>
+        </div>
+        <div ng-show="ctrl.recipe.instructions.length === 0">
+            <p class="text-center">No instructions</p>
+        </div>
+    </div>
+    <div class="col">
+        <h2 class="text-center">Allergies</h2>
+        <div ng-show="ctrl.recipe.allergies.length > 0">
+            <div ng-repeat="f in ctrl.recipe.allergies track by $index">
+                <p class="text-center">{{f}}</p>
+            </div>
+        </div>
+        <div ng-show="ctrl.recipe.allergies.length === 0">
+            <p class="text-center">No allergies</p>
+        </div>
+    </div>
+</div>
+<a href="#/recipes"><p class="text-center">Back to overview</p></a>

@@ -1,0 +1,16 @@
+<h1 class="text-center" ng-init="ctrl.getBlog()">{{ctrl.blog.name}}</h1>
+<hr>
+<div class="text-center" ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)">
+    <img class="img-responsive" src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
+</div>
+<dl class="row text-center">
+    <dt class="col-6">Vegan points</dt>
+    <dd class="col-6">{{ctrl.blog.veganPoints}}</dd>
+    <dt class="col-6">Author</dt>
+    <dd class="col-6">{{ctrl.blog.author}}</dd>
+    <dt class="col-6">Website</dt>
+    <dd class="col-6"><a href="{{ctrl.blog.website}}" target="_blank">{{ctrl.blog.website}}</a></dd>
+    <dt class="col-6">Date</dt>
+    <dd class="col-6">{{ctrl.blog.date | date:"dd/MM/yyyy"}}</dd>
+</dl>
+<a href="#/blogs"><p class="text-center">Back to overview</p></a>

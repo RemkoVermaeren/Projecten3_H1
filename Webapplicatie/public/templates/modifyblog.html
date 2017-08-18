@@ -1,0 +1,38 @@
+<h1>Modify Blog</h1>
+<hr>
+<form ng-submit="ctrl.modifyBlog()" ng-init="ctrl.getBlog()">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" placeholder="Ex. Eat vegan in 7 steps" ng-model="ctrl.blog.name"
+               required/>
+    </div>
+    <div class="form-group">
+        <label>Vegan Points</label>
+        <input type="number" min="0" class="form-control" placeholder="Ex. 50" ng-model="ctrl.blog.veganPoints"
+               required/>
+    </div>
+    <div class="form-group">
+        <label>Author</label>
+        <input type="text" class="form-control" placeholder="Ex. James Clarke" ng-model="ctrl.blog.author"
+               required/>
+    </div>
+    <div class="form-group">
+        <label>Website</label>
+        <input type="url" class="form-control" placeholder="http://www.localhost.com" ng-model="ctrl.blog.website"
+               required/>
+    </div>
+    <div class="form-group">
+        <label>Date</label>
+        <input type="date" class="form-control" ng-model="ctrl.blog.date" required/>
+    </div>
+    <div class="form-group">
+        <label>Picture</label>
+        <input type="file" name="image" ng-file-model="ctrl.image" accept="image/*" ngf-max-size="50MB"
+               ngf-min-height="100"
+               ngf-resize="{width: 100, height: 100}" class="form-control-file">
+    </div>
+    <div ng-show="!(ctrl.blog.picture.length == 0 || !ctrl.blog.picture)" style="margin-bottom: 10px">
+        <img src="{{ctrl.blog.picture}}" alt="{{ctrl.blog.name}}" height="200" width="200">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

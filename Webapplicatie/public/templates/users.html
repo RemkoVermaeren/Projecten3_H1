@@ -1,0 +1,21 @@
+<h1>Users</h1>
+<hr>
+<div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in ctrl.users">
+            <td>{{user.username}}</td>
+            <td><span class="glyphicon glyphicon-trash" ng-click="ctrl.deleteUser(user)"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

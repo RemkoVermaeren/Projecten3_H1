@@ -1,0 +1,42 @@
+<h1>Restaurants</h1>
+<hr>
+<div class="table-responsive" ng-hide="ctrl.isRestaurantsEmpty()">
+    <table class="table table-hover">
+        <!-- Repeat for restaurants  -->
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                Rating
+            </th>
+            <th>
+                Vegan Points
+            </th>
+            <th>Wheelchair access</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="restaurant in ctrl.restaurants | orderBy:'name'">
+            <td><a href="#/restaurants/{{restaurant._id}}">{{restaurant.name}}</a></td>
+            <td>{{restaurant.rating}}</td>
+            <td>{{restaurant.veganPoints}}</td>
+            <td><input type="checkbox" ng-model="restaurant.wheelchairAccess" disabled="disabled"/></td>
+            <td>
+                <a href="#/restaurants/{{restaurant._id}}/edit"><i class="material-icons md-18">settings</i></a>
+            </td>
+            <td><i ng-click="ctrl.deleteRestaurant(restaurant)" class="material-icons md-18">delete</i></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-show="ctrl.isRestaurantsEmpty()">
+    <p class="text-center">No restaurants available.</p>
+</div>
+<div class="text-center">
+    <a href="#/newrestaurant" class="align-top"><i class="material-icons md-18">add</i>Add new restaurant</a>
+</div>

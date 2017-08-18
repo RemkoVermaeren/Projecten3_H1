@@ -8,7 +8,7 @@
     function hogentAppState($stateProvider, $urlRouterProvider) {
         $stateProvider.state('home', {
             url: '/home',
-            templateUrl: '/home.html',
+            templateUrl: '/templates/home.html',
             controller: 'MainController',
             controllerAs: 'ctrl',
             onEnter: ['$state', 'auth', function ($state, auth) {
@@ -19,7 +19,7 @@
             })
             .state('recipes', {
                 url: '/recipes',
-                templateUrl: '/recipes.html',
+                templateUrl: '/templates/recipes.html',
                 controller: 'RecipeController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -30,7 +30,7 @@
             })
             .state('recipe', {
                 url: '/recipes/{id}',
-                templateUrl: '/recipe.html',
+                templateUrl: '/templates/recipe.html',
                 controller: 'RecipeController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -41,7 +41,7 @@
             })
             .state('newrecipe', {
                 url: '/newrecipe',
-                templateUrl: '/newrecipe.html',
+                templateUrl: '/templates/newrecipe.html',
                 controller: 'RecipeController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -52,7 +52,7 @@
             })
             .state('modifyrecipe', {
                 url: '/recipes/{id}/edit',
-                templateUrl: '/modifyrecipe.html',
+                templateUrl: '/templates/modifyrecipe.html',
                 controller: 'RecipeController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -63,7 +63,7 @@
             })
             .state('blogs', {
                 url: '/blogs',
-                templateUrl: '/blogs.html',
+                templateUrl: '/templates/blogs.html',
                 controller: 'BlogController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -74,7 +74,7 @@
             })
             .state('blog', {
                 url: '/blogs/{id}',
-                templateUrl: '/blog.html',
+                templateUrl: '/templates/blog.html',
                 controller: 'BlogController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -85,7 +85,7 @@
             })
             .state('newblog', {
                 url: '/newblog',
-                templateUrl: '/newblog.html',
+                templateUrl: '/templates/newblog.html',
                 controller: 'BlogController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -96,7 +96,7 @@
             })
             .state('modifyblog', {
                 url: '/blogs/{id}/edit',
-                templateUrl: '/modifyblog.html',
+                templateUrl: '/templates/modifyblog.html',
                 controller: 'BlogController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -107,7 +107,7 @@
             })
             .state('login', {
                 url: '/login',
-                templateUrl: '/login.html',
+                templateUrl: '/templates/login.html',
                 controller: 'AuthController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -118,13 +118,13 @@
             })
             .state('register', {
                 url: '/register',
-                templateUrl: '/register.html',
+                templateUrl: '/templates/register.html',
                 controller: 'AuthController',
                 controllerAs: 'ctrl'
             })
             .state('restaurants', {
                 url: '/restaurants',
-                templateUrl: '/restaurants.html',
+                templateUrl: '/templates/restaurants.html',
                 controller: 'RestaurantController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -135,7 +135,7 @@
             })
             .state('restaurant', {
                 url: '/restaurants/{id}',
-                templateUrl: '/restaurant.html',
+                templateUrl: '/templates/restaurant.html',
                 controller: 'RestaurantController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -146,7 +146,7 @@
             })
             .state('newrestaurant', {
                 url: '/newrestaurant',
-                templateUrl: '/newrestaurant.html',
+                templateUrl: '/templates/newrestaurant.html',
                 controller: 'RestaurantController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -157,7 +157,7 @@
             })
             .state('modifyrestaurant', {
                 url: '/restaurants/{id}/edit',
-                templateUrl: '/modifyrestaurant.html',
+                templateUrl: '/templates/modifyrestaurant.html',
                 controller: 'RestaurantController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -168,7 +168,7 @@
             })
             .state('changepassword', {
                 url: '/changepassword',
-                templateUrl: '/changepassword.html',
+                templateUrl: '/templates/changepassword.html',
                 controller: 'AuthController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
@@ -179,7 +179,7 @@
             })
             .state('users', {
                 url: '/users',
-                templateUrl: '/users.html',
+                templateUrl: '/templates/users.html',
                 controller: 'AuthController',
                 controllerAs: 'ctrl',
                 onEnter: ['$state', 'auth', function ($state, auth) {
