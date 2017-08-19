@@ -3,6 +3,7 @@
 Gebruikers om mee in te loggen:
 
 # Angular
+http://easyveganapp.herokuapp.com/
 Username = remko@test.be
 Paswoord = remko@test.be
 
