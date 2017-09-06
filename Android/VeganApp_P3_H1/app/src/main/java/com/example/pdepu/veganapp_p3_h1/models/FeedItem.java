@@ -36,11 +36,11 @@ public class FeedItem {
     @Override
     public String toString(){
         if (challenge.getName().toLowerCase().contains("recipe"))
-            return user + " completed the challenge: " + challenge.getName() + " and made: " + challenge.getDescription();
-        else if (challenge.getName().contains("restaurant"))
-            return user + " completed the challenge: " + challenge.getName() + " and went to: " + challenge.getDescription();
+            return user + " completed the " + challenge.getName() + " challenge and made " + challenge.getDescription();
+        else if (challenge.getName().toLowerCase().contains("restaurant"))
+            return user + " completed the " + challenge.getName() + " challenge and went to " + challenge.getDescription();
         else
-            return user + " completed the challenge: " + challenge.getName() + " and read: " + challenge.getDescription();
+            return user + " completed the " + challenge.getName() + " challenge and read " + challenge.getDescription();
 
     }
 
